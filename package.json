@@ -4,12 +4,14 @@
   "type": "module",
   "packageManager": "pnpm@11.0.8",
   "scripts": {
-    "dev": "pnpm --filter web dev",
-    "build": "pnpm --filter web build",
+    "dev": "turbo run dev",
+    "build": "turbo run build",
+    "start": "turbo run start",
     "lint": "biome check .",
+    "lint:apps": "turbo run lint",
     "format": "biome format --write .",
-    "typecheck": "pnpm -r typecheck",
-    "build-storybook": "pnpm --filter web build-storybook",
+    "typecheck": "turbo run typecheck",
+    "build-storybook": "turbo run build-storybook",
     "prepare": "husky"
   },
   "lint-staged": {
@@ -22,6 +24,7 @@
     "@commitlint/cli": "^21.2.1",
     "@commitlint/config-conventional": "^21.2.0",
     "husky": "^9.1.7",
-    "lint-staged": "^17.0.8"
+    "lint-staged": "^17.0.8",
+    "turbo": "^2.10.6"
   }
 }
