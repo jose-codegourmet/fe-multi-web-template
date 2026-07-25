@@ -1,18 +1,13 @@
 "use client";
 
-import { Avatar, AvatarFallback, AvatarImage, Badge, DataTable } from "@fe-template/ui";
+import { Avatar, AvatarFallback, AvatarImage, Badge, Button, DataTable } from "@fe-template/ui";
 import type { ColumnDef } from "@tanstack/react-table";
 import Link from "next/link";
+import { useMemo, useState } from "react";
+import { useUsers } from "@/hooks/use-users/client";
+import type { UserRow } from "@/hooks/use-users/types";
 
-export type UserRow = {
-  id: string;
-  name: string | null;
-  email: string;
-  avatarUrl: string | null;
-  role: "USER" | "ADMIN";
-  petsCount: number;
-  createdAt: string;
-};
+const ROLE_FILTERS = ["ALL", "ADMIN", "USER"] as const;
 
 const columns: ColumnDef<UserRow>[] = [
   {
@@ -40,8 +35,11 @@ const columns: ColumnDef<UserRow>[] = [
     accessorKey: "role",
     header: "Role",
     cell: ({ row }) => (
-      <Badge variant={row.original.role === "ADMIN" ? "default" : "secondary"}>
-        {row.original.role}
+      <Badge
+        variant={row.original.role === "ADMIN" ? "default" : "secondary"}
+        className="rounded-full"
+      >
+        {row.original.role === "ADMIN" ? "Admin" : "User"}
       </Badge>
     ),
   },
@@ -56,13 +54,42 @@ const columns: ColumnDef<UserRow>[] = [
   },
 ];
 
-export function UsersTable({ data }: { data: UserRow[] }) {
+export function UsersTable() {
+  const { data = [] } = useUsers();
+  const [role, setRole] = useState<(typeof ROLE_FILTERS)[number]>("ALL");
+
+  const filtered = useMemo(
+    () => (role === "ALL" ? data : data.filter((user) => user.role === role)),
+    [data, role],
+  );
+
   return (
-    <DataTable
-      columns={columns}
-      data={data}
-      filterColumn="email"
-      filterPlaceholder="Search by email…"
-    />
+    <div className="space-y-4 rounded-3xl border border-border/60 bg-card p-4 shadow-sm md:p-6">
+      <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
+        <p className="text-sm text-muted-foreground">
+          {filtered.length} of {data.length} users
+        </p>
+        <div className="flex flex-wrap gap-2">
+          {ROLE_FILTERS.map((value) => (
+            <Button
+              key={value}
+              type="button"
+              size="sm"
+              variant={role === value ? "default" : "outline"}
+              className="rounded-full"
+              onClick={() => setRole(value)}
+            >
+              {value === "ALL" ? "All" : value === "ADMIN" ? "Admin" : "User"}
+            </Button>
+          ))}
+        </div>
+      </div>
+      <DataTable
+        columns={columns}
+        data={filtered}
+        filterColumn="email"
+        filterPlaceholder="Search by email…"
+      />
+    </div>
   );
 }

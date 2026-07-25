@@ -1,29 +1,69 @@
 "use client";
 
-import { Badge, DataTable } from "@fe-template/ui";
+import { Avatar, AvatarFallback, AvatarImage, Badge, Button, DataTable } from "@fe-template/ui";
 import type { ColumnDef } from "@tanstack/react-table";
+import { PawPrintIcon } from "lucide-react";
+import { useMemo, useState } from "react";
+import { usePets } from "@/hooks/use-pets/client";
+import type { PetRow } from "@/hooks/use-pets/types";
 
-export type PetRow = {
-  id: string;
-  name: string;
-  species: string;
-  breed: string | null;
-  age: number | null;
-  ownerName: string | null;
-  ownerEmail: string;
-  createdAt: string;
-};
+const SPECIES_FILTERS = ["ALL", "DOG", "CAT", "BIRD", "RABBIT", "OTHER"] as const;
+
+function speciesBadgeClass(species: string) {
+  switch (species) {
+    case "DOG":
+      return "bg-primary/15 text-primary hover:bg-primary/15";
+    case "CAT":
+      return "bg-[color:var(--color-brand-lavender)]/20 text-[color:var(--color-brand-lavender)] hover:bg-[color:var(--color-brand-lavender)]/20";
+    case "BIRD":
+      return "bg-[color:var(--color-brand-sky)]/20 text-[color:var(--color-brand-sky)] hover:bg-[color:var(--color-brand-sky)]/20";
+    case "RABBIT":
+      return "bg-[color:var(--color-brand-mint)]/20 text-[color:var(--color-brand-mint)] hover:bg-[color:var(--color-brand-mint)]/20";
+    default:
+      return "";
+  }
+}
+
+function addedAgo(iso: string) {
+  const days = Math.floor((Date.now() - new Date(iso).getTime()) / 86_400_000);
+  if (days <= 0) return "Added today";
+  if (days === 1) return "Added 1d ago";
+  return `Added ${days}d ago`;
+}
 
 const columns: ColumnDef<PetRow>[] = [
   {
     accessorKey: "name",
-    header: "Name",
-    cell: ({ row }) => <span className="font-medium">{row.original.name}</span>,
+    header: "Pet",
+    cell: ({ row }) => {
+      const pet = row.original;
+      return (
+        <div className="flex items-center gap-3">
+          <Avatar className="size-10">
+            {pet.photoUrl ? <AvatarImage src={pet.photoUrl} alt={pet.name} /> : null}
+            <AvatarFallback className="bg-primary/10 text-primary">
+              <PawPrintIcon className="size-4" />
+            </AvatarFallback>
+          </Avatar>
+          <div>
+            <div className="font-medium">{pet.name}</div>
+            <div className="text-xs text-muted-foreground">{addedAgo(pet.createdAt)}</div>
+          </div>
+        </div>
+      );
+    },
   },
   {
     accessorKey: "species",
     header: "Species",
-    cell: ({ row }) => <Badge variant="secondary">{row.original.species}</Badge>,
+    cell: ({ row }) => (
+      <Badge
+        variant="secondary"
+        className={`rounded-full ${speciesBadgeClass(row.original.species)}`}
+      >
+        {row.original.species}
+      </Badge>
+    ),
   },
   {
     accessorKey: "breed",
@@ -53,8 +93,42 @@ const columns: ColumnDef<PetRow>[] = [
   },
 ];
 
-export function PetsTable({ data }: { data: PetRow[] }) {
+export function PetsTable() {
+  const { data = [] } = usePets();
+  const [species, setSpecies] = useState<(typeof SPECIES_FILTERS)[number]>("ALL");
+
+  const filtered = useMemo(
+    () => (species === "ALL" ? data : data.filter((pet) => pet.species === species)),
+    [data, species],
+  );
+
   return (
-    <DataTable columns={columns} data={data} filterColumn="name" filterPlaceholder="Search pets…" />
+    <div className="space-y-4 rounded-3xl border border-border/60 bg-card p-4 shadow-sm md:p-6">
+      <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
+        <p className="text-sm text-muted-foreground">
+          {filtered.length} of {data.length} pets
+        </p>
+        <div className="flex flex-wrap gap-2">
+          {SPECIES_FILTERS.map((value) => (
+            <Button
+              key={value}
+              type="button"
+              size="sm"
+              variant={species === value ? "default" : "outline"}
+              className="rounded-full"
+              onClick={() => setSpecies(value)}
+            >
+              {value === "ALL" ? "All" : value.charAt(0) + value.slice(1).toLowerCase()}
+            </Button>
+          ))}
+        </div>
+      </div>
+      <DataTable
+        columns={columns}
+        data={filtered}
+        filterColumn="name"
+        filterPlaceholder="Search pets…"
+      />
+    </div>
   );
 }
