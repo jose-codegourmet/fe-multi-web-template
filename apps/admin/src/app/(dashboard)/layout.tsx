@@ -9,10 +9,11 @@ const TITLES: Record<string, string> = {
   "/": "Dashboard",
   "/users": "Users",
   "/pets": "Pets",
-  "/posts": "Posts",
+  "/posts": "Blog",
   "/posts/new": "New post",
   "/testimonials": "Testimonials",
   "/contacts": "Contacts",
+  "/profile": "Profile",
 };
 
 function resolveTitle(pathname: string) {
