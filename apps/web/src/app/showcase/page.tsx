@@ -147,7 +147,7 @@ export default function ShowcasePage() {
           <h2 className="font-display text-3xl tracking-tight text-foreground">Components</h2>
           <p className="text-sm text-muted-foreground">
             Live examples of UI primitives from{" "}
-            <code className="rounded bg-muted px-1.5 py-0.5 text-xs">@/components/</code>.
+            <code className="rounded bg-muted px-1.5 py-0.5 text-xs">@fe-template/ui</code>.
           </p>
         </div>
 

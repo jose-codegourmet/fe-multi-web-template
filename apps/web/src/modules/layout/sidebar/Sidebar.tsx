@@ -2,21 +2,23 @@
 
 import { mergeProps } from "@base-ui/react/merge-props";
 import { useRender } from "@base-ui/react/use-render";
-import { cva, type VariantProps } from "class-variance-authority";
-import { PanelLeftIcon } from "lucide-react";
-import * as React from "react";
-import { Button } from "@/components/button/Button";
-import { Input } from "@/components/input/Input";
-import { Separator } from "@/components/separator/Separator";
 import {
+  Button,
+  Input,
+  Separator,
   Sheet,
   SheetContent,
   SheetDescription,
   SheetHeader,
   SheetTitle,
-} from "@/components/sheet/Sheet";
-import { Skeleton } from "@/components/skeleton/Skeleton";
-import { Tooltip, TooltipContent, TooltipTrigger } from "@/components/tooltip/Tooltip";
+  Skeleton,
+  Tooltip,
+  TooltipContent,
+  TooltipTrigger,
+} from "@fe-template/ui";
+import { cva, type VariantProps } from "class-variance-authority";
+import { PanelLeftIcon } from "lucide-react";
+import * as React from "react";
 import { useIsMobile } from "@/hooks/use-mobile";
 import { cn } from "@/lib/utils";
 

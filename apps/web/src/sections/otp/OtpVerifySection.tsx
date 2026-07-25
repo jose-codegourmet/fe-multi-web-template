@@ -1,12 +1,16 @@
 "use client";
 
+import {
+  Button,
+  InputOTP,
+  InputOTPGroup,
+  InputOTPSlot,
+  Label,
+  ScrollReveal,
+} from "@fe-template/ui";
 import { PawPrintIcon } from "lucide-react";
 import Link from "next/link";
 import { type FormEvent, useState } from "react";
-import { Button } from "@/components/button/Button";
-import { InputOTP, InputOTPGroup, InputOTPSlot } from "@/components/input-otp/InputOtp";
-import { Label } from "@/components/label/Label";
-import { ScrollReveal } from "@/components/motion/scroll-reveal/ScrollReveal";
 import { ROUTES } from "@/constants/routes";
 import { cn } from "@/lib/utils";
 

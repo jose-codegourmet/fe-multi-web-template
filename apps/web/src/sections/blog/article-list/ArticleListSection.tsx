@@ -1,6 +1,5 @@
+import { Badge, ScrollReveal } from "@fe-template/ui";
 import Link from "next/link";
-import { Badge } from "@/components/badge/Badge";
-import { ScrollReveal } from "@/components/motion/scroll-reveal/ScrollReveal";
 import { DEMO_BLOG_POSTS } from "@/constants/demo-content";
 import { ROUTES } from "@/constants/routes";
 import { cn } from "@/lib/utils";

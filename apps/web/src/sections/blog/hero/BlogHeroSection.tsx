@@ -1,4 +1,4 @@
-import { ScrollReveal } from "@/components/motion/scroll-reveal/ScrollReveal";
+import { ScrollReveal } from "@fe-template/ui";
 import { cn } from "@/lib/utils";
 
 type BlogHeroSectionProps = {

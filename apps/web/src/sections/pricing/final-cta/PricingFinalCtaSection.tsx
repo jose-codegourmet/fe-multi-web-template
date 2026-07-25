@@ -1,5 +1,5 @@
+import { ScrollReveal } from "@fe-template/ui";
 import Link from "next/link";
-import { ScrollReveal } from "@/components/motion/scroll-reveal/ScrollReveal";
 import { ROUTES } from "@/constants/routes";
 import { cn } from "@/lib/utils";
 import { SectionImage } from "@/sections/_shared/SectionImage";

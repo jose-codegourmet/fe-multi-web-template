@@ -1,8 +1,8 @@
 import type { Metadata } from "next";
 import { Fraunces, Manrope } from "next/font/google";
-import { Providers } from "@/components/providers/Providers";
 import { Footer } from "@/modules/layout/footer/Footer";
 import { Header } from "@/modules/layout/navigation/header/Header";
+import { Providers } from "@/modules/providers/Providers";
 import "./globals.css";
 
 const manrope = Manrope({

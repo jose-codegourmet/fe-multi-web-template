@@ -1,11 +1,11 @@
-import Link from "next/link";
 import {
   Accordion,
   AccordionContent,
   AccordionItem,
   AccordionTrigger,
-} from "@/components/accordion/Accordion";
-import { ScrollReveal } from "@/components/motion/scroll-reveal/ScrollReveal";
+  ScrollReveal,
+} from "@fe-template/ui";
+import Link from "next/link";
 import { ROUTES } from "@/constants/routes";
 import { cn } from "@/lib/utils";
 

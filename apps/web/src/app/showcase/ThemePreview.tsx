@@ -1,7 +1,7 @@
 "use client";
 
+import { buttonVariants } from "@fe-template/ui";
 import Image from "next/image";
-import { buttonVariants } from "@/components/button/Button";
 import { cn } from "@/lib/utils";
 
 function MiniLandingCard({ mode }: { mode: "light" | "dark" }) {

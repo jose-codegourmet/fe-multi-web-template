@@ -1,9 +1,9 @@
 "use client";
 
+import { buttonVariants } from "@fe-template/ui";
 import { Globe, Monitor, Moon, Share2, Sun, Users } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
-import { buttonVariants } from "@/components/button/Button";
 import { ROUTES } from "@/constants/routes";
 import { cn } from "@/lib/utils";
 import { useAppDispatch, useAppSelector } from "@/store/hooks";

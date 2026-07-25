@@ -1,5 +1,4 @@
-import { Card, CardDescription, CardHeader, CardTitle } from "@/components/card/Card";
-import { ScrollReveal } from "@/components/motion/scroll-reveal/ScrollReveal";
+import { Card, CardDescription, CardHeader, CardTitle, ScrollReveal } from "@fe-template/ui";
 import { cn } from "@/lib/utils";
 
 type CompatibilityFeaturesSectionProps = {

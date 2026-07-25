@@ -1,5 +1,5 @@
+import { ScrollReveal } from "@fe-template/ui";
 import Image from "next/image";
-import { ScrollReveal } from "@/components/motion/scroll-reveal/ScrollReveal";
 import { DEMO_PETS } from "@/constants/demo-content";
 import { cn } from "@/lib/utils";
 

@@ -1,7 +1,13 @@
+import {
+  Badge,
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+  ScrollReveal,
+} from "@fe-template/ui";
 import Image from "next/image";
-import { Badge } from "@/components/badge/Badge";
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/card/Card";
-import { ScrollReveal } from "@/components/motion/scroll-reveal/ScrollReveal";
 import { DEMO_PETS } from "@/constants/demo-content";
 import { cn } from "@/lib/utils";
 import { SectionImage } from "@/sections/_shared/SectionImage";

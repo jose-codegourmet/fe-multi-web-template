@@ -1,17 +1,18 @@
 "use client";
 
-import { Menu, Monitor, Moon, Sun } from "lucide-react";
-import Image from "next/image";
-import Link from "next/link";
-import { useState } from "react";
-import { Button, buttonVariants } from "@/components/button/Button";
 import {
+  Button,
+  buttonVariants,
   Sheet,
   SheetContent,
   SheetHeader,
   SheetTitle,
   SheetTrigger,
-} from "@/components/sheet/Sheet";
+} from "@fe-template/ui";
+import { Menu, Monitor, Moon, Sun } from "lucide-react";
+import Image from "next/image";
+import Link from "next/link";
+import { useState } from "react";
 import { NAV_LINKS } from "@/constants/navigation";
 import { ROUTES } from "@/constants/routes";
 import { cn } from "@/lib/utils";

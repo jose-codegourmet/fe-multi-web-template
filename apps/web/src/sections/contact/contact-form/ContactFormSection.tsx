@@ -1,13 +1,16 @@
 "use client";
 
+import {
+  Button,
+  Checkbox,
+  Input,
+  Label,
+  NativeSelect,
+  NativeSelectOption,
+  ScrollReveal,
+  Textarea,
+} from "@fe-template/ui";
 import { type FormEvent, useState } from "react";
-import { Button } from "@/components/button/Button";
-import { Checkbox } from "@/components/checkbox/Checkbox";
-import { Input } from "@/components/input/Input";
-import { Label } from "@/components/label/Label";
-import { ScrollReveal } from "@/components/motion/scroll-reveal/ScrollReveal";
-import { NativeSelect, NativeSelectOption } from "@/components/native-select/NativeSelect";
-import { Textarea } from "@/components/textarea/Textarea";
 import { cn } from "@/lib/utils";
 import { contactFormSectionDefaultValues } from "./ContactFormSection.defaultvalues";
 import type { ContactFormSectionProps } from "./ContactFormSection.schema";

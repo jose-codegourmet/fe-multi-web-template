@@ -41,7 +41,7 @@
   "overrides": [
     {
       "includes": [
-        "apps/web/src/components/**",
+        "packages/ui/src/components/**",
         "apps/web/src/stories/**",
         "apps/web/src/hooks/**"
       ],

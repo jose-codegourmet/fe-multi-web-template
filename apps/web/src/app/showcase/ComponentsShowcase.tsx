@@ -1,6 +1,216 @@
 "use client";
 
 import {
+  Accordion,
+  AccordionContent,
+  AccordionItem,
+  AccordionTrigger,
+  Alert,
+  AlertDescription,
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+  AlertDialogTrigger,
+  AlertTitle,
+  AspectRatio,
+  Attachment,
+  AttachmentAction,
+  AttachmentActions,
+  AttachmentContent,
+  AttachmentDescription,
+  AttachmentMedia,
+  AttachmentTitle,
+  Avatar,
+  AvatarFallback,
+  Badge,
+  Breadcrumb,
+  BreadcrumbItem,
+  BreadcrumbLink,
+  BreadcrumbList,
+  BreadcrumbPage,
+  BreadcrumbSeparator,
+  Bubble,
+  BubbleContent,
+  Button,
+  ButtonGroup,
+  Calendar,
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+  Carousel,
+  CarouselContent,
+  CarouselItem,
+  CarouselNext,
+  CarouselPrevious,
+  type ChartConfig,
+  ChartContainer,
+  ChartTooltip,
+  ChartTooltipContent,
+  Checkbox,
+  Collapsible,
+  CollapsibleContent,
+  CollapsibleTrigger,
+  Combobox,
+  ComboboxCollection,
+  ComboboxContent,
+  ComboboxEmpty,
+  ComboboxInput,
+  ComboboxItem,
+  ComboboxList,
+  Command,
+  CommandEmpty,
+  CommandGroup,
+  CommandInput,
+  CommandItem,
+  CommandList,
+  ContextMenu,
+  ContextMenuContent,
+  ContextMenuItem,
+  ContextMenuSeparator,
+  ContextMenuShortcut,
+  ContextMenuTrigger,
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+  DirectionProvider,
+  Drawer,
+  DrawerContent,
+  DrawerDescription,
+  DrawerHeader,
+  DrawerTitle,
+  DrawerTrigger,
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuGroup,
+  DropdownMenuItem,
+  DropdownMenuLabel,
+  DropdownMenuSeparator,
+  DropdownMenuShortcut,
+  DropdownMenuTrigger,
+  EmblaCarousel,
+  EmblaCarouselContent,
+  EmblaCarouselDots,
+  EmblaCarouselNext,
+  EmblaCarouselPrev,
+  EmblaCarouselSlide,
+  Empty,
+  EmptyDescription,
+  EmptyHeader,
+  EmptyTitle,
+  Field,
+  FieldDescription,
+  FieldLabel,
+  HoverCard,
+  HoverCardContent,
+  HoverCardTrigger,
+  Input,
+  InputGroup,
+  InputGroupAddon,
+  InputGroupInput,
+  InputOTP,
+  InputOTPGroup,
+  InputOTPSlot,
+  Item,
+  ItemContent,
+  ItemDescription,
+  ItemGroup,
+  ItemMedia,
+  ItemTitle,
+  Kbd,
+  Label,
+  Marker,
+  MarkerContent,
+  MarkerIcon,
+  Menubar,
+  MenubarCheckboxItem,
+  MenubarContent,
+  MenubarItem,
+  MenubarMenu,
+  MenubarSeparator,
+  MenubarShortcut,
+  MenubarTrigger,
+  Message,
+  MessageAvatar,
+  MessageContent,
+  MessageScroller,
+  MessageScrollerContent,
+  MessageScrollerItem,
+  MessageScrollerProvider,
+  MessageScrollerViewport,
+  NativeSelect,
+  NativeSelectOption,
+  NavigationMenu,
+  NavigationMenuItem,
+  NavigationMenuLink,
+  NavigationMenuList,
+  Pagination,
+  PaginationContent,
+  PaginationItem,
+  PaginationLink,
+  PaginationNext,
+  PaginationPrevious,
+  Popover,
+  PopoverContent,
+  PopoverTrigger,
+  Progress,
+  ProgressLabel,
+  ProgressValue,
+  RadioGroup,
+  RadioGroupItem,
+  ResizableHandle,
+  ResizablePanel,
+  ResizablePanelGroup,
+  ScrollArea,
+  ScrollReveal,
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+  Separator,
+  Sheet,
+  SheetContent,
+  SheetDescription,
+  SheetHeader,
+  SheetTitle,
+  SheetTrigger,
+  Skeleton,
+  Slider,
+  Spinner,
+  Switch,
+  Table,
+  TableBody,
+  TableCell,
+  TableHead,
+  TableHeader,
+  TableRow,
+  Tabs,
+  type TabsCarouselItem,
+  TabsCarouselList,
+  TabsContent,
+  TabsList,
+  TabsTrigger,
+  Textarea,
+  Toaster,
+  Toggle,
+  ToggleGroup,
+  ToggleGroupItem,
+  Tooltip,
+  TooltipContent,
+  TooltipProvider,
+  TooltipTrigger,
+} from "@fe-template/ui";
+import {
   BoldIcon,
   CalculatorIcon,
   CalendarIcon,
@@ -16,235 +226,6 @@ import {
 } from "lucide-react";
 import { Bar, BarChart, CartesianGrid, XAxis } from "recharts";
 import { toast } from "sonner";
-
-import {
-  Accordion,
-  AccordionContent,
-  AccordionItem,
-  AccordionTrigger,
-} from "@/components/accordion/Accordion";
-import { Alert, AlertDescription, AlertTitle } from "@/components/alert/Alert";
-import {
-  AlertDialog,
-  AlertDialogAction,
-  AlertDialogCancel,
-  AlertDialogContent,
-  AlertDialogDescription,
-  AlertDialogFooter,
-  AlertDialogHeader,
-  AlertDialogTitle,
-  AlertDialogTrigger,
-} from "@/components/alert-dialog/AlertDialog";
-import { AspectRatio } from "@/components/aspect-ratio/AspectRatio";
-import {
-  Attachment,
-  AttachmentAction,
-  AttachmentActions,
-  AttachmentContent,
-  AttachmentDescription,
-  AttachmentMedia,
-  AttachmentTitle,
-} from "@/components/attachment/Attachment";
-import { Avatar, AvatarFallback } from "@/components/avatar/Avatar";
-import { Badge } from "@/components/badge/Badge";
-import {
-  Breadcrumb,
-  BreadcrumbItem,
-  BreadcrumbLink,
-  BreadcrumbList,
-  BreadcrumbPage,
-  BreadcrumbSeparator,
-} from "@/components/breadcrumb/Breadcrumb";
-import { Bubble, BubbleContent } from "@/components/bubble/Bubble";
-import { Button } from "@/components/button/Button";
-import { ButtonGroup } from "@/components/button-group/ButtonGroup";
-import { Calendar } from "@/components/calendar/Calendar";
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/card/Card";
-import {
-  Carousel,
-  CarouselContent,
-  CarouselItem,
-  CarouselNext,
-  CarouselPrevious,
-} from "@/components/carousel/Carousel";
-import {
-  type ChartConfig,
-  ChartContainer,
-  ChartTooltip,
-  ChartTooltipContent,
-} from "@/components/chart/Chart";
-import { Checkbox } from "@/components/checkbox/Checkbox";
-import {
-  Collapsible,
-  CollapsibleContent,
-  CollapsibleTrigger,
-} from "@/components/collapsible/Collapsible";
-import {
-  Combobox,
-  ComboboxCollection,
-  ComboboxContent,
-  ComboboxEmpty,
-  ComboboxInput,
-  ComboboxItem,
-  ComboboxList,
-} from "@/components/combobox/Combobox";
-import {
-  Command,
-  CommandEmpty,
-  CommandGroup,
-  CommandInput,
-  CommandItem,
-  CommandList,
-} from "@/components/command/Command";
-import {
-  ContextMenu,
-  ContextMenuContent,
-  ContextMenuItem,
-  ContextMenuSeparator,
-  ContextMenuShortcut,
-  ContextMenuTrigger,
-} from "@/components/context-menu/ContextMenu";
-import {
-  Dialog,
-  DialogContent,
-  DialogDescription,
-  DialogHeader,
-  DialogTitle,
-  DialogTrigger,
-} from "@/components/dialog/Dialog";
-import { DirectionProvider } from "@/components/direction/Direction";
-import {
-  Drawer,
-  DrawerContent,
-  DrawerDescription,
-  DrawerHeader,
-  DrawerTitle,
-  DrawerTrigger,
-} from "@/components/drawer/Drawer";
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuGroup,
-  DropdownMenuItem,
-  DropdownMenuLabel,
-  DropdownMenuSeparator,
-  DropdownMenuShortcut,
-  DropdownMenuTrigger,
-} from "@/components/dropdown-menu/DropdownMenu";
-import {
-  EmblaCarousel,
-  EmblaCarouselContent,
-  EmblaCarouselDots,
-  EmblaCarouselNext,
-  EmblaCarouselPrev,
-  EmblaCarouselSlide,
-} from "@/components/embla-carousel/EmblaCarousel";
-import { Empty, EmptyDescription, EmptyHeader, EmptyTitle } from "@/components/empty/Empty";
-import { Field, FieldDescription, FieldLabel } from "@/components/field/Field";
-import { HoverCard, HoverCardContent, HoverCardTrigger } from "@/components/hover-card/HoverCard";
-import { Input } from "@/components/input/Input";
-import { InputGroup, InputGroupAddon, InputGroupInput } from "@/components/input-group/InputGroup";
-import { InputOTP, InputOTPGroup, InputOTPSlot } from "@/components/input-otp/InputOtp";
-import {
-  Item,
-  ItemContent,
-  ItemDescription,
-  ItemGroup,
-  ItemMedia,
-  ItemTitle,
-} from "@/components/item/Item";
-import { Kbd } from "@/components/kbd/Kbd";
-import { Label } from "@/components/label/Label";
-import { Marker, MarkerContent, MarkerIcon } from "@/components/marker/Marker";
-import {
-  Menubar,
-  MenubarCheckboxItem,
-  MenubarContent,
-  MenubarItem,
-  MenubarMenu,
-  MenubarSeparator,
-  MenubarShortcut,
-  MenubarTrigger,
-} from "@/components/menubar/Menubar";
-import { Message, MessageAvatar, MessageContent } from "@/components/message/Message";
-import {
-  MessageScroller,
-  MessageScrollerContent,
-  MessageScrollerItem,
-  MessageScrollerProvider,
-  MessageScrollerViewport,
-} from "@/components/message-scroller/MessageScroller";
-import { ScrollReveal } from "@/components/motion/scroll-reveal/ScrollReveal";
-import { NativeSelect, NativeSelectOption } from "@/components/native-select/NativeSelect";
-import {
-  NavigationMenu,
-  NavigationMenuItem,
-  NavigationMenuLink,
-  NavigationMenuList,
-} from "@/components/navigation-menu/NavigationMenu";
-import {
-  Pagination,
-  PaginationContent,
-  PaginationItem,
-  PaginationLink,
-  PaginationNext,
-  PaginationPrevious,
-} from "@/components/pagination/Pagination";
-import { Popover, PopoverContent, PopoverTrigger } from "@/components/popover/Popover";
-import { Progress, ProgressLabel, ProgressValue } from "@/components/progress/Progress";
-import { RadioGroup, RadioGroupItem } from "@/components/radio-group/RadioGroup";
-import {
-  ResizableHandle,
-  ResizablePanel,
-  ResizablePanelGroup,
-} from "@/components/resizable/Resizable";
-import { ScrollArea } from "@/components/scroll-area/ScrollArea";
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/select/Select";
-import { Separator } from "@/components/separator/Separator";
-import {
-  Sheet,
-  SheetContent,
-  SheetDescription,
-  SheetHeader,
-  SheetTitle,
-  SheetTrigger,
-} from "@/components/sheet/Sheet";
-import { Skeleton } from "@/components/skeleton/Skeleton";
-import { Slider } from "@/components/slider/Slider";
-import { Toaster } from "@/components/sonner/Sonner";
-import { Spinner } from "@/components/spinner/Spinner";
-import { Switch } from "@/components/switch/Switch";
-import {
-  Table,
-  TableBody,
-  TableCell,
-  TableHead,
-  TableHeader,
-  TableRow,
-} from "@/components/table/Table";
-import {
-  Tabs,
-  type TabsCarouselItem,
-  TabsCarouselList,
-  TabsContent,
-  TabsList,
-  TabsTrigger,
-} from "@/components/tabs/Tabs";
-import { Textarea } from "@/components/textarea/Textarea";
-import { Toggle } from "@/components/toggle/Toggle";
-import { ToggleGroup, ToggleGroupItem } from "@/components/toggle-group/ToggleGroup";
-import {
-  Tooltip,
-  TooltipContent,
-  TooltipProvider,
-  TooltipTrigger,
-} from "@/components/tooltip/Tooltip";
 import { cn } from "@/lib/utils";
 
 const accordionItems = [

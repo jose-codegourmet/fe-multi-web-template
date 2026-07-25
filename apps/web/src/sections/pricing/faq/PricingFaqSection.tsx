@@ -5,8 +5,8 @@ import {
   AccordionContent,
   AccordionItem,
   AccordionTrigger,
-} from "@/components/accordion/Accordion";
-import { ScrollReveal } from "@/components/motion/scroll-reveal/ScrollReveal";
+  ScrollReveal,
+} from "@fe-template/ui";
 import { cn } from "@/lib/utils";
 
 const eyebrow = "FAQ";

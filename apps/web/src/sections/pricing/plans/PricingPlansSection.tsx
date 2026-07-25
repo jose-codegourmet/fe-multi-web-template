@@ -1,14 +1,14 @@
-import Link from "next/link";
-import { Badge } from "@/components/badge/Badge";
 import {
+  Badge,
   Card,
   CardContent,
   CardDescription,
   CardFooter,
   CardHeader,
   CardTitle,
-} from "@/components/card/Card";
-import { ScrollReveal } from "@/components/motion/scroll-reveal/ScrollReveal";
+  ScrollReveal,
+} from "@fe-template/ui";
+import Link from "next/link";
 import { DEMO_PRICING_PLANS } from "@/constants/demo-content";
 import { ROUTES } from "@/constants/routes";
 import { cn } from "@/lib/utils";

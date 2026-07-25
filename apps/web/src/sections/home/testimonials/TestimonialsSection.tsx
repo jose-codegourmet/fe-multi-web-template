@@ -1,6 +1,12 @@
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+  ScrollReveal,
+} from "@fe-template/ui";
 import Image from "next/image";
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/card/Card";
-import { ScrollReveal } from "@/components/motion/scroll-reveal/ScrollReveal";
 import { DEMO_TESTIMONIALS } from "@/constants/demo-content";
 import { cn } from "@/lib/utils";
 

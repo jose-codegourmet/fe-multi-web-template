@@ -1,7 +1,7 @@
 "use client";
 
+import { ScrollReveal } from "@fe-template/ui";
 import { useState } from "react";
-import { ScrollReveal } from "@/components/motion/scroll-reveal/ScrollReveal";
 import { cn } from "@/lib/utils";
 
 type BlogFiltersSectionProps = {

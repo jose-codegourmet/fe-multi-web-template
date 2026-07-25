@@ -1,7 +1,6 @@
+import { buttonVariants, ScrollReveal } from "@fe-template/ui";
 import { Check } from "lucide-react";
 import Link from "next/link";
-import { buttonVariants } from "@/components/button/Button";
-import { ScrollReveal } from "@/components/motion/scroll-reveal/ScrollReveal";
 import { ROUTES } from "@/constants/routes";
 import { cn } from "@/lib/utils";
 import { SectionImage } from "@/sections/_shared/SectionImage";

@@ -1,7 +1,13 @@
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+  ScrollReveal,
+} from "@fe-template/ui";
 import Image from "next/image";
 import Link from "next/link";
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/card/Card";
-import { ScrollReveal } from "@/components/motion/scroll-reveal/ScrollReveal";
 import { cn } from "@/lib/utils";
 
 const eyebrow = "The team";

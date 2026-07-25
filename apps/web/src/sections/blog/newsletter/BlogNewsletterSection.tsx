@@ -1,10 +1,7 @@
 "use client";
 
+import { Button, Input, Label, ScrollReveal } from "@fe-template/ui";
 import { type FormEvent, useState } from "react";
-import { Button } from "@/components/button/Button";
-import { Input } from "@/components/input/Input";
-import { Label } from "@/components/label/Label";
-import { ScrollReveal } from "@/components/motion/scroll-reveal/ScrollReveal";
 import { cn } from "@/lib/utils";
 import { blogNewsletterSectionDefaultValues } from "./BlogNewsletterSection.defaultvalues";
 import type { BlogNewsletterSectionProps } from "./BlogNewsletterSection.schema";
