@@ -1,48 +1,31 @@
-import { prisma } from "@fe-template/db";
+import { dehydrate, HydrationBoundary, QueryClient } from "@tanstack/react-query";
 import { notFound } from "next/navigation";
-import { PostForm } from "../post-form";
+import { postsQueryKey } from "@/hooks/use-posts/query";
+import { fetchAuthors, fetchPost } from "@/hooks/use-posts/server";
+import { EditPostEditor } from "../post-editor";
 
 type PageProps = {
   params: Promise<{ id: string }>;
 };
 
-async function getPostAndAuthors(id: string) {
-  try {
-    return await Promise.all([
-      prisma.post.findUnique({ where: { id } }),
-      prisma.user.findMany({
-        select: { id: true, name: true, email: true },
-        orderBy: { email: "asc" },
-      }),
-    ]);
-  } catch {
-    return null;
-  }
-}
-
 export default async function EditPostPage({ params }: PageProps) {
   const { id } = await params;
-
-  const result = await getPostAndAuthors(id);
-  if (!result) notFound();
-
-  const [post, authors] = result;
+  const queryClient = new QueryClient();
+  const [post] = await Promise.all([
+    queryClient.fetchQuery({
+      queryKey: postsQueryKey.detail(id),
+      queryFn: () => fetchPost(id),
+    }),
+    queryClient.prefetchQuery({
+      queryKey: postsQueryKey.authors(),
+      queryFn: fetchAuthors,
+    }),
+  ]);
   if (!post) notFound();
 
   return (
-    <PostForm
-      authors={authors}
-      defaultValues={{
-        id: post.id,
-        title: post.title,
-        slug: post.slug,
-        excerpt: post.excerpt ?? "",
-        content: post.content,
-        coverImage: post.coverImage ?? "",
-        tags: post.tags.join(", "),
-        published: post.published,
-        authorId: post.authorId,
-      }}
-    />
+    <HydrationBoundary state={dehydrate(queryClient)}>
+      <EditPostEditor id={id} />
+    </HydrationBoundary>
   );
 }

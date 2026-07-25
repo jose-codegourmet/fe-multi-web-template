@@ -1,33 +1,18 @@
-import { prisma } from "@fe-template/db";
-import { PostForm } from "../post-form";
-
-async function getAuthors() {
-  try {
-    return await prisma.user.findMany({
-      select: { id: true, name: true, email: true },
-      orderBy: { email: "asc" },
-    });
-  } catch {
-    return [];
-  }
-}
+import { dehydrate, HydrationBoundary, QueryClient } from "@tanstack/react-query";
+import { postsQueryKey } from "@/hooks/use-posts/query";
+import { fetchAuthors } from "@/hooks/use-posts/server";
+import { NewPostEditor } from "../post-editor";
 
 export default async function NewPostPage() {
-  const authors = await getAuthors();
+  const queryClient = new QueryClient();
+  await queryClient.prefetchQuery({
+    queryKey: postsQueryKey.authors(),
+    queryFn: fetchAuthors,
+  });
 
   return (
-    <PostForm
-      authors={authors}
-      defaultValues={{
-        title: "",
-        slug: "",
-        excerpt: "",
-        content: "",
-        coverImage: "",
-        tags: "",
-        published: false,
-        authorId: authors[0]?.id ?? "",
-      }}
-    />
+    <HydrationBoundary state={dehydrate(queryClient)}>
+      <NewPostEditor />
+    </HydrationBoundary>
   );
 }

@@ -37,40 +37,57 @@ export function PostForm({
   const [published, setPublished] = useState(defaultValues.published);
 
   return (
-    <form action={formAction} className="mx-auto max-w-2xl space-y-4">
+    <form action={formAction} className="relative mx-auto max-w-3xl space-y-6 pb-24">
       <div className="space-y-2">
-        <Label htmlFor="title">Title</Label>
-        <Input id="title" name="title" required defaultValue={defaultValues.title} />
-      </div>
-
-      <div className="space-y-2">
-        <Label htmlFor="slug">Slug</Label>
-        <Input id="slug" name="slug" required defaultValue={defaultValues.slug} />
-      </div>
-
-      <div className="space-y-2">
-        <Label htmlFor="authorId">Author</Label>
-        <select
-          id="authorId"
-          name="authorId"
+        <Label htmlFor="title" className="sr-only">
+          Title
+        </Label>
+        <Input
+          id="title"
+          name="title"
           required
-          defaultValue={defaultValues.authorId}
-          className="flex h-8 w-full rounded-lg border border-input bg-transparent px-2.5 text-sm"
-        >
-          <option value="" disabled>
-            Select author
-          </option>
-          {authors.map((author) => (
-            <option key={author.id} value={author.id}>
-              {author.name ? `${author.name} (${author.email})` : author.email}
+          defaultValue={defaultValues.title}
+          placeholder="Post title"
+          className="h-auto border-0 bg-transparent px-0 font-display text-3xl font-semibold tracking-tight shadow-none focus-visible:ring-0 md:text-4xl"
+        />
+      </div>
+
+      <div className="grid gap-4 md:grid-cols-2">
+        <div className="space-y-2">
+          <Label htmlFor="slug">Slug</Label>
+          <Input id="slug" name="slug" required defaultValue={defaultValues.slug} />
+        </div>
+
+        <div className="space-y-2">
+          <Label htmlFor="authorId">Author</Label>
+          <select
+            id="authorId"
+            name="authorId"
+            required
+            defaultValue={defaultValues.authorId}
+            className="flex h-8 w-full rounded-lg border border-input bg-transparent px-2.5 text-sm"
+          >
+            <option value="" disabled>
+              Select author
             </option>
-          ))}
-        </select>
+            {authors.map((author) => (
+              <option key={author.id} value={author.id}>
+                {author.name ? `${author.name} (${author.email})` : author.email}
+              </option>
+            ))}
+          </select>
+        </div>
       </div>
 
       <div className="space-y-2">
         <Label htmlFor="excerpt">Excerpt</Label>
-        <Textarea id="excerpt" name="excerpt" rows={2} defaultValue={defaultValues.excerpt} />
+        <Textarea
+          id="excerpt"
+          name="excerpt"
+          rows={2}
+          defaultValue={defaultValues.excerpt}
+          className="rounded-2xl"
+        />
       </div>
 
       <div className="space-y-2">
@@ -79,24 +96,27 @@ export function PostForm({
           id="content"
           name="content"
           required
-          rows={10}
+          rows={14}
           defaultValue={defaultValues.content}
+          className="rounded-2xl font-sans leading-relaxed"
         />
       </div>
 
-      <div className="space-y-2">
-        <Label htmlFor="tags">Tags (comma-separated)</Label>
-        <Input id="tags" name="tags" defaultValue={defaultValues.tags} />
-      </div>
+      <div className="grid gap-4 md:grid-cols-2">
+        <div className="space-y-2">
+          <Label htmlFor="tags">Tags (comma-separated)</Label>
+          <Input id="tags" name="tags" defaultValue={defaultValues.tags} />
+        </div>
 
-      <div className="space-y-2">
-        <Label htmlFor="coverImage">Cover image URL</Label>
-        <Input
-          id="coverImage"
-          name="coverImage"
-          type="url"
-          defaultValue={defaultValues.coverImage}
-        />
+        <div className="space-y-2">
+          <Label htmlFor="coverImage">Cover image URL</Label>
+          <Input
+            id="coverImage"
+            name="coverImage"
+            type="url"
+            defaultValue={defaultValues.coverImage}
+          />
+        </div>
       </div>
 
       <div className="flex items-center gap-3">
@@ -113,17 +133,17 @@ export function PostForm({
 
       {state.error ? <p className="text-sm text-destructive">{state.error}</p> : null}
 
-      <div className="flex gap-2">
-        <Button type="submit" disabled={pending || authors.length === 0}>
-          {pending ? "Saving…" : defaultValues.id ? "Update post" : "Create post"}
-        </Button>
-      </div>
-
       {authors.length === 0 ? (
         <p className="text-sm text-muted-foreground">
           Create at least one user in the database before publishing posts.
         </p>
       ) : null}
+
+      <div className="sticky bottom-4 z-10 flex items-center justify-end gap-2 rounded-2xl border border-border/60 bg-card/95 p-3 shadow-lg backdrop-blur">
+        <Button type="submit" disabled={pending || authors.length === 0} className="rounded-full">
+          {pending ? "Saving…" : defaultValues.id ? "Update post" : "Create post"}
+        </Button>
+      </div>
     </form>
   );
 }
