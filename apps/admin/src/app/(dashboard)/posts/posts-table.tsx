@@ -18,6 +18,7 @@ const columns: ColumnDef<PostRow>[] = [
           <div className="relative size-12 shrink-0 overflow-hidden rounded-xl bg-gradient-to-br from-primary/20 via-accent to-muted">
             {post.coverImage ? (
               // biome-ignore lint/performance/noImgElement: cover URLs are arbitrary remote strings
+              // eslint-disable-next-line @next/next/no-img-element -- cover URLs are arbitrary remote strings
               <img src={post.coverImage} alt="" className="size-full object-cover" />
             ) : (
               <div className="flex size-full items-center justify-center text-muted-foreground">

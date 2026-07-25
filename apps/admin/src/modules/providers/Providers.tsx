@@ -2,8 +2,9 @@
 
 import { Toaster } from "@fe-template/ui";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
 import { ThemeProvider } from "next-themes";
-import { useRef } from "react";
+import { useState } from "react";
 
 function makeQueryClient() {
   return new QueryClient({
@@ -16,17 +17,15 @@ function makeQueryClient() {
 }
 
 export function Providers({ children }: { children: React.ReactNode }) {
-  const queryClientRef = useRef<QueryClient | null>(null);
-  if (queryClientRef.current === null) {
-    queryClientRef.current = makeQueryClient();
-  }
+  const [queryClient] = useState(makeQueryClient);
 
   return (
-    <QueryClientProvider client={queryClientRef.current}>
+    <QueryClientProvider client={queryClient}>
       <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
         {children}
         <Toaster />
       </ThemeProvider>
+      {process.env.NODE_ENV === "development" && <ReactQueryDevtools initialIsOpen={false} />}
     </QueryClientProvider>
   );
 }
