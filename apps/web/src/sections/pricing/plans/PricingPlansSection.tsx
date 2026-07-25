@@ -1,3 +1,5 @@
+"use client";
+
 import {
   Badge,
   Card,
@@ -9,8 +11,8 @@ import {
   ScrollReveal,
 } from "@fe-template/ui";
 import Link from "next/link";
-import { DEMO_PRICING_PLANS } from "@/constants/demo-content";
 import { ROUTES } from "@/constants/routes";
+import { usePricingPlans } from "@/hooks/use-pricing-plans/client";
 import { cn } from "@/lib/utils";
 
 const eyebrow = "Plans";
@@ -18,11 +20,9 @@ const headline = "Choose the plan that fits your pack.";
 const supporting =
   "Every plan includes safety checklist access and compatibility-minded discovery.";
 const featuredBadgeLabel = "Most popular";
-const plans = DEMO_PRICING_PLANS;
-
-function formatPrice(priceMonthly: number) {
-  if (priceMonthly === 0) return "Free";
-  return `$${priceMonthly}`;
+function formatPrice(price: number) {
+  if (price === 0) return "Free";
+  return `$${(price / 100).toFixed(2)}`;
 }
 
 type PricingPlansSectionProps = {
@@ -30,6 +30,8 @@ type PricingPlansSectionProps = {
 };
 
 function PricingPlansSection({ className }: PricingPlansSectionProps) {
+  const { data: plans = [] } = usePricingPlans();
+
   return (
     <section
       id="plans"
@@ -49,7 +51,7 @@ function PricingPlansSection({ className }: PricingPlansSectionProps) {
 
         <div className="mt-12 grid gap-6 lg:grid-cols-3">
           {plans.map((plan, index) => {
-            const featured = Boolean(plan.featured);
+            const featured = index === 1;
             return (
               <ScrollReveal key={plan.id} delay={0.1 * (index + 1)}>
                 <Card
@@ -67,21 +69,21 @@ function PricingPlansSection({ className }: PricingPlansSectionProps) {
                   ) : null}
                   <CardHeader>
                     <p className="text-xs font-medium tracking-wide text-brand-coral uppercase">
-                      {plan.nickname}
+                      {plan.interval}
                     </p>
                     <CardTitle className="font-display text-2xl font-semibold text-brand-deep-ink">
                       {plan.name}
                     </CardTitle>
                     <div className="mt-2 flex items-baseline gap-1">
                       <span className="font-display text-4xl font-semibold text-brand-deep-ink">
-                        {formatPrice(plan.priceMonthly)}
+                        {formatPrice(plan.price)}
                       </span>
-                      {plan.priceMonthly > 0 ? (
-                        <span className="text-sm text-brand-ink-500">/month</span>
+                      {plan.price > 0 ? (
+                        <span className="text-sm text-brand-ink-500">/{plan.interval}</span>
                       ) : null}
                     </div>
                     <CardDescription className="mt-2 text-sm leading-relaxed text-brand-ink-500">
-                      {plan.description}
+                      Everything you need to find the right match for your pet.
                     </CardDescription>
                   </CardHeader>
                   <CardContent className="flex-1">
@@ -110,7 +112,7 @@ function PricingPlansSection({ className }: PricingPlansSectionProps) {
                           : "border border-brand-ink-200 bg-brand-white text-brand-deep-ink hover:bg-brand-cream-200",
                       )}
                     >
-                      {plan.ctaLabel}
+                      Get started
                     </Link>
                   </CardFooter>
                 </Card>

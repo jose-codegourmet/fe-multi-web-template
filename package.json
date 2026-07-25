@@ -11,7 +11,10 @@
     "lint:apps": "turbo run lint",
     "format": "biome format --write .",
     "typecheck": "turbo run typecheck",
+    "storybook": "turbo run storybook",
     "build-storybook": "turbo run build-storybook",
+    "lint:fix": "biome check --write .",
+    "lint:fix:unsafe": "biome check --write --unsafe .",
     "db:generate": "turbo run db:generate",
     "prepare": "husky"
   },

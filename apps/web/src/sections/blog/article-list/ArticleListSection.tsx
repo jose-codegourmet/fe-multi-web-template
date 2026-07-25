@@ -1,7 +1,9 @@
+"use client";
+
 import { Badge, ScrollReveal } from "@fe-template/ui";
 import Link from "next/link";
-import { DEMO_BLOG_POSTS } from "@/constants/demo-content";
 import { ROUTES } from "@/constants/routes";
+import { useBlogPosts } from "@/hooks/use-blog-posts/client";
 import { cn } from "@/lib/utils";
 
 type ArticleListSectionProps = {
@@ -16,9 +18,9 @@ function formatDate(value: string) {
   });
 }
 
-const posts = DEMO_BLOG_POSTS.slice(1);
-
 function ArticleListSection({ className }: ArticleListSectionProps) {
+  const { data: posts = [] } = useBlogPosts();
+
   return (
     <section
       data-slot="article-list-section"
@@ -41,18 +43,18 @@ function ArticleListSection({ className }: ArticleListSectionProps) {
                 >
                   <div className="min-w-0 flex-1">
                     <div className="mb-3 flex flex-wrap items-center gap-2">
-                      <Badge className="bg-brand-coral/15 text-brand-coral">{post.category}</Badge>
+                      <Badge className="bg-brand-coral/15 text-brand-coral">
+                        {post.tags[0] ?? "Guide"}
+                      </Badge>
                       <span className="text-xs text-brand-ink-500">
                         {formatDate(post.publishedAt)}
-                        <span className="mx-1.5">·</span>
-                        {post.readingTime}
                       </span>
                     </div>
                     <h3 className="font-display text-xl font-semibold text-brand-deep-ink transition-colors group-hover:text-brand-coral md:text-2xl">
                       {post.title}
                     </h3>
                     <p className="mt-2 max-w-2xl text-sm leading-relaxed text-brand-ink-500 md:text-base">
-                      {post.excerpt}
+                      {post.excerpt ?? "Read the latest update from the PawPair team."}
                     </p>
                   </div>
                   <span className="shrink-0 text-sm font-medium text-brand-coral group-hover:underline">

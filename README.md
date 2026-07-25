@@ -108,6 +108,29 @@ Database-specific scripts (migrate, studio, seed) live in [`packages/db`](packag
 
 ---
 
+## Makefile shortcuts
+
+The root [`Makefile`](Makefile) wraps common Turbo and Biome commands. Pass an optional `FILTER` to scope a target to `apps/<name>` or `packages/<name>`.
+
+| Target | Equivalent | Notes |
+| --- | --- | --- |
+| `make dev` | `pnpm turbo run dev` | Runs all apps; add `FILTER=web` or `FILTER=admin` to scope |
+| `make build` | `pnpm turbo run build` | Full production build; supports `FILTER` |
+| `make storybook` | `pnpm turbo run storybook` | Starts Storybook; supports `FILTER` |
+| `make fix` | `pnpm biome check --write <path>` | Safe Biome auto-fix on the filtered path (or repo root) |
+| `make fix-unsafe` | `pnpm biome check --write --unsafe <path>` | Same but allows unsafe transforms |
+
+```bash
+make dev                     # web + admin via Turbo
+make dev FILTER=web          # web only
+make build FILTER=admin      # admin production build
+make storybook FILTER=web    # Storybook for web
+make fix FILTER=admin        # Biome auto-fix apps/admin
+make fix-unsafe              # unsafe Biome fixes across the repo
+```
+
+---
+
 ## Environment variables
 
 | Variable | Used by | Purpose |
