@@ -1,0 +1,129 @@
+"use client";
+
+import { Button, Input, Label, Textarea } from "@fe-template/ui";
+import { useActionState, useState } from "react";
+import { createPost, type PostFormState, updatePost } from "./actions";
+
+export type PostFormValues = {
+  id?: string;
+  title: string;
+  slug: string;
+  excerpt: string;
+  content: string;
+  coverImage: string;
+  tags: string;
+  published: boolean;
+  authorId: string;
+};
+
+type AuthorOption = {
+  id: string;
+  name: string | null;
+  email: string;
+};
+
+const initialState: PostFormState = {};
+
+export function PostForm({
+  authors,
+  defaultValues,
+}: {
+  authors: AuthorOption[];
+  defaultValues: PostFormValues;
+}) {
+  const action = defaultValues.id ? updatePost.bind(null, defaultValues.id) : createPost;
+
+  const [state, formAction, pending] = useActionState(action, initialState);
+  const [published, setPublished] = useState(defaultValues.published);
+
+  return (
+    <form action={formAction} className="mx-auto max-w-2xl space-y-4">
+      <div className="space-y-2">
+        <Label htmlFor="title">Title</Label>
+        <Input id="title" name="title" required defaultValue={defaultValues.title} />
+      </div>
+
+      <div className="space-y-2">
+        <Label htmlFor="slug">Slug</Label>
+        <Input id="slug" name="slug" required defaultValue={defaultValues.slug} />
+      </div>
+
+      <div className="space-y-2">
+        <Label htmlFor="authorId">Author</Label>
+        <select
+          id="authorId"
+          name="authorId"
+          required
+          defaultValue={defaultValues.authorId}
+          className="flex h-8 w-full rounded-lg border border-input bg-transparent px-2.5 text-sm"
+        >
+          <option value="" disabled>
+            Select author
+          </option>
+          {authors.map((author) => (
+            <option key={author.id} value={author.id}>
+              {author.name ? `${author.name} (${author.email})` : author.email}
+            </option>
+          ))}
+        </select>
+      </div>
+
+      <div className="space-y-2">
+        <Label htmlFor="excerpt">Excerpt</Label>
+        <Textarea id="excerpt" name="excerpt" rows={2} defaultValue={defaultValues.excerpt} />
+      </div>
+
+      <div className="space-y-2">
+        <Label htmlFor="content">Content</Label>
+        <Textarea
+          id="content"
+          name="content"
+          required
+          rows={10}
+          defaultValue={defaultValues.content}
+        />
+      </div>
+
+      <div className="space-y-2">
+        <Label htmlFor="tags">Tags (comma-separated)</Label>
+        <Input id="tags" name="tags" defaultValue={defaultValues.tags} />
+      </div>
+
+      <div className="space-y-2">
+        <Label htmlFor="coverImage">Cover image URL</Label>
+        <Input
+          id="coverImage"
+          name="coverImage"
+          type="url"
+          defaultValue={defaultValues.coverImage}
+        />
+      </div>
+
+      <div className="flex items-center gap-3">
+        <input
+          id="published"
+          name="published"
+          type="checkbox"
+          checked={published}
+          onChange={(event) => setPublished(event.target.checked)}
+          className="size-4 rounded border border-input"
+        />
+        <Label htmlFor="published">Published</Label>
+      </div>
+
+      {state.error ? <p className="text-sm text-destructive">{state.error}</p> : null}
+
+      <div className="flex gap-2">
+        <Button type="submit" disabled={pending || authors.length === 0}>
+          {pending ? "Saving…" : defaultValues.id ? "Update post" : "Create post"}
+        </Button>
+      </div>
+
+      {authors.length === 0 ? (
+        <p className="text-sm text-muted-foreground">
+          Create at least one user in the database before publishing posts.
+        </p>
+      ) : null}
+    </form>
+  );
+}

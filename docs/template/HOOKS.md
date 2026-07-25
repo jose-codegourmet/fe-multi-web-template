@@ -1,6 +1,8 @@
 # API Hooks
 
-API hooks in `apps/web/src/hooks/` follow a client/server split pattern for TanStack Query integration with Next.js App Router server components.
+API hooks live in each app's own `src/hooks/` folder (`apps/web/src/hooks/`, `apps/admin/src/hooks/`) and follow a client/server split pattern for TanStack Query integration with Next.js App Router server components. Hooks are not shared through `packages/ui` — that package holds presentational primitives only.
+
+> Today both apps ship only the utility hook `use-mobile.ts`. The structure below is the convention to follow when you add data-fetching hooks; the `use-pet-profiles` examples are illustrative, not existing files.
 
 ---
 
@@ -9,7 +11,7 @@ API hooks in `apps/web/src/hooks/` follow a client/server split pattern for TanS
 Each hook is a kebab-case folder starting with `use-`:
 
 ```text
-src/hooks/use-my-hook/
+apps/<app>/src/hooks/use-my-hook/
 ├── client.ts    ← useMyHook (React Query hook for client components)
 └── server.ts    ← fetchMyHook (server-side fetch / prefetch for RSC)
 ```
@@ -97,3 +99,9 @@ These do not need a `client.ts` / `server.ts` split.
 ## React Query Devtools
 
 TanStack Query Devtools are included in development only. Do not import or render them in production builds.
+
+---
+
+## Admin: prefer Prisma over hooks
+
+In `apps/admin`, pages are Server Components that query `prisma` from `@fe-template/db` directly and mutate through Server Actions. Reach for a TanStack Query hook there only for genuinely client-driven data (polling, optimistic UI) — see [`docs/llm/PATTERNS.md`](../llm/PATTERNS.md#data-access).

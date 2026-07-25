@@ -1,6 +1,6 @@
 # PawPair Frontend Template
 
-Human-facing documentation for the `fe-template` monorepo — a Next.js marketing template showcasing the fictional PawPair pet social discovery brand.
+Human-facing documentation for the `fe-multi-web-template` monorepo — a Next.js marketing site plus admin portal, showcasing the fictional PawPair pet social discovery brand.
 
 For a shorter overview, see the [root README](../../README.md).
 
@@ -9,19 +9,31 @@ For a shorter overview, see the [root README](../../README.md).
 ## Monorepo Layout
 
 ```text
-fe-template/
+fe-multi-web-template/
 ├── apps/
-│   └── web/                  # Next.js App Router application
+│   ├── web/                  # Marketing site (Next.js, port 3000)
+│   └── admin/                # Admin portal (Next.js, port 3001)
 ├── packages/
-│   └── config/               # Shared config package
+│   ├── ui/                   # Shared UI primitives (@fe-template/ui)
+│   ├── db/                   # Prisma + Supabase Postgres (@fe-template/db)
+│   └── config/               # Shared config package (@fe-template/config)
 ├── docs/
 │   ├── about-example-site/   # PawPair brand, content, image guide
 │   ├── template/             # Human-facing docs (this folder)
 │   └── llm/                  # AI agent context docs
 ├── scripts/
-│   └── cleanup-unused.py     # Remove unused component folders
-└── .github/workflows/ci.yml  # CI pipeline
+│   └── cleanup-unused.py     # Remove unused component folders from apps/web
+└── turbo.json                # Turborepo pipeline
 ```
+
+Where things live:
+
+| Concern | Location |
+| --- | --- |
+| Shared primitives (Button, Card, Dialog, …) | `packages/ui/src/components/` → `import { Button } from "@fe-template/ui"` |
+| Page sections | `apps/web/src/sections/[page]/[section]/` |
+| Header / footer / sidebar / providers | `apps/<app>/src/modules/` |
+| Database access | `packages/db` → `import { prisma } from "@fe-template/db"` |
 
 ---
 
@@ -35,22 +47,36 @@ nvm use          # switches to Node 24 via .nvmrc
 pnpm install
 ```
 
+A Supabase project is also needed for the admin portal and database — see the [root README](../../README.md#environment-variables) for the env matrix.
+
 ---
 
 ## Install & Run
 
 ```bash
 pnpm install
+cp .env.example .env                            # then fill in Supabase values
+cp packages/db/.env.example packages/db/.env
+cp apps/web/.env.example apps/web/.env.local
+cp apps/admin/.env.example apps/admin/.env.local
+pnpm --filter @fe-template/db db:generate
+```
+
+Per app:
+
+```bash
 pnpm --filter web dev        # http://localhost:3000
+pnpm --filter admin dev      # http://localhost:3001
 pnpm --filter web storybook  # http://localhost:6006
 ```
 
-Root-level shortcuts:
+Root-level shortcuts (all run through Turbo):
 
 ```bash
-pnpm dev                     # same as pnpm --filter web dev
-pnpm build                   # production build
+pnpm dev                     # web (3000) + admin (3001) together
+pnpm build                   # production build of every workspace
 pnpm build-storybook         # static Storybook build
+pnpm db:generate             # Prisma client generation
 ```
 
 ---
@@ -114,6 +140,8 @@ python scripts/cleanup-unused.py --delete  # permanently remove unused component
 
 The script scans `apps/web/src/app`, `components`, `hooks`, and `store` for import references and reports any component folder with no incoming imports.
 
+> Shared primitives now live in `packages/ui`, which the script does not scan. Prune unused `packages/ui/src/components/*` folders by hand and remove their export lines from `packages/ui/src/index.ts`.
+
 ---
 
 ## Git Hooks
@@ -137,5 +165,8 @@ docs(template): update PAGES guide
 
 - [COMPONENTS.md](./COMPONENTS.md) — Component folder conventions
 - [HOOKS.md](./HOOKS.md) — API hook structure
-- [PAGES.md](./PAGES.md) — Scaffolded pages and section map
+- [PAGES.md](./PAGES.md) — Scaffolded pages, section map, and admin routes
+- [`packages/ui/README.md`](../../packages/ui/README.md) — Shared primitives package
+- [`packages/db/README.md`](../../packages/db/README.md) — Prisma schema, migrations, seeding
+- [`apps/admin/README.md`](../../apps/admin/README.md) — Admin portal and Supabase auth setup
 - [`docs/llm/`](../llm/) — AI agent context (CONTEXT, PATTERNS, PROMPTS)

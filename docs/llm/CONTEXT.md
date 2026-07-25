@@ -1,4 +1,4 @@
-# Agent Context — fe-template
+# Agent Context — fe-multi-web-template
 
 Concise context for AI agents working in this repository.
 
@@ -8,12 +8,14 @@ Concise context for AI agents working in this repository.
 
 | Layer | Tech |
 | --- | --- |
-| Framework | Next.js App Router (latest) |
-| Monorepo | pnpm workspaces |
-| UI | shadcn/ui (restructured into kebab-case folders), Tailwind CSS |
-| State | Redux Toolkit (`themeSlice`) |
+| Monorepo | pnpm workspaces + Turborepo |
+| Framework | Next.js 16 App Router (two apps: `web`, `admin`) |
+| UI | shadcn/ui on Base UI, shared via `@fe-template/ui`; Tailwind CSS 4 |
+| Database | Prisma 6 + Supabase Postgres, shared via `@fe-template/db` |
+| Auth | Supabase Auth (`@supabase/ssr`) — admin only |
+| State | Redux Toolkit (`themeSlice`, web) |
 | Theme | next-themes (DOM), Redux source of truth |
-| Data | TanStack Query + TanStack Table |
+| Data | TanStack Query + TanStack Table; Prisma direct in admin Server Components |
 | Motion | Framer Motion (scroll-reveal only) |
 | Docs | Storybook co-located with components |
 | Lint | Biome, Husky, commitlint |
@@ -23,23 +25,51 @@ Concise context for AI agents working in this repository.
 ## Folder Map
 
 ```text
-apps/web/src/
-├── app/              ← pages (section composition only)
-├── components/       ← UI, sections, navigation, footer, table, motion
-├── constants/        ← routes.ts, seo.ts, demo-content.ts
-├── hooks/            ← use-*/client.ts + server.ts
-└── store/            ← Redux store + themeSlice
+apps/web/src/               ← marketing site (port 3000)
+├── app/                    ← pages (section composition only)
+├── sections/               ← page sections, per page folder
+├── constants/              ← routes.ts, seo.ts, navigation.ts, demo-content.ts
+├── hooks/                  ← use-*/client.ts + server.ts
+├── modules/layout/         ← header, footer, sidebar
+├── modules/providers/      ← Redux + Query + theme
+└── store/                  ← Redux store + themeSlice
+
+apps/admin/src/             ← admin portal (port 3001)
+├── app/(dashboard)/        ← dashboard, users, pets, posts, testimonials, contacts
+├── app/login/              ← Supabase sign-in
+├── lib/supabase/           ← browser + server clients
+└── modules/                ← AdminSidebar, AdminHeader, providers
+
+packages/ui/src/            ← @fe-template/ui — shared primitives
+├── components/<kebab>/     ← ~60 shadcn/Base UI components
+├── lib/utils.ts            ← cn()
+└── index.ts                ← barrel: every public export
+
+packages/db/                ← @fe-template/db — Prisma client
+├── prisma/schema/*.prisma  ← split schema (user, pet, post, marketing)
+├── prisma/seed.ts
+└── src/client.ts           ← prisma singleton
 ```
 
-Root-level reference docs:
+Reference docs:
 
 ```text
-docs/aboustwebsite.md   ← PawPair content direction
-docs/branding.md        ← Brand identity
-image-guide.md          ← Image placement guide
-docs/template/          ← Human-facing docs
-docs/llm/               ← This folder
+docs/about-example-site/aboustwebsite.md   ← PawPair content direction
+docs/about-example-site/branding.md        ← Brand identity
+docs/about-example-site/image-guide.md     ← Image placement guide
+docs/template/                             ← Human-facing docs
+docs/llm/                                  ← This folder
 scripts/cleanup-unused.py
+```
+
+---
+
+## Key Imports
+
+```ts
+import { Button, Card, ScrollReveal, cn } from "@fe-template/ui";   // shared primitives
+import { prisma } from "@fe-template/db";                            // Prisma client (server only)
+import { HeroSection } from "@/sections/home/hero/HeroSection";      // app-local sections
 ```
 
 ---
@@ -48,12 +78,14 @@ scripts/cleanup-unused.py
 
 | Task | Location | Files |
 | --- | --- | --- |
-| New page | `app/[route]/page.tsx` + `components/sections/[page]/` | `page.tsx` composes sections only |
-| New section | `components/sections/[page]/[section]/` | `.tsx` + `.stories.tsx` + `.usecase.md`; add `.schema.ts` + `.defaultvalues.ts` only if it is a form |
-| New component | `components/[name]/` | `.tsx` + `.stories.tsx` + `.usecase.md`; add `.schema.ts` + `.defaultvalues.ts` only if it is a form |
-| New hook | `hooks/use-[name]/` | `client.ts` (React Query) + `server.ts` (server prefetch) |
-| New route constant | `constants/routes.ts` | Add to `ROUTES` object |
-| New SEO entry | `constants/seo.ts` | Add page metadata |
+| New web page | `apps/web/src/app/[route]/page.tsx` + `apps/web/src/sections/[page]/` | `page.tsx` composes sections only |
+| New section | `apps/web/src/sections/[page]/[section]/` | `.tsx` + `.stories.tsx` + `.usecase.md`; add `.schema.ts` + `.defaultvalues.ts` only if it is a form |
+| New shared primitive | `packages/ui/src/components/[name]/` | `.tsx` + `.stories.tsx` + `.usecase.md`, plus an export line in `packages/ui/src/index.ts` |
+| New admin page | `apps/admin/src/app/(dashboard)/[route]/page.tsx` | Async Server Component querying `prisma`; mutations in a co-located `actions.ts` |
+| New model / field | `packages/db/prisma/schema/*.prisma` | Then `pnpm --filter @fe-template/db db:migrate` and `db:generate` |
+| New hook | `apps/<app>/src/hooks/use-[name]/` | `client.ts` (React Query) + `server.ts` (server prefetch) |
+| New route constant | `apps/web/src/constants/routes.ts` | Add to `ROUTES` object |
+| New SEO entry | `apps/web/src/constants/seo.ts` | Add page metadata |
 
 ---
 
@@ -63,11 +95,11 @@ scripts/cleanup-unused.py
 
 Fictional pet social discovery app. Tagline: **"Better matches. Happier tails."**
 
-Users create pet profiles, discover compatible pets nearby, match, chat, and arrange playdates. This is a **marketing showcase only** — no real backend, auth, or matchmaking algorithm.
+Users create pet profiles, discover compatible pets nearby, match, chat, and arrange playdates. `apps/web` is a **marketing showcase** — it renders demo content and has no auth or matchmaking algorithm. The Prisma models in `packages/db` back the admin portal (users, pets, posts, testimonials, contacts), not the public site.
 
 Primary CTAs: Find a playmate, Create a pet profile, Start matching, Join the pack.
 
-Full content direction: [`docs/aboustwebsite.md`](../aboustwebsite.md)
+Full content direction: [`aboustwebsite.md`](../about-example-site/aboustwebsite.md)
 
 ### 2. Branding
 
@@ -81,7 +113,7 @@ Full content direction: [`docs/aboustwebsite.md`](../aboustwebsite.md)
 
 Brand personality: playful, friendly, smart, trustworthy, modern — not childish or corporate.
 
-Full brand guide: [`docs/branding.md`](../branding.md)
+Full brand guide: [`branding.md`](../about-example-site/branding.md)
 
 ### 3. Images
 
@@ -98,18 +130,20 @@ Rules:
 - Only above-the-fold images use `priority` loading
 - Fallback: warm cream background + PawPair icon centred
 
-Full placement guide: [`image-guide.md`](../../image-guide.md)
+Full placement guide: [`image-guide.md`](../about-example-site/image-guide.md)
 
 ---
 
 ## Cleanup Script
 
-Remove unused shadcn components after copying the template:
+Remove unused components from `apps/web` after copying the template:
 
 ```bash
 python scripts/cleanup-unused.py           # dry-run
 python scripts/cleanup-unused.py --delete  # delete unused folders
 ```
+
+The script does not scan `packages/ui` — prune unused primitives there by hand, removing both the folder and its export line in `packages/ui/src/index.ts`.
 
 ---
 
@@ -129,3 +163,6 @@ docs(llm): update CONTEXT brand summary
 - [`docs/template/`](../template/) — Human-facing docs (README, COMPONENTS, HOOKS, PAGES)
 - [`PATTERNS.md`](./PATTERNS.md) — Required code patterns
 - [`PROMPTS.md`](./PROMPTS.md) — Copy-paste agent prompts
+- [`packages/ui/README.md`](../../packages/ui/README.md) — Shared primitives package
+- [`packages/db/README.md`](../../packages/db/README.md) — Prisma schema and commands
+- [`apps/admin/README.md`](../../apps/admin/README.md) — Admin portal and Supabase auth

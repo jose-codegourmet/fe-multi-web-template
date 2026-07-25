@@ -121,8 +121,8 @@ Do not bake these into images:
 Use in:
 
 ```text
-src/components/navigation/header/
-src/components/footer/
+apps/web/src/modules/layout/navigation/header/
+apps/web/src/modules/layout/footer/
 ```
 
 ### Position
@@ -178,7 +178,7 @@ Use the transparent icon inside a CSS-created rounded square when an app-icon ba
 Home page sections should live under:
 
 ```text
-src/components/sections/home/
+apps/web/src/sections/home/
 ```
 
 ## 3. Hero Lifestyle Image
@@ -192,7 +192,7 @@ src/components/sections/home/
 ### Section
 
 ```text
-src/components/sections/home/hero/
+apps/web/src/sections/home/hero/
 ```
 
 ### Desktop Placement
@@ -255,7 +255,7 @@ Use inside the coded pet profile card in the hero.
 Suggested component:
 
 ```text
-src/components/pet-profile-card/
+packages/ui/src/components/pet-profile-card/
 ```
 
 ### Other Placements
@@ -292,7 +292,7 @@ Mochi, an apricot Cockapoo wearing a lavender collar.
 ### Section
 
 ```text
-src/components/sections/home/product-preview/
+apps/web/src/sections/home/product-preview/
 ```
 
 ### Placement
@@ -332,7 +332,7 @@ Three smartphone frames used to preview the PawPair application.
 ### Section
 
 ```text
-src/components/sections/home/safety/
+apps/web/src/sections/home/safety/
 ```
 
 ### Recommended Layout
@@ -380,13 +380,13 @@ Two pet parents supervising a calm first meeting between their dogs in a public 
 Use in either:
 
 ```text
-src/components/sections/home/use-cases/
+apps/web/src/sections/home/use-cases/
 ```
 
 or:
 
 ```text
-src/components/sections/home/community/
+apps/web/src/sections/home/community/
 ```
 
 ### Placement Option A
@@ -427,7 +427,7 @@ A diverse group of pet parents walking their dogs together through a sunny city 
 ### Section
 
 ```text
-src/components/sections/home/final-cta/
+apps/web/src/sections/home/final-cta/
 ```
 
 ### Placement Options
@@ -470,7 +470,7 @@ Two pet parents and their dogs walking away together after a successful meetup.
 About page sections should live under:
 
 ```text
-src/components/sections/about/
+apps/web/src/sections/about/
 ```
 
 ## 9. About Community Image
@@ -486,13 +486,13 @@ src/components/sections/about/
 Use in either:
 
 ```text
-src/components/sections/about/hero/
+apps/web/src/sections/about/hero/
 ```
 
 or:
 
 ```text
-src/components/sections/about/origin-story/
+apps/web/src/sections/about/origin-story/
 ```
 
 ### Recommended Structure
@@ -510,7 +510,7 @@ Origin story
 A different crop may be used in:
 
 ```text
-src/components/sections/about/community-commitment/
+apps/web/src/sections/about/community-commitment/
 ```
 
 Do not repeat the exact same crop twice on one page.
@@ -528,10 +528,10 @@ A diverse group of pet parents gathering with dogs and a cat in an urban park.
 Use pet portraits inside:
 
 ```text
-src/components/pet-profile-card/
-src/components/pet-avatar-stack/
-src/components/discover-carousel/
-src/components/match-celebration/
+packages/ui/src/components/pet-profile-card/
+packages/ui/src/components/pet-avatar-stack/
+packages/ui/src/components/discover-carousel/
+packages/ui/src/components/match-celebration/
 ```
 
 ## 10. Luna
@@ -631,15 +631,15 @@ Benny, a friendly tan mixed-breed dog sitting on a neighborhood path.
 Blog section components should live under:
 
 ```text
-src/components/sections/blog/
+apps/web/src/sections/blog/
 ```
 
 Reusable article components may live under:
 
 ```text
-src/components/blog-card/
-src/components/featured-article/
-src/components/related-posts/
+packages/ui/src/components/blog-card/
+packages/ui/src/components/featured-article/
+packages/ui/src/components/related-posts/
 ```
 
 ## 14. First Meetup Article
@@ -754,7 +754,7 @@ apps/web/app/not-found.tsx
 A reusable section may live under:
 
 ```text
-src/components/sections/not-found/hero/
+apps/web/src/sections/not-found/hero/
 ```
 
 ### Recommended Layout
@@ -799,11 +799,11 @@ Use smaller brand elements instead:
 Recommended sections:
 
 ```text
-src/components/sections/pricing/hero/
-src/components/sections/pricing/plans/
-src/components/sections/pricing/comparison/
-src/components/sections/pricing/faq/
-src/components/sections/pricing/final-cta/
+apps/web/src/sections/pricing/hero/
+apps/web/src/sections/pricing/plans/
+apps/web/src/sections/pricing/comparison/
+apps/web/src/sections/pricing/faq/
+apps/web/src/sections/pricing/final-cta/
 ```
 
 For the final CTA, reuse a different crop of:
@@ -830,11 +830,11 @@ Avoid placing a large image beside a long contact form on mobile.
 Recommended sections:
 
 ```text
-src/components/sections/contact/hero/
-src/components/sections/contact/contact-form/
-src/components/sections/contact/contact-options/
-src/components/sections/contact/faq-preview/
-src/components/sections/contact/final-cta/
+apps/web/src/sections/contact/hero/
+apps/web/src/sections/contact/contact-form/
+apps/web/src/sections/contact/contact-options/
+apps/web/src/sections/contact/faq-preview/
+apps/web/src/sections/contact/final-cta/
 ```
 
 ---

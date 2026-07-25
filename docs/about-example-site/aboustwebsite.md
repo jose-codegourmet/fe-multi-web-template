@@ -987,7 +987,7 @@ Every reusable component should follow the repository’s required folder, schem
 # 16. Suggested Home Section Folder Map
 
 ```text
-src/components/sections/home/
+apps/web/src/sections/home/
 ├── announcement/
 ├── hero/
 ├── social-proof/
@@ -1005,7 +1005,7 @@ src/components/sections/home/
 ## Suggested Other Page Sections
 
 ```text
-src/components/sections/about/
+apps/web/src/sections/about/
 ├── hero/
 ├── origin-story/
 ├── mission-vision/
@@ -1014,21 +1014,21 @@ src/components/sections/about/
 ├── community-commitment/
 └── final-cta/
 
-src/components/sections/pricing/
+apps/web/src/sections/pricing/
 ├── hero/
 ├── plans/
 ├── comparison/
 ├── faq/
 └── final-cta/
 
-src/components/sections/contact/
+apps/web/src/sections/contact/
 ├── hero/
 ├── contact-form/
 ├── contact-options/
 ├── faq-preview/
 └── final-cta/
 
-src/components/sections/blog/
+apps/web/src/sections/blog/
 ├── hero/
 ├── featured-article/
 ├── article-list/

@@ -1,6 +1,6 @@
 # Component Usage Guide
 
-LLM-oriented reference for every UI component under [`apps/web/src/components/`](../apps/web/src/components/). Use this **before** reading component source: pick the right component, confirm when (and when not) to use it, then open the file only if you need implementation details.
+LLM-oriented reference for every UI component in the shared package [`packages/ui/src/components/`](../packages/ui/src/components/). Use this **before** reading component source: pick the right component, confirm when (and when not) to use it, then open the file only if you need implementation details.
 
 Each component also has a co-located `*.usecase.md` (purpose, when/when-not, code examples). Links under each section below point to that file.
 
@@ -8,7 +8,13 @@ Folder/file conventions (naming, stories, schema files, usecase docs) live in [`
 
 **Primitives:** most interactive components wrap `@base-ui/react/*`. Also used: `cmdk`, `embla-carousel-react`, `sonner`, `react-day-picker`, `input-otp`, `react-resizable-panels`, `recharts`, `framer-motion` (scroll-reveal only).
 
-Import path pattern: `@/components/<folder>/<ComponentName>`.
+Everything here is re-exported from the package root, so the import is always the same:
+
+```tsx
+import { Button, Card, DataTable } from "@fe-template/ui";
+```
+
+The one exception is **Providers**, which is app-local (`apps/web/src/modules/providers/`) rather than part of the package.
 
 ---
 
@@ -181,10 +187,10 @@ Do not use Card/Item for chat bubbles, or ScrollArea for stick-to-bottom chat.
 
 ### AspectRatio
 
-→ [`AspectRatio.usecase.md`](../apps/web/src/components/aspect-ratio/AspectRatio.usecase.md)
+→ [`AspectRatio.usecase.md`](../packages/ui/src/components/aspect-ratio/AspectRatio.usecase.md)
 
 - **Purpose:** Wrapper that locks children to a numeric width/height ratio via CSS `aspect-ratio`.
-- **Import:** `@/components/aspect-ratio/AspectRatio`
+- **Import:** `@fe-template/ui`
 - **Key props / variants:** Required `ratio: number` (e.g. `16/9`, `1`); sets CSS `--ratio`; other props are standard `div` props.
 - **When to use:**
   - Video/thumbnail placeholders at 16:9
@@ -198,10 +204,10 @@ Do not use Card/Item for chat bubbles, or ScrollArea for stick-to-bottom chat.
 
 ### Card
 
-→ [`Card.usecase.md`](../apps/web/src/components/card/Card.usecase.md)
+→ [`Card.usecase.md`](../packages/ui/src/components/card/Card.usecase.md)
 
 - **Purpose:** Bordered content container with optional header, body, action, and footer.
-- **Import:** `@/components/card/Card`
+- **Import:** `@fe-template/ui`
 - **Exports:** `Card`, `CardHeader`, `CardTitle`, `CardDescription`, `CardAction`, `CardContent`, `CardFooter`
 - **Key props / variants:** Root `size?: "default" | "sm"` (controls `--card-spacing`); composition slots only.
 - **When to use:**
@@ -216,10 +222,10 @@ Do not use Card/Item for chat bubbles, or ScrollArea for stick-to-bottom chat.
 
 ### Collapsible
 
-→ [`Collapsible.usecase.md`](../apps/web/src/components/collapsible/Collapsible.usecase.md)
+→ [`Collapsible.usecase.md`](../packages/ui/src/components/collapsible/Collapsible.usecase.md)
 
 - **Purpose:** Toggles showing/hiding a content panel when its trigger is activated.
-- **Import:** `@/components/collapsible/Collapsible`
+- **Import:** `@fe-template/ui`
 - **Exports:** `Collapsible`, `CollapsibleTrigger`, `CollapsibleContent`
 - **Key props / variants:** Base UI root (`defaultOpen`, `open`, `disabled`); Trigger supports `render` (compose with **Button**).
 - **When to use:**
@@ -232,10 +238,10 @@ Do not use Card/Item for chat bubbles, or ScrollArea for stick-to-bottom chat.
 
 ### Item
 
-→ [`Item.usecase.md`](../apps/web/src/components/item/Item.usecase.md)
+→ [`Item.usecase.md`](../packages/ui/src/components/item/Item.usecase.md)
 
 - **Purpose:** Flexible list-row / media-object building blocks for notifications, digests, and selectable rows.
-- **Import:** `@/components/item/Item`
+- **Import:** `@fe-template/ui`
 - **Exports:** `Item`, `ItemGroup`, `ItemSeparator`, `ItemMedia`, `ItemContent`, `ItemTitle`, `ItemDescription`, `ItemActions`, `ItemHeader`, `ItemFooter`
 - **Key props / variants:** `variant?: "default" | "outline" | "muted"`; `size?: "default" | "sm" | "xs"`; `ItemMedia` `variant?: "default" | "icon" | "image"`; polymorphic via Base UI `render`.
 - **When to use:**
@@ -250,10 +256,10 @@ Do not use Card/Item for chat bubbles, or ScrollArea for stick-to-bottom chat.
 
 ### Resizable
 
-→ [`Resizable.usecase.md`](../apps/web/src/components/resizable/Resizable.usecase.md)
+→ [`Resizable.usecase.md`](../packages/ui/src/components/resizable/Resizable.usecase.md)
 
 - **Purpose:** Split layouts with draggable separators between panels (`react-resizable-panels`).
-- **Import:** `@/components/resizable/Resizable`
+- **Import:** `@fe-template/ui`
 - **Exports:** `ResizablePanelGroup`, `ResizablePanel`, `ResizableHandle`
 - **Key props / variants:** Group `orientation?: "horizontal" | "vertical"`; panels use `defaultSize`; Handle optional `withHandle?: boolean`.
 - **When to use:**
@@ -266,10 +272,10 @@ Do not use Card/Item for chat bubbles, or ScrollArea for stick-to-bottom chat.
 
 ### ScrollArea
 
-→ [`ScrollArea.usecase.md`](../apps/web/src/components/scroll-area/ScrollArea.usecase.md)
+→ [`ScrollArea.usecase.md`](../packages/ui/src/components/scroll-area/ScrollArea.usecase.md)
 
 - **Purpose:** Custom-scrollbar overflow container for clipped content.
-- **Import:** `@/components/scroll-area/ScrollArea`
+- **Import:** `@fe-template/ui`
 - **Exports:** `ScrollArea`, `ScrollBar`
 - **Key props / variants:** `ScrollBar` `orientation?: "vertical" | "horizontal"` (default `"vertical"`). Schema/defaultvalues files are Storybook helpers only.
 - **When to use:**
@@ -282,10 +288,10 @@ Do not use Card/Item for chat bubbles, or ScrollArea for stick-to-bottom chat.
 
 ### Separator
 
-→ [`Separator.usecase.md`](../apps/web/src/components/separator/Separator.usecase.md)
+→ [`Separator.usecase.md`](../packages/ui/src/components/separator/Separator.usecase.md)
 
 - **Purpose:** Thin visual divider for horizontal or vertical layout splits.
-- **Import:** `@/components/separator/Separator`
+- **Import:** `@fe-template/ui`
 - **Key props / variants:** `orientation?: "horizontal" | "vertical"` (default `"horizontal"`).
 - **When to use:**
   - Dividing sections in a card, sidebar, or settings panel
@@ -297,10 +303,10 @@ Do not use Card/Item for chat bubbles, or ScrollArea for stick-to-bottom chat.
 
 ### Skeleton
 
-→ [`Skeleton.usecase.md`](../apps/web/src/components/skeleton/Skeleton.usecase.md)
+→ [`Skeleton.usecase.md`](../packages/ui/src/components/skeleton/Skeleton.usecase.md)
 
 - **Purpose:** Pulsing muted placeholder block for loading UI.
-- **Import:** `@/components/skeleton/Skeleton`
+- **Import:** `@fe-template/ui`
 - **Key props / variants:** `React.ComponentProps<"div">` — shape/size via `className`. Schema/defaultvalues are Storybook helpers.
 - **When to use:**
   - Placeholder lines/circles/cards while data loads
@@ -316,10 +322,10 @@ Do not use Card/Item for chat bubbles, or ScrollArea for stick-to-bottom chat.
 
 ### AlertDialog
 
-→ [`AlertDialog.usecase.md`](../apps/web/src/components/alert-dialog/AlertDialog.usecase.md)
+→ [`AlertDialog.usecase.md`](../packages/ui/src/components/alert-dialog/AlertDialog.usecase.md)
 
 - **Purpose:** Modal confirmation that interrupts the flow for destructive or irreversible actions.
-- **Import:** `@/components/alert-dialog/AlertDialog`
+- **Import:** `@fe-template/ui`
 - **Exports:** `AlertDialog`, `AlertDialogTrigger`, `AlertDialogPortal`, `AlertDialogOverlay`, `AlertDialogContent`, `AlertDialogHeader`, `AlertDialogFooter`, `AlertDialogMedia`, `AlertDialogTitle`, `AlertDialogDescription`, `AlertDialogAction`, `AlertDialogCancel`
 - **Key props / variants:** `AlertDialogContent` `size?: "default" | "sm"`; Trigger often uses `render={<Button … />}`; Cancel closes; Action is a **Button**.
 - **When to use:**
@@ -350,10 +356,10 @@ Do not use Card/Item for chat bubbles, or ScrollArea for stick-to-bottom chat.
 
 ### Dialog
 
-→ [`Dialog.usecase.md`](../apps/web/src/components/dialog/Dialog.usecase.md)
+→ [`Dialog.usecase.md`](../packages/ui/src/components/dialog/Dialog.usecase.md)
 
 - **Purpose:** Centered modal overlay for focused tasks, confirmations, and short forms.
-- **Import:** `@/components/dialog/Dialog`
+- **Import:** `@fe-template/ui`
 - **Exports:** `Dialog`, `DialogTrigger`, `DialogPortal`, `DialogClose`, `DialogOverlay`, `DialogContent`, `DialogHeader`, `DialogFooter`, `DialogTitle`, `DialogDescription`
 - **Key props / variants:** Content `showCloseButton?: boolean` (default `true`); controlled via Root `open` / `onOpenChange`.
 - **When to use:**
@@ -367,10 +373,10 @@ Do not use Card/Item for chat bubbles, or ScrollArea for stick-to-bottom chat.
 
 ### Drawer
 
-→ [`Drawer.usecase.md`](../apps/web/src/components/drawer/Drawer.usecase.md)
+→ [`Drawer.usecase.md`](../packages/ui/src/components/drawer/Drawer.usecase.md)
 
 - **Purpose:** Swipeable edge-anchored panel with optional snap points (Base UI Drawer, not vaul).
-- **Import:** `@/components/drawer/Drawer`
+- **Import:** `@fe-template/ui`
 - **Exports:** `Drawer`, `DrawerTrigger`, `DrawerPortal`, `DrawerClose`, `DrawerOverlay`, `DrawerContent`, `DrawerHeader`, `DrawerFooter`, `DrawerTitle`, `DrawerDescription`, `DrawerSwipeHandle`
 - **Key props / variants:** Root `showSwipeHandle?: boolean`, `modal` (default `true`), `swipeDirection` (default `"down"`), `snapPoints`.
 - **When to use:**
@@ -383,10 +389,10 @@ Do not use Card/Item for chat bubbles, or ScrollArea for stick-to-bottom chat.
 
 ### Sheet
 
-→ [`Sheet.usecase.md`](../apps/web/src/components/sheet/Sheet.usecase.md)
+→ [`Sheet.usecase.md`](../packages/ui/src/components/sheet/Sheet.usecase.md)
 
 - **Purpose:** Slide-over panel (edge drawer) built on the Dialog primitive — overlay + optional close.
-- **Import:** `@/components/sheet/Sheet`
+- **Import:** `@fe-template/ui`
 - **Exports:** `Sheet`, `SheetClose`, `SheetContent`, `SheetDescription`, `SheetFooter`, `SheetHeader`, `SheetTitle`, `SheetTrigger`
 - **Key props / variants:** `SheetContent` `side?: "top" | "right" | "bottom" | "left"` (default `"right"`), `showCloseButton?: boolean` (default `true`).
 - **When to use:**
@@ -400,10 +406,10 @@ Do not use Card/Item for chat bubbles, or ScrollArea for stick-to-bottom chat.
 
 ### Popover
 
-→ [`Popover.usecase.md`](../apps/web/src/components/popover/Popover.usecase.md)
+→ [`Popover.usecase.md`](../packages/ui/src/components/popover/Popover.usecase.md)
 
 - **Purpose:** Anchored floating panel for short interactive content (settings, share, filters).
-- **Import:** `@/components/popover/Popover`
+- **Import:** `@fe-template/ui`
 - **Exports:** `Popover`, `PopoverTrigger`, `PopoverContent`, `PopoverHeader`, `PopoverTitle`, `PopoverDescription`
 - **Key props / variants:** Content `align` (default `"center"`), `side` (default `"bottom"`), `sideOffset` (default `4`); root supports controlled `open`.
 - **When to use:**
@@ -417,10 +423,10 @@ Do not use Card/Item for chat bubbles, or ScrollArea for stick-to-bottom chat.
 
 ### HoverCard
 
-→ [`HoverCard.usecase.md`](../apps/web/src/components/hover-card/HoverCard.usecase.md)
+→ [`HoverCard.usecase.md`](../packages/ui/src/components/hover-card/HoverCard.usecase.md)
 
 - **Purpose:** Hover/focus preview card anchored to a trigger (Base UI PreviewCard).
-- **Import:** `@/components/hover-card/HoverCard`
+- **Import:** `@fe-template/ui`
 - **Exports:** `HoverCard`, `HoverCardTrigger`, `HoverCardContent`
 - **Key props / variants:** Content defaults `side="bottom"`, `sideOffset=4`, `align="center"`; default width `w-64`.
 - **When to use:**
@@ -433,10 +439,10 @@ Do not use Card/Item for chat bubbles, or ScrollArea for stick-to-bottom chat.
 
 ### Tooltip
 
-→ [`Tooltip.usecase.md`](../apps/web/src/components/tooltip/Tooltip.usecase.md)
+→ [`Tooltip.usecase.md`](../packages/ui/src/components/tooltip/Tooltip.usecase.md)
 
 - **Purpose:** Hover/focus hint popup with portal, positioner, and arrow.
-- **Import:** `@/components/tooltip/Tooltip`
+- **Import:** `@fe-template/ui`
 - **Exports:** `Tooltip`, `TooltipTrigger`, `TooltipContent`, `TooltipProvider`
 - **Key props / variants:** Provider `delay` (default `0`); Content `side` (default `"top"`), `sideOffset` (default `4`).
 - **When to use:**
@@ -449,10 +455,10 @@ Do not use Card/Item for chat bubbles, or ScrollArea for stick-to-bottom chat.
 
 ### ContextMenu
 
-→ [`ContextMenu.usecase.md`](../apps/web/src/components/context-menu/ContextMenu.usecase.md)
+→ [`ContextMenu.usecase.md`](../packages/ui/src/components/context-menu/ContextMenu.usecase.md)
 
 - **Purpose:** Right-click (context) menu with items, checkboxes, radios, and nested submenus.
-- **Import:** `@/components/context-menu/ContextMenu`
+- **Import:** `@fe-template/ui`
 - **Exports:** `ContextMenu`, `ContextMenuTrigger`, `ContextMenuContent`, `ContextMenuItem`, `ContextMenuCheckboxItem`, `ContextMenuRadioGroup`, `ContextMenuRadioItem`, `ContextMenuLabel`, `ContextMenuSeparator`, `ContextMenuShortcut`, `ContextMenuGroup`, `ContextMenuPortal`, `ContextMenuSub`, `ContextMenuSubTrigger`, `ContextMenuSubContent`
 - **Key props / variants:** Content defaults `align="start"`, `side="right"`; Item `variant?: "default" | "destructive"`, `inset?: boolean`.
 - **When to use:**
@@ -465,10 +471,10 @@ Do not use Card/Item for chat bubbles, or ScrollArea for stick-to-bottom chat.
 
 ### DropdownMenu
 
-→ [`DropdownMenu.usecase.md`](../apps/web/src/components/dropdown-menu/DropdownMenu.usecase.md)
+→ [`DropdownMenu.usecase.md`](../packages/ui/src/components/dropdown-menu/DropdownMenu.usecase.md)
 
 - **Purpose:** Click/hover-triggered action menu anchored to a control.
-- **Import:** `@/components/dropdown-menu/DropdownMenu`
+- **Import:** `@fe-template/ui`
 - **Exports:** `DropdownMenu`, `DropdownMenuTrigger`, `DropdownMenuContent`, `DropdownMenuItem`, `DropdownMenuCheckboxItem`, `DropdownMenuRadioGroup`, `DropdownMenuRadioItem`, `DropdownMenuLabel`, `DropdownMenuSeparator`, `DropdownMenuShortcut`, `DropdownMenuGroup`, `DropdownMenuPortal`, `DropdownMenuSub`, `DropdownMenuSubTrigger`, `DropdownMenuSubContent`
 - **Key props / variants:** Content defaults `side="bottom"`, `sideOffset=4`; Item `variant?: "default" | "destructive"`, `inset?: boolean`.
 - **When to use:**
@@ -482,10 +488,10 @@ Do not use Card/Item for chat bubbles, or ScrollArea for stick-to-bottom chat.
 
 ### Menubar
 
-→ [`Menubar.usecase.md`](../apps/web/src/components/menubar/Menubar.usecase.md)
+→ [`Menubar.usecase.md`](../packages/ui/src/components/menubar/Menubar.usecase.md)
 
 - **Purpose:** Application-style horizontal menu bar (File / Edit / View) with dropdowns and submenus.
-- **Import:** `@/components/menubar/Menubar`
+- **Import:** `@fe-template/ui`
 - **Exports:** `Menubar`, `MenubarMenu`, `MenubarTrigger`, `MenubarContent`, `MenubarItem`, `MenubarCheckboxItem`, `MenubarRadioGroup`, `MenubarRadioItem`, `MenubarLabel`, `MenubarSeparator`, `MenubarShortcut`, `MenubarSub`, `MenubarSubTrigger`, `MenubarSubContent`, `MenubarGroup`, `MenubarPortal`
 - **Key props / variants:** Item `variant` (`default` / `destructive`), `inset`; checkbox/radio items take `checked` / `value`.
 - **When to use:**
@@ -503,10 +509,10 @@ Do not use Card/Item for chat bubbles, or ScrollArea for stick-to-bottom chat.
 
 ### Breadcrumb
 
-→ [`Breadcrumb.usecase.md`](../apps/web/src/components/breadcrumb/Breadcrumb.usecase.md)
+→ [`Breadcrumb.usecase.md`](../packages/ui/src/components/breadcrumb/Breadcrumb.usecase.md)
 
 - **Purpose:** Navigation trail showing the current page’s location in a hierarchy.
-- **Import:** `@/components/breadcrumb/Breadcrumb`
+- **Import:** `@fe-template/ui`
 - **Exports:** `Breadcrumb`, `BreadcrumbList`, `BreadcrumbItem`, `BreadcrumbLink`, `BreadcrumbPage`, `BreadcrumbSeparator`, `BreadcrumbEllipsis`
 - **Key props / variants:** Semantic `nav` + `ol`/`li`; Link uses Base UI `render` (default `a`); Separator defaults to ChevronRight.
 - **When to use:**
@@ -519,10 +525,10 @@ Do not use Card/Item for chat bubbles, or ScrollArea for stick-to-bottom chat.
 
 ### NavigationMenu
 
-→ [`NavigationMenu.usecase.md`](../apps/web/src/components/navigation-menu/NavigationMenu.usecase.md)
+→ [`NavigationMenu.usecase.md`](../packages/ui/src/components/navigation-menu/NavigationMenu.usecase.md)
 
 - **Purpose:** Site navigation with optional hover/click dropdown panels.
-- **Import:** `@/components/navigation-menu/NavigationMenu`
+- **Import:** `@fe-template/ui`
 - **Exports:** `NavigationMenu`, `NavigationMenuList`, `NavigationMenuItem`, `NavigationMenuTrigger`, `NavigationMenuContent`, `NavigationMenuLink`, `NavigationMenuIndicator`, `NavigationMenuPositioner`, `navigationMenuTriggerStyle`
 - **Key props / variants:** Root `align` forwarded to positioner (default `"start"`); trigger styles via CVA `navigationMenuTriggerStyle`.
 - **When to use:**
@@ -536,10 +542,10 @@ Do not use Card/Item for chat bubbles, or ScrollArea for stick-to-bottom chat.
 
 ### Pagination
 
-→ [`Pagination.usecase.md`](../apps/web/src/components/pagination/Pagination.usecase.md)
+→ [`Pagination.usecase.md`](../packages/ui/src/components/pagination/Pagination.usecase.md)
 
 - **Purpose:** Accessible page-navigation controls as a `<nav>` of links styled with **Button**.
-- **Import:** `@/components/pagination/Pagination`
+- **Import:** `@fe-template/ui`
 - **Exports:** `Pagination`, `PaginationContent`, `PaginationItem`, `PaginationLink`, `PaginationPrevious`, `PaginationNext`, `PaginationEllipsis`
 - **Key props / variants:** `PaginationLink` `isActive?: boolean`, `size` from Button (default `"icon"`); Previous/Next accept `text?: string`.
 - **When to use:**
@@ -552,10 +558,10 @@ Do not use Card/Item for chat bubbles, or ScrollArea for stick-to-bottom chat.
 
 ### Tabs
 
-→ [`Tabs.usecase.md`](../apps/web/src/components/tabs/Tabs.usecase.md)
+→ [`Tabs.usecase.md`](../packages/ui/src/components/tabs/Tabs.usecase.md)
 
 - **Purpose:** Tabbed panels via Base UI Tabs, plus optional Embla-based `TabsCarouselList` for overflow on small containers.
-- **Import:** `@/components/tabs/Tabs`
+- **Import:** `@fe-template/ui`
 - **Exports:** `Tabs`, `TabsList`, `TabsTrigger`, `TabsContent`, `TabsCarouselList`, `tabsListVariants`; types `TabsCarouselItem`, `TabsCarouselBreakpoint`
 - **Key props / variants:** Root `orientation?: "horizontal" | "vertical"`; `TabsList` `variant?: "default" | "line"`; `TabsCarouselList` `tabs`, `breakpoint?: "xs" | "sm" | "md" | "lg"` (default `"sm"`).
 - **When to use:**
@@ -568,10 +574,10 @@ Do not use Card/Item for chat bubbles, or ScrollArea for stick-to-bottom chat.
 
 ### ToggleGroup
 
-→ [`ToggleGroup.usecase.md`](../apps/web/src/components/toggle-group/ToggleGroup.usecase.md)
+→ [`ToggleGroup.usecase.md`](../packages/ui/src/components/toggle-group/ToggleGroup.usecase.md)
 
 - **Purpose:** Group of toggles sharing variant/size via context; values are arrays.
-- **Import:** `@/components/toggle-group/ToggleGroup`
+- **Import:** `@fe-template/ui`
 - **Exports:** `ToggleGroup`, `ToggleGroupItem`
 - **Key props / variants:** Group: `variant`/`size` from `toggleVariants` (`default` | `outline`; `default` | `sm` | `lg`), `spacing?: number` (default `2`), `orientation?: "horizontal" | "vertical"`; items take `value`.
 - **When to use:**
@@ -589,10 +595,10 @@ Do not use Card/Item for chat bubbles, or ScrollArea for stick-to-bottom chat.
 
 ### Button
 
-→ [`Button.usecase.md`](../apps/web/src/components/button/Button.usecase.md)
+→ [`Button.usecase.md`](../packages/ui/src/components/button/Button.usecase.md)
 
 - **Purpose:** Primary interactive control for actions and links-as-buttons.
-- **Import:** `@/components/button/Button`
+- **Import:** `@fe-template/ui`
 - **Exports:** `Button`, `buttonVariants`
 - **Key props / variants:** `variant`: `default` | `outline` | `secondary` | `ghost` | `destructive` | `link`; `size`: `default` | `xs` | `sm` | `lg` | `icon` | `icon-xs` | `icon-sm` | `icon-lg`. Supports Base UI `render` polymorphism.
 - **When to use:**
@@ -605,10 +611,10 @@ Do not use Card/Item for chat bubbles, or ScrollArea for stick-to-bottom chat.
 
 ### ButtonGroup
 
-→ [`ButtonGroup.usecase.md`](../apps/web/src/components/button-group/ButtonGroup.usecase.md)
+→ [`ButtonGroup.usecase.md`](../packages/ui/src/components/button-group/ButtonGroup.usecase.md)
 
 - **Purpose:** Visually joined cluster of buttons/inputs sharing borders and radius.
-- **Import:** `@/components/button-group/ButtonGroup`
+- **Import:** `@fe-template/ui`
 - **Exports:** `ButtonGroup`, `ButtonGroupText`, `ButtonGroupSeparator`, `buttonGroupVariants`
 - **Key props / variants:** `orientation?: "horizontal" | "vertical"`; `role="group"`.
 - **When to use:**
@@ -621,10 +627,10 @@ Do not use Card/Item for chat bubbles, or ScrollArea for stick-to-bottom chat.
 
 ### Calendar
 
-→ [`Calendar.usecase.md`](../apps/web/src/components/calendar/Calendar.usecase.md)
+→ [`Calendar.usecase.md`](../packages/ui/src/components/calendar/Calendar.usecase.md)
 
 - **Purpose:** Date picker grid for single dates or ranges (`react-day-picker`).
-- **Import:** `@/components/calendar/Calendar`
+- **Import:** `@fe-template/ui`
 - **Exports:** `Calendar`, `CalendarDayButton`
 - **Key props / variants:** DayPicker API: `mode` (`single`/`range`), `numberOfMonths`, `captionLayout`, `showOutsideDays`, `locale`; extras: `buttonVariant` for nav buttons.
 - **When to use:**
@@ -637,10 +643,10 @@ Do not use Card/Item for chat bubbles, or ScrollArea for stick-to-bottom chat.
 
 ### Checkbox
 
-→ [`Checkbox.usecase.md`](../apps/web/src/components/checkbox/Checkbox.usecase.md)
+→ [`Checkbox.usecase.md`](../packages/ui/src/components/checkbox/Checkbox.usecase.md)
 
 - **Purpose:** Binary checked control with check indicator for forms and filters.
-- **Import:** `@/components/checkbox/Checkbox`
+- **Import:** `@fe-template/ui`
 - **Key props / variants:** Base UI checkbox (`checked`/`defaultChecked`, `disabled`); styles for `data-checked`, `aria-invalid`.
 - **When to use:**
   - Multi-select form options
@@ -652,10 +658,10 @@ Do not use Card/Item for chat bubbles, or ScrollArea for stick-to-bottom chat.
 
 ### Combobox
 
-→ [`Combobox.usecase.md`](../apps/web/src/components/combobox/Combobox.usecase.md)
+→ [`Combobox.usecase.md`](../packages/ui/src/components/combobox/Combobox.usecase.md)
 
 - **Purpose:** Searchable, filterable select with optional chips/multi-select UI.
-- **Import:** `@/components/combobox/Combobox`
+- **Import:** `@fe-template/ui`
 - **Exports:** `Combobox`, `ComboboxValue`, `ComboboxTrigger`, `ComboboxInput`, `ComboboxContent`, `ComboboxList`, `ComboboxItem`, `ComboboxGroup`, `ComboboxLabel`, `ComboboxCollection`, `ComboboxEmpty`, `ComboboxSeparator`, `ComboboxChips`, `ComboboxChip`, `ComboboxChipsInput`, `useComboboxAnchor`
 - **Key props / variants:** Root `items`, `defaultValue`, `disabled`; `ComboboxInput` `showTrigger?`, `showClear?`; Content positioning (`side`, `align`, offsets, `anchor`).
 - **When to use:**
@@ -669,10 +675,10 @@ Do not use Card/Item for chat bubbles, or ScrollArea for stick-to-bottom chat.
 
 ### Field
 
-→ [`Field.usecase.md`](../apps/web/src/components/field/Field.usecase.md)
+→ [`Field.usecase.md`](../packages/ui/src/components/field/Field.usecase.md)
 
 - **Purpose:** Composition helpers for labeling, laying out, and showing errors around form controls.
-- **Import:** `@/components/field/Field`
+- **Import:** `@fe-template/ui`
 - **Exports:** `Field`, `FieldSet`, `FieldLegend`, `FieldGroup`, `FieldContent`, `FieldLabel`, `FieldTitle`, `FieldDescription`, `FieldSeparator`, `FieldError`
 - **Key props / variants:** Field `orientation?: "vertical" | "horizontal" | "responsive"`; Legend `variant?: "legend" | "label"`; FieldError `errors?: Array<{ message?: string }>` or `children`.
 - **When to use:**
@@ -684,10 +690,10 @@ Do not use Card/Item for chat bubbles, or ScrollArea for stick-to-bottom chat.
 
 ### Input
 
-→ [`Input.usecase.md`](../apps/web/src/components/input/Input.usecase.md)
+→ [`Input.usecase.md`](../packages/ui/src/components/input/Input.usecase.md)
 
 - **Purpose:** Styled single-line text input for forms.
-- **Import:** `@/components/input/Input`
+- **Import:** `@fe-template/ui`
 - **Key props / variants:** Native input props (`type`, `disabled`, `aria-invalid`, etc.); height `h-8`.
 - **When to use:**
   - Standard text, email, password, number fields
@@ -699,10 +705,10 @@ Do not use Card/Item for chat bubbles, or ScrollArea for stick-to-bottom chat.
 
 ### InputGroup
 
-→ [`InputGroup.usecase.md`](../apps/web/src/components/input-group/InputGroup.usecase.md)
+→ [`InputGroup.usecase.md`](../packages/ui/src/components/input-group/InputGroup.usecase.md)
 
 - **Purpose:** Composite control wrapping Input/Textarea with aligned addons (icons, buttons, prefixes).
-- **Import:** `@/components/input-group/InputGroup`
+- **Import:** `@fe-template/ui`
 - **Exports:** `InputGroup`, `InputGroupAddon`, `InputGroupButton`, `InputGroupInput`, `InputGroupText`, `InputGroupTextarea`
 - **Key props / variants:** Addon `align?: "inline-start" | "inline-end" | "block-start" | "block-end"`; Button sizes `xs` | `sm` | `icon-xs` | `icon-sm`.
 - **When to use:**
@@ -715,10 +721,10 @@ Do not use Card/Item for chat bubbles, or ScrollArea for stick-to-bottom chat.
 
 ### InputOTP
 
-→ [`InputOtp.usecase.md`](../apps/web/src/components/input-otp/InputOtp.usecase.md)
+→ [`InputOtp.usecase.md`](../packages/ui/src/components/input-otp/InputOtp.usecase.md)
 
 - **Purpose:** One-time-password / PIN digit entry with per-slot display and caret (`input-otp`).
-- **Import:** `@/components/input-otp/InputOtp`
+- **Import:** `@fe-template/ui`
 - **Exports:** `InputOTP`, `InputOTPGroup`, `InputOTPSlot`, `InputOTPSeparator`
 - **Key props / variants:** Root `maxLength`, `containerClassName`; `InputOTPSlot` requires `index: number`.
 - **When to use:**
@@ -730,10 +736,10 @@ Do not use Card/Item for chat bubbles, or ScrollArea for stick-to-bottom chat.
 
 ### Label
 
-→ [`Label.usecase.md`](../apps/web/src/components/label/Label.usecase.md)
+→ [`Label.usecase.md`](../packages/ui/src/components/label/Label.usecase.md)
 
 - **Purpose:** Accessible form field label styled for inputs and peers.
-- **Import:** `@/components/label/Label`
+- **Import:** `@fe-template/ui`
 - **Key props / variants:** Standard `label` props (`htmlFor`, `children`).
 - **When to use:**
   - Pair with Input / NativeSelect / RadioGroupItem via `htmlFor` / `id`
@@ -743,10 +749,10 @@ Do not use Card/Item for chat bubbles, or ScrollArea for stick-to-bottom chat.
 
 ### NativeSelect
 
-→ [`NativeSelect.usecase.md`](../apps/web/src/components/native-select/NativeSelect.usecase.md)
+→ [`NativeSelect.usecase.md`](../packages/ui/src/components/native-select/NativeSelect.usecase.md)
 
 - **Purpose:** Styled wrapper around the browser’s native `<select>` with a chevron.
-- **Import:** `@/components/native-select/NativeSelect`
+- **Import:** `@fe-template/ui`
 - **Exports:** `NativeSelect`, `NativeSelectOption`, `NativeSelectOptGroup`
 - **Key props / variants:** Native select props minus HTML `size`; custom `size?: "sm" | "default"`.
 - **When to use:**
@@ -758,10 +764,10 @@ Do not use Card/Item for chat bubbles, or ScrollArea for stick-to-bottom chat.
 
 ### RadioGroup
 
-→ [`RadioGroup.usecase.md`](../apps/web/src/components/radio-group/RadioGroup.usecase.md)
+→ [`RadioGroup.usecase.md`](../packages/ui/src/components/radio-group/RadioGroup.usecase.md)
 
 - **Purpose:** Mutually exclusive radio options with accessible keyboard behavior.
-- **Import:** `@/components/radio-group/RadioGroup`
+- **Import:** `@fe-template/ui`
 - **Exports:** `RadioGroup`, `RadioGroupItem`
 - **Key props / variants:** Group `defaultValue` / `value` / `onValueChange`; items need `value` (and usually `id` for Label).
 - **When to use:**
@@ -774,10 +780,10 @@ Do not use Card/Item for chat bubbles, or ScrollArea for stick-to-bottom chat.
 
 ### Select
 
-→ [`Select.usecase.md`](../apps/web/src/components/select/Select.usecase.md)
+→ [`Select.usecase.md`](../packages/ui/src/components/select/Select.usecase.md)
 
 - **Purpose:** Composable single-value dropdown with portal-positioned popup, groups, and scroll arrows.
-- **Import:** `@/components/select/Select`
+- **Import:** `@fe-template/ui`
 - **Exports:** `Select`, `SelectContent`, `SelectGroup`, `SelectItem`, `SelectLabel`, `SelectScrollDownButton`, `SelectScrollUpButton`, `SelectSeparator`, `SelectTrigger`, `SelectValue`
 - **Key props / variants:** Trigger `size?: "sm" | "default"`; Content positioning (`side`, `sideOffset`, `align`, …); Root `defaultValue`, `disabled`.
 - **When to use:**
@@ -803,10 +809,10 @@ Do not use Card/Item for chat bubbles, or ScrollArea for stick-to-bottom chat.
 
 ### Slider
 
-→ [`Slider.usecase.md`](../apps/web/src/components/slider/Slider.usecase.md)
+→ [`Slider.usecase.md`](../packages/ui/src/components/slider/Slider.usecase.md)
 
 - **Purpose:** Range input with track, filled indicator, and one or more thumbs.
-- **Import:** `@/components/slider/Slider`
+- **Import:** `@fe-template/ui`
 - **Key props / variants:** `value` / `defaultValue` (arrays), `min` (default `0`), `max` (default `100`); thumb count = length of value array.
 - **When to use:**
   - Single continuous value or dual-thumb ranges
@@ -816,10 +822,10 @@ Do not use Card/Item for chat bubbles, or ScrollArea for stick-to-bottom chat.
 
 ### Switch
 
-→ [`Switch.usecase.md`](../apps/web/src/components/switch/Switch.usecase.md)
+→ [`Switch.usecase.md`](../packages/ui/src/components/switch/Switch.usecase.md)
 
 - **Purpose:** Binary on/off control with sliding thumb.
-- **Import:** `@/components/switch/Switch`
+- **Import:** `@fe-template/ui`
 - **Key props / variants:** `size?: "sm" | "default"`; `checked`/`defaultChecked`, `disabled`; invalid via `aria-invalid`.
 - **When to use:**
   - Settings toggles (notifications, features)
@@ -832,10 +838,10 @@ Do not use Card/Item for chat bubbles, or ScrollArea for stick-to-bottom chat.
 
 ### Textarea
 
-→ [`Textarea.usecase.md`](../apps/web/src/components/textarea/Textarea.usecase.md)
+→ [`Textarea.usecase.md`](../packages/ui/src/components/textarea/Textarea.usecase.md)
 
 - **Purpose:** Styled multi-line `<textarea>` with focus, invalid, and disabled styles.
-- **Import:** `@/components/textarea/Textarea`
+- **Import:** `@fe-template/ui`
 - **Key props / variants:** Native textarea props; `field-sizing-content`, `min-h-16`.
 - **When to use:**
   - Multi-line form fields (bios, comments, descriptions)
@@ -846,10 +852,10 @@ Do not use Card/Item for chat bubbles, or ScrollArea for stick-to-bottom chat.
 
 ### Toggle
 
-→ [`Toggle.usecase.md`](../apps/web/src/components/toggle/Toggle.usecase.md)
+→ [`Toggle.usecase.md`](../packages/ui/src/components/toggle/Toggle.usecase.md)
 
 - **Purpose:** Pressable on/off button for a single option or formatting state.
-- **Import:** `@/components/toggle/Toggle`
+- **Import:** `@fe-template/ui`
 - **Exports:** `Toggle`, `toggleVariants`
 - **Key props / variants:** `variant?: "default" | "outline"`; `size?: "default" | "sm" | "lg"`; `pressed`/`defaultPressed`.
 - **When to use:**
@@ -867,10 +873,10 @@ Do not use Card/Item for chat bubbles, or ScrollArea for stick-to-bottom chat.
 
 ### Avatar
 
-→ [`Avatar.usecase.md`](../apps/web/src/components/avatar/Avatar.usecase.md)
+→ [`Avatar.usecase.md`](../packages/ui/src/components/avatar/Avatar.usecase.md)
 
 - **Purpose:** Circular user/entity image with fallback initials and optional status badge or stacked group.
-- **Import:** `@/components/avatar/Avatar`
+- **Import:** `@fe-template/ui`
 - **Exports:** `Avatar`, `AvatarImage`, `AvatarFallback`, `AvatarBadge`, `AvatarGroup`, `AvatarGroupCount`
 - **Key props / variants:** Root `size?: "default" | "sm" | "lg"`.
 - **When to use:**
@@ -883,10 +889,10 @@ Do not use Card/Item for chat bubbles, or ScrollArea for stick-to-bottom chat.
 
 ### Badge
 
-→ [`Badge.usecase.md`](../apps/web/src/components/badge/Badge.usecase.md)
+→ [`Badge.usecase.md`](../packages/ui/src/components/badge/Badge.usecase.md)
 
 - **Purpose:** Compact pill label for status, category, or count.
-- **Import:** `@/components/badge/Badge`
+- **Import:** `@fe-template/ui`
 - **Exports:** `Badge`, `badgeVariants`
 - **Key props / variants:** `variant`: `default` | `secondary` | `destructive` | `outline` | `ghost` | `link`; polymorphic via `render`.
 - **When to use:**
@@ -898,10 +904,10 @@ Do not use Card/Item for chat bubbles, or ScrollArea for stick-to-bottom chat.
 
 ### Chart
 
-→ [`Chart.usecase.md`](../apps/web/src/components/chart/Chart.usecase.md)
+→ [`Chart.usecase.md`](../packages/ui/src/components/chart/Chart.usecase.md)
 
 - **Purpose:** Themed Recharts wrapper that injects CSS color variables and shared tooltip/legend content.
-- **Import:** `@/components/chart/Chart`
+- **Import:** `@fe-template/ui`
 - **Exports:** `ChartContainer`, `ChartTooltip`, `ChartTooltipContent`, `ChartLegend`, `ChartLegendContent`, `ChartStyle`; type `ChartConfig`
 - **Key props / variants:** `ChartContainer` requires `config: ChartConfig` (per-series `label`/`icon` + `color` or light/dark `theme`); TooltipContent `indicator?: "line" | "dot" | "dashed"`.
 - **When to use:**
@@ -913,10 +919,10 @@ Do not use Card/Item for chat bubbles, or ScrollArea for stick-to-bottom chat.
 
 ### Kbd
 
-→ [`Kbd.usecase.md`](../apps/web/src/components/kbd/Kbd.usecase.md)
+→ [`Kbd.usecase.md`](../packages/ui/src/components/kbd/Kbd.usecase.md)
 
 - **Purpose:** Styles a native `<kbd>` element (and grouped wrapper) to display keyboard shortcuts.
-- **Import:** `@/components/kbd/Kbd`
+- **Import:** `@fe-template/ui`
 - **Exports:** `Kbd`, `KbdGroup`
 - **Key props / variants:** Standard `kbd` / `div` props; no variants.
 - **When to use:**
@@ -929,10 +935,10 @@ Do not use Card/Item for chat bubbles, or ScrollArea for stick-to-bottom chat.
 
 ### Marker
 
-→ [`Marker.usecase.md`](../apps/web/src/components/marker/Marker.usecase.md)
+→ [`Marker.usecase.md`](../packages/ui/src/components/marker/Marker.usecase.md)
 
 - **Purpose:** Inline status/meta line (icon + text) with optional separator or bottom border.
-- **Import:** `@/components/marker/Marker`
+- **Import:** `@fe-template/ui`
 - **Exports:** `Marker`, `MarkerIcon`, `MarkerContent`, `markerVariants`
 - **Key props / variants:** `variant?: "default" | "separator" | "border"`; polymorphic via `render`.
 - **When to use:**
@@ -946,10 +952,10 @@ Do not use Card/Item for chat bubbles, or ScrollArea for stick-to-bottom chat.
 
 ### Progress
 
-→ [`Progress.usecase.md`](../apps/web/src/components/progress/Progress.usecase.md)
+→ [`Progress.usecase.md`](../packages/ui/src/components/progress/Progress.usecase.md)
 
 - **Purpose:** Determinate progress bar with optional label and numeric value display.
-- **Import:** `@/components/progress/Progress`
+- **Import:** `@fe-template/ui`
 - **Exports:** `Progress`, `ProgressTrack`, `ProgressIndicator`, `ProgressLabel`, `ProgressValue`
 - **Key props / variants:** Root `value` (and other Base UI progress props).
 - **When to use:**
@@ -961,10 +967,10 @@ Do not use Card/Item for chat bubbles, or ScrollArea for stick-to-bottom chat.
 
 ### Table
 
-→ [`Table.usecase.md`](../apps/web/src/components/table/Table.usecase.md)
+→ [`Table.usecase.md`](../packages/ui/src/components/table/Table.usecase.md)
 
 - **Purpose:** Styled HTML table primitives (`Table` wraps `<table>` in a horizontally scrollable container).
-- **Import:** `@/components/table/Table`
+- **Import:** `@fe-template/ui`
 - **Exports:** `Table`, `TableBody`, `TableCaption`, `TableCell`, `TableFooter`, `TableHead`, `TableHeader`, `TableRow`
 - **Key props / variants:** Native element props for each part.
 - **When to use:**
@@ -977,10 +983,10 @@ Do not use Card/Item for chat bubbles, or ScrollArea for stick-to-bottom chat.
 
 ### DataTable
 
-→ [`DataTable.usecase.md`](../apps/web/src/components/table/data-table/DataTable.usecase.md)
+→ [`DataTable.usecase.md`](../packages/ui/src/components/table/data-table/DataTable.usecase.md)
 
 - **Purpose:** `@tanstack/react-table` wrapper that renders **Table** primitives with sorting, filtering, and pagination.
-- **Import:** `@/components/table/data-table/DataTable`
+- **Import:** `@fe-template/ui`
 - **Key props / variants:** `columns: ColumnDef<TData, TValue>[]`, `data: TData[]`, `pageSize?: number` (default `10`), `filterColumn?: string`, `filterPlaceholder?: string`.
 - **When to use:**
   - Column-driven datasets needing sort, filter, prev/next pagination
@@ -994,10 +1000,10 @@ Do not use Card/Item for chat bubbles, or ScrollArea for stick-to-bottom chat.
 
 ### Alert
 
-→ [`Alert.usecase.md`](../apps/web/src/components/alert/Alert.usecase.md)
+→ [`Alert.usecase.md`](../packages/ui/src/components/alert/Alert.usecase.md)
 
 - **Purpose:** Inline, non-modal status banner with optional icon and trailing action.
-- **Import:** `@/components/alert/Alert`
+- **Import:** `@fe-template/ui`
 - **Exports:** `Alert`, `AlertTitle`, `AlertDescription`, `AlertAction`
 - **Key props / variants:** CVA `variant`: `default` | `destructive`; `role="alert"`.
 - **When to use:**
@@ -1011,10 +1017,10 @@ Do not use Card/Item for chat bubbles, or ScrollArea for stick-to-bottom chat.
 
 ### Empty
 
-→ [`Empty.usecase.md`](../apps/web/src/components/empty/Empty.usecase.md)
+→ [`Empty.usecase.md`](../packages/ui/src/components/empty/Empty.usecase.md)
 
 - **Purpose:** Centered empty-state layout (dashed border) for no-data / no-results screens.
-- **Import:** `@/components/empty/Empty`
+- **Import:** `@fe-template/ui`
 - **Exports:** `Empty`, `EmptyHeader`, `EmptyMedia`, `EmptyTitle`, `EmptyDescription`, `EmptyContent`
 - **Key props / variants:** `EmptyMedia` `variant?: "default" | "icon"`.
 - **When to use:**
@@ -1027,10 +1033,10 @@ Do not use Card/Item for chat bubbles, or ScrollArea for stick-to-bottom chat.
 
 ### Sonner
 
-→ [`Sonner.usecase.md`](../apps/web/src/components/sonner/Sonner.usecase.md)
+→ [`Sonner.usecase.md`](../packages/ui/src/components/sonner/Sonner.usecase.md)
 
 - **Purpose:** Theme-aware toast host wrapping the `sonner` library’s `Toaster`.
-- **Import:** `@/components/sonner/Sonner`
+- **Import:** `@fe-template/ui`
 - **Exports:** `Toaster`
 - **Key props / variants:** Accepts `ToasterProps` from `sonner`; theme synced via `next-themes`; custom Lucide icons for success/info/warning/error/loading.
 - **When to use:**
@@ -1042,10 +1048,10 @@ Do not use Card/Item for chat bubbles, or ScrollArea for stick-to-bottom chat.
 
 ### Spinner
 
-→ [`Spinner.usecase.md`](../apps/web/src/components/spinner/Spinner.usecase.md)
+→ [`Spinner.usecase.md`](../packages/ui/src/components/spinner/Spinner.usecase.md)
 
 - **Purpose:** Spinning `Loader2Icon` loading indicator with `role="status"` and `aria-label="Loading"`.
-- **Import:** `@/components/spinner/Spinner`
+- **Import:** `@fe-template/ui`
 - **Key props / variants:** SVG props; default `size-4 animate-spin`; override size via `className`.
 - **When to use:**
   - Inline loading next to a label or button
@@ -1061,10 +1067,10 @@ Do not use Card/Item for chat bubbles, or ScrollArea for stick-to-bottom chat.
 
 ### Attachment
 
-→ [`Attachment.usecase.md`](../apps/web/src/components/attachment/Attachment.usecase.md)
+→ [`Attachment.usecase.md`](../packages/ui/src/components/attachment/Attachment.usecase.md)
 
 - **Purpose:** File/media chip UI for uploads and attached files, including progress and error states.
-- **Import:** `@/components/attachment/Attachment`
+- **Import:** `@fe-template/ui`
 - **Exports:** `Attachment`, `AttachmentMedia`, `AttachmentContent`, `AttachmentTitle`, `AttachmentDescription`, `AttachmentActions`, `AttachmentAction`, `AttachmentTrigger`, `AttachmentGroup`
 - **Key props / variants:** `state?: "idle" | "uploading" | "processing" | "error" | "done"`; `size?: "default" | "sm" | "xs"`; `orientation?: "horizontal" | "vertical"`; Media `variant?: "icon" | "image"`.
 - **When to use:**
@@ -1077,10 +1083,10 @@ Do not use Card/Item for chat bubbles, or ScrollArea for stick-to-bottom chat.
 
 ### Bubble
 
-→ [`Bubble.usecase.md`](../apps/web/src/components/bubble/Bubble.usecase.md)
+→ [`Bubble.usecase.md`](../packages/ui/src/components/bubble/Bubble.usecase.md)
 
 - **Purpose:** Chat/message bubble with alignment, variants, and optional reaction overlays.
-- **Import:** `@/components/bubble/Bubble`
+- **Import:** `@fe-template/ui`
 - **Exports:** `Bubble`, `BubbleContent`, `BubbleGroup`, `BubbleReactions`
 - **Key props / variants:** `variant`: `default` | `secondary` | `muted` | `tinted` | `outline` | `ghost` | `destructive`; `align?: "start" | "end"`; Reactions `side` / `align`.
 - **When to use:**
@@ -1093,10 +1099,10 @@ Do not use Card/Item for chat bubbles, or ScrollArea for stick-to-bottom chat.
 
 ### Message
 
-→ [`Message.usecase.md`](../apps/web/src/components/message/Message.usecase.md)
+→ [`Message.usecase.md`](../packages/ui/src/components/message/Message.usecase.md)
 
 - **Purpose:** Layout primitives for a single chat message row (avatar + content column, start/end alignment).
-- **Import:** `@/components/message/Message`
+- **Import:** `@fe-template/ui`
 - **Exports:** `Message`, `MessageGroup`, `MessageAvatar`, `MessageContent`, `MessageHeader`, `MessageFooter`
 - **Key props / variants:** `Message` `align?: "start" | "end"` (flips row with `flex-row-reverse`).
 - **When to use:**
@@ -1109,10 +1115,10 @@ Do not use Card/Item for chat bubbles, or ScrollArea for stick-to-bottom chat.
 
 ### MessageScroller
 
-→ [`MessageScroller.usecase.md`](../apps/web/src/components/message-scroller/MessageScroller.usecase.md)
+→ [`MessageScroller.usecase.md`](../packages/ui/src/components/message-scroller/MessageScroller.usecase.md)
 
 - **Purpose:** Chat-oriented scroll container with autoscroll, scroll anchors, and jump-to-end/start buttons (`@shadcn/react/message-scroller`).
-- **Import:** `@/components/message-scroller/MessageScroller`
+- **Import:** `@fe-template/ui`
 - **Exports:** `MessageScroller`, `MessageScrollerProvider`, `MessageScrollerViewport`, `MessageScrollerContent`, `MessageScrollerItem`, `MessageScrollerButton`, `useMessageScroller`, `useMessageScrollerScrollable`, `useMessageScrollerVisibility`
 - **Key props / variants:** `MessageScrollerItem` `scrollAnchor?: boolean`; Button `direction?: "end" | "start"` plus Button `variant`/`size`.
 - **When to use:**
@@ -1124,10 +1130,10 @@ Do not use Card/Item for chat bubbles, or ScrollArea for stick-to-bottom chat.
 
 ### Command
 
-→ [`Command.usecase.md`](../apps/web/src/components/command/Command.usecase.md)
+→ [`Command.usecase.md`](../packages/ui/src/components/command/Command.usecase.md)
 
 - **Purpose:** Keyboard-first searchable command/menu list (`cmdk`), optionally inside a Dialog as a command palette.
-- **Import:** `@/components/command/Command`
+- **Import:** `@fe-template/ui`
 - **Exports:** `Command`, `CommandDialog`, `CommandInput`, `CommandList`, `CommandEmpty`, `CommandGroup`, `CommandItem`, `CommandShortcut`, `CommandSeparator`
 - **Key props / variants:** `CommandDialog` extends Dialog props plus `title`, `description`, `showCloseButton` (default `false`); groups use `heading`.
 - **When to use:**
@@ -1145,10 +1151,10 @@ Do not use Card/Item for chat bubbles, or ScrollArea for stick-to-bottom chat.
 
 ### Carousel
 
-→ [`Carousel.usecase.md`](../apps/web/src/components/carousel/Carousel.usecase.md)
+→ [`Carousel.usecase.md`](../packages/ui/src/components/carousel/Carousel.usecase.md)
 
 - **Purpose:** Embla-powered slideshow with prev/next controls and keyboard arrows.
-- **Import:** `@/components/carousel/Carousel`
+- **Import:** `@fe-template/ui`
 - **Exports:** `Carousel`, `CarouselContent`, `CarouselItem`, `CarouselPrevious`, `CarouselNext`, `useCarousel`; type `CarouselApi`
 - **Key props / variants:** `orientation?: "horizontal" | "vertical"`; `opts` / `plugins`; `setApi?: (api: CarouselApi) => void`.
 - **When to use:**
@@ -1162,10 +1168,10 @@ Do not use Card/Item for chat bubbles, or ScrollArea for stick-to-bottom chat.
 
 ### EmblaCarousel
 
-→ [`EmblaCarousel.usecase.md`](../apps/web/src/components/embla-carousel/EmblaCarousel.usecase.md)
+→ [`EmblaCarousel.usecase.md`](../packages/ui/src/components/embla-carousel/EmblaCarousel.usecase.md)
 
 - **Purpose:** Accessible Embla-based carousel with prev/next, dots, and horizontal/vertical/auto-width variants.
-- **Import:** `@/components/embla-carousel/EmblaCarousel`
+- **Import:** `@fe-template/ui`
 - **Exports:** `EmblaCarousel`, `EmblaCarouselContent`, `EmblaCarouselSlide`, `EmblaCarouselPrev`, `EmblaCarouselNext`, `EmblaCarouselDots`, `useEmblaCarouselContext`; types `EmblaCarouselApi`, `EmblaCarouselVariant`
 - **Key props / variants:** `variant?: "horizontal" | "horizontal-auto" | "vertical"`; `opts`, `plugins`, `setApi`.
 - **When to use:**
@@ -1182,10 +1188,10 @@ Do not use Card/Item for chat bubbles, or ScrollArea for stick-to-bottom chat.
 
 ### ScrollReveal
 
-→ [`ScrollReveal.usecase.md`](../apps/web/src/components/motion/scroll-reveal/ScrollReveal.usecase.md)
+→ [`ScrollReveal.usecase.md`](../packages/ui/src/components/motion/scroll-reveal/ScrollReveal.usecase.md)
 
 - **Purpose:** Fade/slide-in animation when children enter the viewport (Framer Motion).
-- **Import:** `@/components/motion/scroll-reveal/ScrollReveal`
+- **Import:** `@fe-template/ui`
 - **Key props / variants:** `delay?: number` (default `0`), `direction?: "up" | "down" | "left" | "right"` (default `"up"`), `once?: boolean` (default `true`).
 - **When to use:**
   - Landing-page sections that reveal on scroll
@@ -1196,10 +1202,10 @@ Do not use Card/Item for chat bubbles, or ScrollArea for stick-to-bottom chat.
 
 ### Direction
 
-→ [`Direction.usecase.md`](../apps/web/src/components/direction/Direction.usecase.md)
+→ [`Direction.usecase.md`](../packages/ui/src/components/direction/Direction.usecase.md)
 
 - **Purpose:** Provides LTR/RTL writing direction context for Base UI descendants.
-- **Import:** `@/components/direction/Direction`
+- **Import:** `@fe-template/ui`
 - **Exports:** `DirectionProvider`, `useDirection`
 - **Key props / variants:** Re-exports `@base-ui/react/direction-provider`; `direction: "ltr" | "rtl"`.
 - **When to use:**
@@ -1215,10 +1221,10 @@ Do not use Card/Item for chat bubbles, or ScrollArea for stick-to-bottom chat.
 
 ### Providers
 
-→ [`Providers.usecase.md`](../apps/web/src/components/providers/Providers.usecase.md)
+→ [`Providers.usecase.md`](../apps/web/src/modules/providers/Providers.usecase.md)
 
 - **Purpose:** App-wide client provider tree for Redux, React Query, and theme.
-- **Import:** `@/components/providers/Providers`
+- **Import:** `@/modules/providers/Providers` (app-local, not part of `@fe-template/ui`)
 - **Key props / variants:** `{ children: React.ReactNode }`. Wraps: `react-redux` Provider (`makeStore`), TanStack `QueryClientProvider` (60s `staleTime`), `next-themes` ThemeProvider (`attribute="class"`, `defaultTheme="system"`), internal `ThemeSync` (Redux → `setTheme`); React Query Devtools in development.
 - **When to use:**
   - Mount **once** in the root layout around the app shell (already used in `apps/web/src/app/layout.tsx`)
@@ -1233,10 +1239,10 @@ Do not use Card/Item for chat bubbles, or ScrollArea for stick-to-bottom chat.
 
 ### Accordion
 
-→ [`Accordion.usecase.md`](../apps/web/src/components/accordion/Accordion.usecase.md)
+→ [`Accordion.usecase.md`](../packages/ui/src/components/accordion/Accordion.usecase.md)
 
 - **Purpose:** Collapsible FAQ/section panels with animated open/close and chevron indicators.
-- **Import:** `@/components/accordion/Accordion`
+- **Import:** `@fe-template/ui`
 - **Exports:** `Accordion`, `AccordionItem`, `AccordionTrigger`, `AccordionContent`
 - **Key props / variants:** Root `defaultValue` / controlled value and `multiple` for multi-open; each `AccordionItem` needs a `value`.
 - **When to use:**
@@ -1265,4 +1271,5 @@ Do not use Card/Item for chat bubbles, or ScrollArea for stick-to-bottom chat.
 - [`docs/template/COMPONENTS.md`](./template/COMPONENTS.md) — folder/file conventions
 - [`docs/llm/CONTEXT.md`](./llm/CONTEXT.md) — agent stack & folder map
 - [`docs/llm/PATTERNS.md`](./llm/PATTERNS.md) — required code patterns
+- [`packages/ui/README.md`](../packages/ui/README.md) — package setup and adding a primitive
 - Storybook: `pnpm --filter web storybook` → http://localhost:6006
