@@ -1,0 +1,38 @@
+enum ContactStatus {
+  UNREAD
+  READ
+  RESOLVED
+}
+
+model Contact {
+  id        String        @id @default(cuid())
+  name      String
+  email     String
+  subject   String?
+  message   String
+  status    ContactStatus @default(UNREAD)
+  createdAt DateTime      @default(now())
+
+  @@index([status])
+}
+
+model Testimonial {
+  id         String   @id @default(cuid())
+  content    String
+  authorName String
+  petName    String?
+  rating     Int      @default(5)
+  published  Boolean  @default(false)
+  createdAt  DateTime @default(now())
+}
+
+model PricingPlan {
+  id        String   @id @default(cuid())
+  name      String
+  price     Int // cents
+  interval  String   @default("month")
+  features  String[]
+  active    Boolean  @default(true)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}

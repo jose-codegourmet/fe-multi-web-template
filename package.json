@@ -1,5 +1,5 @@
 {
-  "name": "fe-template",
+  "name": "fe-multi-web-template",
   "private": true,
   "type": "module",
   "packageManager": "pnpm@11.0.8",
@@ -12,6 +12,7 @@
     "format": "biome format --write .",
     "typecheck": "turbo run typecheck",
     "build-storybook": "turbo run build-storybook",
+    "db:generate": "turbo run db:generate",
     "prepare": "husky"
   },
   "lint-staged": {

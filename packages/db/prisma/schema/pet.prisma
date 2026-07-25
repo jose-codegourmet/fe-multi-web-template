@@ -1,0 +1,47 @@
+enum PetSpecies {
+  DOG
+  CAT
+  BIRD
+  RABBIT
+  OTHER
+}
+
+model Pet {
+  id        String     @id @default(cuid())
+  name      String
+  species   PetSpecies @default(DOG)
+  breed     String?
+  age       Int?
+  bio       String?
+  photoUrl  String?
+  owner     User       @relation(fields: [ownerId], references: [id], onDelete: Cascade)
+  ownerId   String
+  // matches this pet initiated
+  matchesInitiated PetMatch[] @relation("Requester")
+  // matches this pet received
+  matchesReceived  PetMatch[] @relation("Receiver")
+  createdAt DateTime   @default(now())
+  updatedAt DateTime   @updatedAt
+
+  @@index([ownerId])
+}
+
+enum MatchStatus {
+  PENDING
+  ACCEPTED
+  REJECTED
+}
+
+model PetMatch {
+  id          String      @id @default(cuid())
+  requester   Pet         @relation("Requester", fields: [requesterId], references: [id], onDelete: Cascade)
+  requesterId String
+  receiver    Pet         @relation("Receiver", fields: [receiverId], references: [id], onDelete: Cascade)
+  receiverId  String
+  status      MatchStatus @default(PENDING)
+  createdAt   DateTime    @default(now())
+  updatedAt   DateTime    @updatedAt
+
+  @@unique([requesterId, receiverId])
+  @@index([status])
+}
