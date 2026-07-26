@@ -13,59 +13,40 @@ const postSchema = z.object({
     .regex(/^[a-z0-9]+(?:-[a-z0-9]+)*$/, "Slug must be lowercase kebab-case"),
   excerpt: z.string().optional(),
   content: z.string().min(1, "Content is required"),
-  coverImage: z.string().url().optional().or(z.literal("")),
+  coverImage: z.string().optional().nullable(),
   tags: z.string().optional(),
   published: z.boolean(),
   authorId: z.string().min(1, "Author is required"),
 });
 
-function parseTags(raw: string | undefined) {
-  if (!raw?.trim()) return [] as string[];
-  return raw
-    .split(",")
-    .map((tag) => tag.trim())
-    .filter(Boolean);
-}
+export type PostFormData = z.infer<typeof postSchema>;
+export type ActionResult = { success: true } | { success: false; error: string };
 
-function formBoolean(value: FormDataEntryValue | null) {
-  return value === "on" || value === "true" || value === "1";
-}
-
-export type PostFormState = {
-  error?: string;
-};
-
-export async function createPost(_prev: PostFormState, formData: FormData): Promise<PostFormState> {
-  const parsed = postSchema.safeParse({
-    title: formData.get("title"),
-    slug: formData.get("slug"),
-    excerpt: formData.get("excerpt") || undefined,
-    content: formData.get("content"),
-    coverImage: formData.get("coverImage") || "",
-    tags: formData.get("tags") || undefined,
-    published: formBoolean(formData.get("published")),
-    authorId: formData.get("authorId"),
-  });
-
+export async function createPost(data: PostFormData): Promise<ActionResult> {
+  const parsed = postSchema.safeParse(data);
   if (!parsed.success) {
-    return { error: parsed.error.issues[0]?.message ?? "Invalid form data" };
+    return { success: false, error: parsed.error.issues[0]?.message ?? "Invalid form data" };
   }
 
-  const { coverImage, tags, published, ...data } = parsed.data;
+  const { coverImage, tags, published, ...rest } = parsed.data;
 
   try {
     await prisma.post.create({
       data: {
-        ...data,
-        excerpt: data.excerpt || null,
+        ...rest,
+        excerpt: rest.excerpt || null,
         coverImage: coverImage || null,
-        tags: parseTags(tags),
+        tags: (tags ?? "")
+          .split(",")
+          .map((t) => t.trim())
+          .filter(Boolean),
         published,
         publishedAt: published ? new Date() : null,
       },
     });
   } catch (error) {
     return {
+      success: false,
       error: error instanceof Error ? error.message : "Failed to create post",
     };
   }
@@ -74,48 +55,48 @@ export async function createPost(_prev: PostFormState, formData: FormData): Prom
   redirect("/posts");
 }
 
-export async function updatePost(
-  postId: string,
-  _prev: PostFormState,
-  formData: FormData,
-): Promise<PostFormState> {
-  const parsed = postSchema.safeParse({
-    title: formData.get("title"),
-    slug: formData.get("slug"),
-    excerpt: formData.get("excerpt") || undefined,
-    content: formData.get("content"),
-    coverImage: formData.get("coverImage") || "",
-    tags: formData.get("tags") || undefined,
-    published: formBoolean(formData.get("published")),
-    authorId: formData.get("authorId"),
-  });
-
+export async function updatePost(id: string, data: PostFormData): Promise<ActionResult> {
+  const parsed = postSchema.safeParse(data);
   if (!parsed.success) {
-    return { error: parsed.error.issues[0]?.message ?? "Invalid form data" };
+    return { success: false, error: parsed.error.issues[0]?.message ?? "Invalid form data" };
   }
 
-  const { coverImage, tags, published, ...data } = parsed.data;
+  const { coverImage, tags, published, ...rest } = parsed.data;
 
   try {
-    const existing = await prisma.post.findUnique({ where: { id: postId } });
+    const existing = await prisma.post.findUnique({ where: { id } });
     await prisma.post.update({
-      where: { id: postId },
+      where: { id },
       data: {
-        ...data,
-        excerpt: data.excerpt || null,
+        ...rest,
+        excerpt: rest.excerpt || null,
         coverImage: coverImage || null,
-        tags: parseTags(tags),
+        tags: (tags ?? "")
+          .split(",")
+          .map((t) => t.trim())
+          .filter(Boolean),
         published,
         publishedAt: published ? (existing?.publishedAt ?? new Date()) : null,
       },
     });
   } catch (error) {
     return {
+      success: false,
       error: error instanceof Error ? error.message : "Failed to update post",
     };
   }
 
   revalidatePath("/posts");
-  revalidatePath(`/posts/${postId}`);
+  revalidatePath(`/posts/${id}`);
   redirect("/posts");
+}
+
+export async function deletePost(id: string): Promise<ActionResult> {
+  try {
+    await prisma.post.delete({ where: { id } });
+  } catch (e) {
+    return { success: false, error: e instanceof Error ? e.message : "Failed to delete post" };
+  }
+  revalidatePath("/posts");
+  return { success: true };
 }

@@ -1,8 +1,38 @@
 "use client";
 
-import { Button, Input, Label, Textarea } from "@fe-template/ui";
-import { useActionState, useState } from "react";
-import { createPost, type PostFormState, updatePost } from "./actions";
+import {
+  Button,
+  FileUploader,
+  Form,
+  FormControl,
+  FormField,
+  FormItem,
+  FormLabel,
+  FormMessage,
+  Input,
+  Label,
+  Textarea,
+} from "@fe-template/ui";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { useForm } from "react-hook-form";
+import { toast } from "sonner";
+import { z } from "zod";
+import { uploadImage } from "@/lib/upload-image";
+import { createPost, type PostFormData, updatePost } from "./actions";
+
+const postFormSchema = z.object({
+  title: z.string().min(1, "Title is required"),
+  slug: z
+    .string()
+    .min(1, "Slug is required")
+    .regex(/^[a-z0-9]+(?:-[a-z0-9]+)*$/, "Slug must be lowercase kebab-case"),
+  excerpt: z.string().optional(),
+  content: z.string().min(1, "Content is required"),
+  coverImage: z.string().optional().nullable(),
+  tags: z.string().optional(),
+  published: z.boolean(),
+  authorId: z.string().min(1, "Author is required"),
+});
 
 export type PostFormValues = {
   id?: string;
@@ -22,8 +52,6 @@ type AuthorOption = {
   email: string;
 };
 
-const initialState: PostFormState = {};
-
 export function PostForm({
   authors,
   defaultValues,
@@ -31,119 +59,209 @@ export function PostForm({
   authors: AuthorOption[];
   defaultValues: PostFormValues;
 }) {
-  const action = defaultValues.id ? updatePost.bind(null, defaultValues.id) : createPost;
+  const form = useForm({
+    resolver: zodResolver(postFormSchema),
+    defaultValues: {
+      title: defaultValues.title,
+      slug: defaultValues.slug,
+      excerpt: defaultValues.excerpt,
+      content: defaultValues.content,
+      coverImage: defaultValues.coverImage || null,
+      tags: defaultValues.tags,
+      published: defaultValues.published,
+      authorId: defaultValues.authorId,
+    },
+  });
 
-  const [state, formAction, pending] = useActionState(action, initialState);
-  const [published, setPublished] = useState(defaultValues.published);
+  async function onSubmit(values: z.infer<typeof postFormSchema>) {
+    const data: PostFormData = {
+      title: values.title,
+      slug: values.slug,
+      excerpt: values.excerpt || undefined,
+      content: values.content,
+      coverImage: values.coverImage || undefined,
+      tags: values.tags,
+      published: values.published,
+      authorId: values.authorId,
+    };
+
+    const result = defaultValues.id
+      ? await updatePost(defaultValues.id, data)
+      : await createPost(data);
+
+    if (!result.success) {
+      toast.error(result.error);
+      return;
+    }
+    // redirect happens server-side on success
+  }
 
   return (
-    <form action={formAction} className="relative mx-auto max-w-3xl space-y-6 pb-24">
-      <div className="space-y-2">
-        <Label htmlFor="title" className="sr-only">
-          Title
-        </Label>
-        <Input
-          id="title"
+    <Form {...form}>
+      <form
+        onSubmit={form.handleSubmit(onSubmit)}
+        className="relative mx-auto max-w-3xl space-y-6 pb-24"
+      >
+        <FormField
+          control={form.control}
           name="title"
-          required
-          defaultValue={defaultValues.title}
-          placeholder="Post title"
-          className="h-auto border-0 bg-transparent px-0 font-display text-3xl font-semibold tracking-tight shadow-none focus-visible:ring-0 md:text-4xl"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel className="sr-only">Title</FormLabel>
+              <FormControl>
+                <Input
+                  {...field}
+                  placeholder="Post title"
+                  className="h-auto border-0 bg-transparent px-0 font-display text-3xl font-semibold tracking-tight shadow-none focus-visible:ring-0 md:text-4xl"
+                />
+              </FormControl>
+              <FormMessage />
+            </FormItem>
+          )}
         />
-      </div>
 
-      <div className="grid gap-4 md:grid-cols-2">
-        <div className="space-y-2">
-          <Label htmlFor="slug">Slug</Label>
-          <Input id="slug" name="slug" required defaultValue={defaultValues.slug} />
-        </div>
+        <FormField
+          control={form.control}
+          name="coverImage"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>Cover image</FormLabel>
+              <FormControl>
+                <FileUploader
+                  value={field.value}
+                  onChange={field.onChange}
+                  onUpload={uploadImage}
+                />
+              </FormControl>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
 
-        <div className="space-y-2">
-          <Label htmlFor="authorId">Author</Label>
-          <select
-            id="authorId"
+        <div className="grid gap-4 md:grid-cols-2">
+          <FormField
+            control={form.control}
+            name="slug"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>Slug</FormLabel>
+                <FormControl>
+                  <Input {...field} />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+
+          <FormField
+            control={form.control}
             name="authorId"
-            required
-            defaultValue={defaultValues.authorId}
-            className="flex h-8 w-full rounded-lg border border-input bg-transparent px-2.5 text-sm"
-          >
-            <option value="" disabled>
-              Select author
-            </option>
-            {authors.map((author) => (
-              <option key={author.id} value={author.id}>
-                {author.name ? `${author.name} (${author.email})` : author.email}
-              </option>
-            ))}
-          </select>
-        </div>
-      </div>
-
-      <div className="space-y-2">
-        <Label htmlFor="excerpt">Excerpt</Label>
-        <Textarea
-          id="excerpt"
-          name="excerpt"
-          rows={2}
-          defaultValue={defaultValues.excerpt}
-          className="rounded-2xl"
-        />
-      </div>
-
-      <div className="space-y-2">
-        <Label htmlFor="content">Content</Label>
-        <Textarea
-          id="content"
-          name="content"
-          required
-          rows={14}
-          defaultValue={defaultValues.content}
-          className="rounded-2xl font-sans leading-relaxed"
-        />
-      </div>
-
-      <div className="grid gap-4 md:grid-cols-2">
-        <div className="space-y-2">
-          <Label htmlFor="tags">Tags (comma-separated)</Label>
-          <Input id="tags" name="tags" defaultValue={defaultValues.tags} />
-        </div>
-
-        <div className="space-y-2">
-          <Label htmlFor="coverImage">Cover image URL</Label>
-          <Input
-            id="coverImage"
-            name="coverImage"
-            type="url"
-            defaultValue={defaultValues.coverImage}
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>Author</FormLabel>
+                <FormControl>
+                  <select
+                    {...field}
+                    className="flex h-8 w-full rounded-lg border border-input bg-transparent px-2.5 text-sm"
+                  >
+                    <option value="" disabled>
+                      Select author
+                    </option>
+                    {authors.map((author) => (
+                      <option key={author.id} value={author.id}>
+                        {author.name ? `${author.name} (${author.email})` : author.email}
+                      </option>
+                    ))}
+                  </select>
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
           />
         </div>
-      </div>
 
-      <div className="flex items-center gap-3">
-        <input
-          id="published"
-          name="published"
-          type="checkbox"
-          checked={published}
-          onChange={(event) => setPublished(event.target.checked)}
-          className="size-4 rounded border border-input"
+        <FormField
+          control={form.control}
+          name="excerpt"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>Excerpt</FormLabel>
+              <FormControl>
+                <Textarea {...field} rows={2} className="rounded-2xl" />
+              </FormControl>
+              <FormMessage />
+            </FormItem>
+          )}
         />
-        <Label htmlFor="published">Published</Label>
-      </div>
 
-      {state.error ? <p className="text-sm text-destructive">{state.error}</p> : null}
+        <FormField
+          control={form.control}
+          name="content"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>Content</FormLabel>
+              <FormControl>
+                <Textarea {...field} rows={14} className="rounded-2xl font-sans leading-relaxed" />
+              </FormControl>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
 
-      {authors.length === 0 ? (
-        <p className="text-sm text-muted-foreground">
-          Create at least one user in the database before publishing posts.
-        </p>
-      ) : null}
+        <FormField
+          control={form.control}
+          name="tags"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>Tags (comma-separated)</FormLabel>
+              <FormControl>
+                <Input {...field} />
+              </FormControl>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
 
-      <div className="sticky bottom-4 z-10 flex items-center justify-end gap-2 rounded-2xl border border-border/60 bg-card/95 p-3 shadow-lg backdrop-blur">
-        <Button type="submit" disabled={pending || authors.length === 0} className="rounded-full">
-          {pending ? "Saving…" : defaultValues.id ? "Update post" : "Create post"}
-        </Button>
-      </div>
-    </form>
+        <FormField
+          control={form.control}
+          name="published"
+          render={({ field }) => (
+            <FormItem>
+              <div className="flex items-center gap-3">
+                <input
+                  id="published"
+                  type="checkbox"
+                  checked={field.value}
+                  onChange={(event) => field.onChange(event.target.checked)}
+                  className="size-4 rounded border border-input"
+                />
+                <Label htmlFor="published">Published</Label>
+              </div>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
+
+        {authors.length === 0 ? (
+          <p className="text-sm text-muted-foreground">
+            Create at least one user in the database before publishing posts.
+          </p>
+        ) : null}
+
+        <div className="sticky bottom-4 z-10 flex items-center justify-end gap-2 rounded-2xl border border-border/60 bg-card/95 p-3 shadow-lg backdrop-blur">
+          <Button
+            type="submit"
+            disabled={form.formState.isSubmitting || authors.length === 0}
+            className="rounded-full"
+          >
+            {form.formState.isSubmitting
+              ? "Saving…"
+              : defaultValues.id
+                ? "Update post"
+                : "Create post"}
+          </Button>
+        </div>
+      </form>
+    </Form>
   );
 }

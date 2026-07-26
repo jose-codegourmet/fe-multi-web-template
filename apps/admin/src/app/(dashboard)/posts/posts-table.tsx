@@ -1,11 +1,81 @@
 "use client";
 
-import { Badge, Button, DataTable } from "@fe-template/ui";
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+  AlertDialogTrigger,
+  Badge,
+  Button,
+  DataTable,
+} from "@fe-template/ui";
+import { useQueryClient } from "@tanstack/react-query";
 import type { ColumnDef } from "@tanstack/react-table";
-import { ImageIcon } from "lucide-react";
+import { ImageIcon, Trash2Icon } from "lucide-react";
 import Link from "next/link";
+import { useState } from "react";
+import { toast } from "sonner";
 import { usePosts } from "@/hooks/use-posts/client";
+import { postsQueryKey } from "@/hooks/use-posts/query";
 import type { PostRow } from "@/hooks/use-posts/types";
+import { deletePost } from "./actions";
+
+function DeletePostDialog({ post }: { post: PostRow }) {
+  const qc = useQueryClient();
+  const [pending, setPending] = useState(false);
+
+  async function handleDelete() {
+    setPending(true);
+    const result = await deletePost(post.id);
+    setPending(false);
+    if (!result.success) {
+      toast.error(result.error);
+      return;
+    }
+    toast.success("Post deleted");
+    await qc.invalidateQueries({ queryKey: postsQueryKey.list() });
+  }
+
+  return (
+    <AlertDialog>
+      <AlertDialogTrigger
+        render={
+          <Button
+            variant="ghost"
+            size="icon"
+            className="size-8 text-destructive hover:text-destructive"
+          >
+            <Trash2Icon className="size-4" />
+            <span className="sr-only">Delete</span>
+          </Button>
+        }
+      />
+      <AlertDialogContent>
+        <AlertDialogHeader>
+          <AlertDialogTitle>Delete "{post.title}"?</AlertDialogTitle>
+          <AlertDialogDescription>
+            This will permanently delete this post. This action cannot be undone.
+          </AlertDialogDescription>
+        </AlertDialogHeader>
+        <AlertDialogFooter>
+          <AlertDialogCancel>Cancel</AlertDialogCancel>
+          <AlertDialogAction
+            disabled={pending}
+            onClick={handleDelete}
+            className="bg-destructive text-destructive-foreground hover:bg-destructive/90"
+          >
+            {pending ? "Deleting…" : "Delete"}
+          </AlertDialogAction>
+        </AlertDialogFooter>
+      </AlertDialogContent>
+    </AlertDialog>
+  );
+}
 
 const columns: ColumnDef<PostRow>[] = [
   {
@@ -63,14 +133,17 @@ const columns: ColumnDef<PostRow>[] = [
     id: "actions",
     header: "",
     cell: ({ row }) => (
-      <Button
-        variant="outline"
-        size="sm"
-        className="rounded-full"
-        render={<Link href={`/posts/${row.original.id}`} />}
-      >
-        Edit
-      </Button>
+      <div className="flex items-center justify-end gap-1">
+        <Button
+          variant="outline"
+          size="sm"
+          className="rounded-full"
+          render={<Link href={`/posts/${row.original.id}`} />}
+        >
+          Edit
+        </Button>
+        <DeletePostDialog post={row.original} />
+      </div>
     ),
   },
 ];
