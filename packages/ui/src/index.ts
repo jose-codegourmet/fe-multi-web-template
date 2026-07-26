@@ -25,6 +25,8 @@ export * from "./components/dropdown-menu/DropdownMenu";
 export * from "./components/embla-carousel/EmblaCarousel";
 export * from "./components/empty/Empty";
 export * from "./components/field/Field";
+export * from "./components/file-uploader/FileUploader";
+export * from "./components/form/Form";
 export * from "./components/hover-card/HoverCard";
 export * from "./components/input/Input";
 export * from "./components/input-group/InputGroup";
