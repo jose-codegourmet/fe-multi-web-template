@@ -1,6 +1,7 @@
 import { dehydrate, HydrationBoundary, QueryClient } from "@tanstack/react-query";
 import { testimonialsQueryKey } from "@/hooks/use-testimonials/query";
 import { fetchTestimonials } from "@/hooks/use-testimonials/server";
+import { TestimonialDialog } from "./testimonial-dialog";
 import { TestimonialsList } from "./testimonials-list";
 
 export default async function TestimonialsPage() {
@@ -12,7 +13,13 @@ export default async function TestimonialsPage() {
 
   return (
     <HydrationBoundary state={dehydrate(queryClient)}>
-      <TestimonialsList />
+      <div className="space-y-6">
+        <div className="flex items-center justify-between">
+          <h1 className="text-2xl font-semibold">Testimonials</h1>
+          <TestimonialDialog />
+        </div>
+        <TestimonialsList />
+      </div>
     </HydrationBoundary>
   );
 }

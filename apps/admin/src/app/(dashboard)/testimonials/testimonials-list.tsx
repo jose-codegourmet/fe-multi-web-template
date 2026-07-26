@@ -1,11 +1,12 @@
 "use client";
 
-import { Badge, Switch } from "@fe-template/ui";
-import { StarIcon } from "lucide-react";
+import { Badge, Button, Switch } from "@fe-template/ui";
+import { PencilIcon, StarIcon, Trash2Icon } from "lucide-react";
 import { useTransition } from "react";
 import { useTestimonials } from "@/hooks/use-testimonials/client";
 import type { TestimonialRow } from "@/hooks/use-testimonials/types";
 import { toggleTestimonialPublished } from "./actions";
+import { DeleteTestimonialDialog, TestimonialDialog } from "./testimonial-dialog";
 
 export function TestimonialsList() {
   const { data: items = [] } = useTestimonials();
@@ -52,7 +53,29 @@ function TestimonialCard({ item }: { item: TestimonialRow }) {
           ) : null}
           <StarRating rating={item.rating} />
         </div>
-        <div className="flex items-center gap-2">
+        <div className="flex items-center gap-1">
+          <TestimonialDialog
+            testimonial={item}
+            trigger={
+              <Button variant="ghost" size="icon" className="size-8">
+                <PencilIcon className="size-4" />
+                <span className="sr-only">Edit</span>
+              </Button>
+            }
+          />
+          <DeleteTestimonialDialog
+            testimonial={item}
+            trigger={
+              <Button
+                variant="ghost"
+                size="icon"
+                className="size-8 text-destructive hover:text-destructive"
+              >
+                <Trash2Icon className="size-4" />
+                <span className="sr-only">Delete</span>
+              </Button>
+            }
+          />
           <Switch
             checked={item.published}
             disabled={pending}
