@@ -81,6 +81,7 @@ export async function updateUser(id: string, data: UserUpdateValues): Promise<Ac
 
 export async function deleteUser(id: string): Promise<ActionResult> {
   try {
+    await prisma.post.deleteMany({ where: { authorId: id } });
     await prisma.user.delete({ where: { id } });
   } catch (e) {
     return { success: false, error: e instanceof Error ? e.message : "Failed to delete user" };

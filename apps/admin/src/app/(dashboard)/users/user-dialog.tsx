@@ -225,7 +225,7 @@ function EditUserDialog({ user, trigger }: { user: UserRow; trigger?: React.Reac
     defaultValues: {
       name: user.name ?? "",
       role: user.role,
-      bio: "",
+      bio: user.bio ?? "",
       avatarUrl: user.avatarUrl ?? null,
     },
   });
@@ -372,8 +372,8 @@ export function DeleteUserDialog({ user, trigger }: DeleteUserDialogProps) {
         <AlertDialogHeader>
           <AlertDialogTitle>Delete {displayName}?</AlertDialogTitle>
           <AlertDialogDescription>
-            This will permanently delete {displayName} and all related pets and posts. This action
-            cannot be undone.
+            This will permanently delete {displayName}, all blog posts they authored, and all
+            related pets. This action cannot be undone.
           </AlertDialogDescription>
         </AlertDialogHeader>
         <AlertDialogFooter>

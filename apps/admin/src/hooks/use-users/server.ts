@@ -15,6 +15,7 @@ export async function fetchUsers(): Promise<UserRow[]> {
     email: user.email,
     avatarUrl: user.avatarUrl,
     role: user.role,
+    bio: user.bio,
     petsCount: user._count.pets,
     createdAt: user.createdAt.toISOString(),
   }));

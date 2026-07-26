@@ -4,6 +4,7 @@ export type UserRow = {
   email: string;
   avatarUrl: string | null;
   role: "USER" | "ADMIN";
+  bio: string | null;
   petsCount: number;
   createdAt: string;
 };
