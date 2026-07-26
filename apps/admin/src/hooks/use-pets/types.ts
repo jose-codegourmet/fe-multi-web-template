@@ -4,7 +4,9 @@ export type PetRow = {
   species: string;
   breed: string | null;
   age: number | null;
+  bio: string | null;
   photoUrl: string | null;
+  ownerId: string;
   ownerName: string | null;
   ownerEmail: string;
   createdAt: string;

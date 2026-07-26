@@ -53,7 +53,7 @@ type FormValues = z.infer<typeof petSchema>;
 
 export type OwnerOption = { id: string; name: string | null; email: string };
 
-type PetForEdit = PetRow & { ownerId?: string; bio?: string | null };
+type PetForEdit = PetRow;
 
 // ---- Create / Edit Dialog ----
 
