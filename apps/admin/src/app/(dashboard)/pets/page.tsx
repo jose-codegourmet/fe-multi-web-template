@@ -4,6 +4,7 @@ import { dehydrate, HydrationBoundary, QueryClient } from "@tanstack/react-query
 import { CatIcon, DogIcon, PawPrintIcon, RabbitIcon } from "lucide-react";
 import { petsQueryKey } from "@/hooks/use-pets/query";
 import { fetchPets } from "@/hooks/use-pets/server";
+import { PetDialog } from "./pet-dialog";
 import { PetsTable } from "./pets-table";
 
 async function getSpeciesStats() {
@@ -24,8 +25,12 @@ async function getSpeciesStats() {
 
 export default async function PetsPage() {
   const queryClient = new QueryClient();
-  const [stats] = await Promise.all([
+  const [stats, ownerOptions] = await Promise.all([
     getSpeciesStats(),
+    prisma.user.findMany({
+      select: { id: true, name: true, email: true },
+      orderBy: { name: "asc" },
+    }),
     queryClient.prefetchQuery({ queryKey: petsQueryKey.list(), queryFn: fetchPets }),
   ]);
 
@@ -39,6 +44,10 @@ export default async function PetsPage() {
   return (
     <HydrationBoundary state={dehydrate(queryClient)}>
       <div className="space-y-6">
+        <div className="flex items-center justify-between">
+          <h1 className="text-2xl font-semibold">Pets</h1>
+          <PetDialog ownerOptions={ownerOptions} />
+        </div>
         <div className="grid gap-4 sm:grid-cols-2 xl:grid-cols-4">
           {bento.map(({ label, value, icon: Icon }) => (
             <Card key={label} className="rounded-3xl border-border/60 shadow-sm">
@@ -54,7 +63,7 @@ export default async function PetsPage() {
             </Card>
           ))}
         </div>
-        <PetsTable />
+        <PetsTable ownerOptions={ownerOptions} />
       </div>
     </HydrationBoundary>
   );
