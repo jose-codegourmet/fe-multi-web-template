@@ -2,6 +2,7 @@
 
 import { Avatar, AvatarFallback, AvatarImage } from "@fe-template/ui";
 import {
+  CreditCardIcon,
   FileTextIcon,
   LayoutDashboardIcon,
   MailIcon,
@@ -30,6 +31,7 @@ const NAV_ITEMS = [
   { href: "/users", label: "Users", icon: UsersIcon },
   { href: "/pets", label: "Pets", icon: PawPrintIcon },
   { href: "/posts", label: "Blog", icon: FileTextIcon },
+  { href: "/pricing-plans", label: "Pricing", icon: CreditCardIcon },
   { href: "/testimonials", label: "Testimonials", icon: MessageSquareQuoteIcon },
   { href: "/contacts", label: "Contacts", icon: MailIcon },
 ] as const;
