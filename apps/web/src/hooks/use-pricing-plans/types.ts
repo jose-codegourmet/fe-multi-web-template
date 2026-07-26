@@ -1,7 +1,1 @@
-export type PricingPlan = {
-  id: string;
-  name: string;
-  price: number;
-  interval: string;
-  features: string[];
-};
+export type { PricingPlan } from "@/types";

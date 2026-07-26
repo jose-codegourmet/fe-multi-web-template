@@ -6,15 +6,16 @@ import {
   CardTitle,
   ScrollReveal,
 } from "@fe-template/ui";
-import Image from "next/image";
-import { DEMO_TESTIMONIALS } from "@/constants/demo-content";
+import { fetchTestimonials } from "@/hooks/use-testimonials/server";
 import { cn } from "@/lib/utils";
 
 type TestimonialsSectionProps = {
   className?: string;
 };
 
-function TestimonialsSection({ className }: TestimonialsSectionProps) {
+async function TestimonialsSection({ className }: TestimonialsSectionProps) {
+  const testimonials = await fetchTestimonials();
+
   return (
     <section
       data-slot="testimonials-section"
@@ -28,27 +29,23 @@ function TestimonialsSection({ className }: TestimonialsSectionProps) {
         </ScrollReveal>
 
         <div className="mt-12 grid gap-6 md:grid-cols-3">
-          {DEMO_TESTIMONIALS.map((testimonial, index) => (
+          {testimonials.map((testimonial, index) => (
             <ScrollReveal key={testimonial.id} delay={0.1 * (index + 1)}>
               <Card className="h-full border-none bg-brand-warm-cream ring-transparent">
                 <CardHeader>
                   <div className="mb-3 flex items-center gap-3">
-                    <div className="relative size-12 overflow-hidden rounded-full bg-brand-cream-200">
-                      <Image
-                        src={testimonial.avatar}
-                        alt={`${testimonial.petName}'s avatar`}
-                        fill
-                        sizes="48px"
-                        className="object-cover"
-                      />
+                    <div className="flex size-12 items-center justify-center rounded-full bg-brand-cream-200 text-sm font-semibold text-brand-deep-ink">
+                      {testimonial.petName.charAt(0)}
                     </div>
                     <div>
                       <CardTitle className="font-display text-base text-brand-deep-ink">
                         {testimonial.petParentName} & {testimonial.petName}
                       </CardTitle>
-                      <CardDescription className="text-brand-ink-500">
-                        {testimonial.location}
-                      </CardDescription>
+                      {testimonial.location ? (
+                        <CardDescription className="text-brand-ink-500">
+                          {testimonial.location}
+                        </CardDescription>
+                      ) : null}
                     </div>
                   </div>
                 </CardHeader>

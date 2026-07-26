@@ -8,8 +8,8 @@ import {
   ScrollReveal,
 } from "@fe-template/ui";
 import Link from "next/link";
-import { DEMO_BLOG_POSTS } from "@/constants/demo-content";
 import { ROUTES } from "@/constants/routes";
+import { fetchBlogPosts } from "@/hooks/use-blog-posts/server";
 import { cn } from "@/lib/utils";
 import { SectionImage } from "@/sections/_shared/SectionImage";
 
@@ -17,7 +17,9 @@ type ArticleGridSectionProps = {
   className?: string;
 };
 
-function ArticleGridSection({ className }: ArticleGridSectionProps) {
+async function ArticleGridSection({ className }: ArticleGridSectionProps) {
+  const posts = await fetchBlogPosts();
+
   return (
     <section
       data-slot="article-grid-section"
@@ -34,7 +36,7 @@ function ArticleGridSection({ className }: ArticleGridSectionProps) {
         </ScrollReveal>
 
         <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
-          {DEMO_BLOG_POSTS.map((post, index) => (
+          {posts.map((post, index) => (
             <ScrollReveal key={post.slug} delay={0.06 * (index + 1)}>
               <Card className="h-full overflow-hidden border-none bg-brand-warm-cream/60 shadow-none ring-1 ring-brand-ink-200/40 transition-shadow hover:shadow-md">
                 <Link href={ROUTES.blogPost(post.slug)} className="group block h-full">

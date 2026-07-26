@@ -8,7 +8,7 @@ import {
   ScrollReveal,
 } from "@fe-template/ui";
 import Image from "next/image";
-import { DEMO_PETS } from "@/constants/demo-content";
+import { showcasePets } from "@/lib/mock/pets";
 import { cn } from "@/lib/utils";
 import { SectionImage } from "@/sections/_shared/SectionImage";
 
@@ -16,7 +16,7 @@ type ProductPreviewSectionProps = {
   className?: string;
 };
 
-const mochi = DEMO_PETS[0];
+const mochi = showcasePets[0];
 
 function ProductPreviewSection({ className }: ProductPreviewSectionProps) {
   return (

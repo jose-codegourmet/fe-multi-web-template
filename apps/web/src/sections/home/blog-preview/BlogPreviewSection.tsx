@@ -9,8 +9,8 @@ import {
   ScrollReveal,
 } from "@fe-template/ui";
 import Link from "next/link";
-import { DEMO_BLOG_POSTS } from "@/constants/demo-content";
 import { ROUTES } from "@/constants/routes";
+import { fetchBlogPosts } from "@/hooks/use-blog-posts/server";
 import { cn } from "@/lib/utils";
 import { SectionImage } from "@/sections/_shared/SectionImage";
 
@@ -18,9 +18,9 @@ type BlogPreviewSectionProps = {
   className?: string;
 };
 
-const previewPosts = DEMO_BLOG_POSTS.slice(0, 3);
+async function BlogPreviewSection({ className }: BlogPreviewSectionProps) {
+  const previewPosts = (await fetchBlogPosts()).slice(0, 3);
 
-function BlogPreviewSection({ className }: BlogPreviewSectionProps) {
   return (
     <section
       data-slot="blog-preview-section"

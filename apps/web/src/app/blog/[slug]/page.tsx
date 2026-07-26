@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
-import { DEMO_BLOG_POSTS } from "@/constants/demo-content";
 import { DEFAULT_SEO } from "@/constants/seo";
+import { fetchBlogPosts } from "@/hooks/use-blog-posts/server";
 import { ArticleBodySection } from "@/sections/blog/article-body/ArticleBodySection";
 import { ArticleHeaderSection } from "@/sections/blog/article-header/ArticleHeaderSection";
 import { BlogNewsletterSection } from "@/sections/blog/newsletter/BlogNewsletterSection";
@@ -11,13 +11,12 @@ type BlogPostPageProps = {
   params: Promise<{ slug: string }>;
 };
 
-export function generateStaticParams() {
-  return DEMO_BLOG_POSTS.map((post) => ({ slug: post.slug }));
-}
+export const dynamic = "force-dynamic";
 
 export async function generateMetadata({ params }: BlogPostPageProps): Promise<Metadata> {
   const { slug } = await params;
-  const post = DEMO_BLOG_POSTS.find((item) => item.slug === slug);
+  const posts = await fetchBlogPosts();
+  const post = posts.find((item) => item.slug === slug);
 
   if (!post) {
     return {
@@ -34,7 +33,8 @@ export async function generateMetadata({ params }: BlogPostPageProps): Promise<M
 
 export default async function BlogPostPage({ params }: BlogPostPageProps) {
   const { slug } = await params;
-  const post = DEMO_BLOG_POSTS.find((item) => item.slug === slug);
+  const posts = await fetchBlogPosts();
+  const post = posts.find((item) => item.slug === slug);
 
   if (!post) {
     notFound();

@@ -1,6 +1,6 @@
 import { ScrollReveal } from "@fe-template/ui";
 import Image from "next/image";
-import { DEMO_PETS } from "@/constants/demo-content";
+import { showcasePets } from "@/lib/mock/pets";
 import { cn } from "@/lib/utils";
 
 const eyebrow = "Pricing";
@@ -9,7 +9,7 @@ const supporting =
   "Create a meaningful profile and find matches without paying. Paid plans unlock convenience, visibility, and community tools.";
 const philosophy = "PawPair is for friendships and community—not a breeding marketplace.";
 
-const featuredPets = DEMO_PETS.filter((pet) =>
+const featuredPets = showcasePets.filter((pet) =>
   ["mochi", "luna", "atlas", "pepper"].includes(pet.id),
 );
 

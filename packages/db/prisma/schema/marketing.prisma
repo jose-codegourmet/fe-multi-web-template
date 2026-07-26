@@ -27,12 +27,16 @@ model Testimonial {
 }
 
 model PricingPlan {
-  id        String   @id @default(cuid())
-  name      String
-  price     Int // cents
-  interval  String   @default("month")
-  features  String[]
-  active    Boolean  @default(true)
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+  id          String   @id @default(cuid())
+  name        String
+  nickname    String?
+  price       Int // cents
+  interval    String   @default("month")
+  description String?
+  features    String[]
+  ctaLabel    String?
+  featured    Boolean  @default(false)
+  active      Boolean  @default(true)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
 }

@@ -1,7 +1,7 @@
 import { Badge, Card, CardDescription, CardHeader, CardTitle, ScrollReveal } from "@fe-template/ui";
 import Link from "next/link";
-import { DEMO_BLOG_POSTS } from "@/constants/demo-content";
 import { ROUTES } from "@/constants/routes";
+import { fetchBlogPosts } from "@/hooks/use-blog-posts/server";
 import { cn } from "@/lib/utils";
 import { SectionImage } from "@/sections/_shared/SectionImage";
 
@@ -10,8 +10,8 @@ type RelatedPostsSectionProps = {
   currentSlug: string;
 };
 
-function RelatedPostsSection({ className, currentSlug }: RelatedPostsSectionProps) {
-  const related = DEMO_BLOG_POSTS.filter((post) => post.slug !== currentSlug).slice(0, 3);
+async function RelatedPostsSection({ className, currentSlug }: RelatedPostsSectionProps) {
+  const related = (await fetchBlogPosts()).filter((post) => post.slug !== currentSlug).slice(0, 3);
 
   if (related.length === 0) return null;
 

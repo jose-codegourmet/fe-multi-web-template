@@ -28,8 +28,9 @@ Concise context for AI agents working in this repository.
 apps/web/src/               ← marketing site (port 3000)
 ├── app/                    ← pages (section composition only)
 ├── sections/               ← page sections, per page folder
-├── constants/              ← routes.ts, seo.ts, navigation.ts, demo-content.ts
+├── constants/              ← routes.ts, seo.ts, navigation.ts
 ├── hooks/                  ← use-*/client.ts + server.ts
+├── types/                  ← shared marketing-domain types
 ├── modules/layout/         ← header, footer, sidebar
 ├── modules/providers/      ← Redux + Query + theme
 └── store/                  ← Redux store + themeSlice

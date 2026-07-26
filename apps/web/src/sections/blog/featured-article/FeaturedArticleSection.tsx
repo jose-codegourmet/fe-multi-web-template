@@ -1,7 +1,7 @@
 import { Badge, ScrollReveal } from "@fe-template/ui";
 import Link from "next/link";
-import { DEMO_BLOG_POSTS } from "@/constants/demo-content";
 import { ROUTES } from "@/constants/routes";
+import { fetchBlogPosts } from "@/hooks/use-blog-posts/server";
 import { cn } from "@/lib/utils";
 import { SectionImage } from "@/sections/_shared/SectionImage";
 
@@ -9,9 +9,13 @@ type FeaturedArticleSectionProps = {
   className?: string;
 };
 
-const post = DEMO_BLOG_POSTS[0];
+async function FeaturedArticleSection({ className }: FeaturedArticleSectionProps) {
+  const post = (await fetchBlogPosts())[0];
 
-function FeaturedArticleSection({ className }: FeaturedArticleSectionProps) {
+  if (!post) {
+    return null;
+  }
+
   return (
     <section
       data-slot="featured-article-section"

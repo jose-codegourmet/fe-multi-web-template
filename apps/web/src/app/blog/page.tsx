@@ -14,6 +14,8 @@ export const metadata: Metadata = {
   description: PAGE_SEO.blog.description,
 };
 
+export const dynamic = "force-dynamic";
+
 export default async function BlogPage() {
   const queryClient = new QueryClient();
   await queryClient.prefetchQuery({

@@ -28,7 +28,6 @@ Routes and SEO metadata are centralised in:
 ```text
 src/constants/routes.ts
 src/constants/seo.ts
-src/constants/demo-content.ts
 ```
 
 ---

@@ -1,6 +1,6 @@
 import { ScrollReveal } from "@fe-template/ui";
-import type { BlogPost } from "@/constants/demo-content";
 import { cn } from "@/lib/utils";
+import type { BlogPost } from "@/types";
 
 type ArticleBodySectionProps = {
   className?: string;

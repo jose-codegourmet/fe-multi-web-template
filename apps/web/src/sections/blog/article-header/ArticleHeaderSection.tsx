@@ -1,10 +1,10 @@
 import { Badge, ScrollReveal } from "@fe-template/ui";
 import Image from "next/image";
 import Link from "next/link";
-import type { BlogPost } from "@/constants/demo-content";
 import { ROUTES } from "@/constants/routes";
 import { cn } from "@/lib/utils";
 import { SectionImage } from "@/sections/_shared/SectionImage";
+import type { BlogPost } from "@/types";
 
 type ArticleHeaderSectionProps = {
   className?: string;

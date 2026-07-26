@@ -1,8 +1,8 @@
 import { Badge, buttonVariants, ScrollReveal } from "@fe-template/ui";
 import Image from "next/image";
 import Link from "next/link";
-import { DEMO_PETS } from "@/constants/demo-content";
 import { ROUTES } from "@/constants/routes";
+import { showcasePets } from "@/lib/mock/pets";
 import { cn } from "@/lib/utils";
 import { SectionImage } from "@/sections/_shared/SectionImage";
 
@@ -16,7 +16,7 @@ const PROOF_POINTS = [
   "Safety-first meetup tools",
 ];
 
-const mochi = DEMO_PETS[0];
+const mochi = showcasePets[0];
 
 function HeroSection({ className }: HeroSectionProps) {
   return (

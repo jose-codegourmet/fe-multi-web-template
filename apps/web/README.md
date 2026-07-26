@@ -57,7 +57,8 @@ App-specific composition (page sections, header/footer/sidebar, providers) stays
 | [`src/sections/`](src/sections/) | Page sections composed by routes |
 | [`src/modules/layout/`](src/modules/layout/) | Header, footer, sidebar |
 | [`src/modules/providers/`](src/modules/providers/) | Redux + TanStack Query + theme providers |
-| [`src/constants/`](src/constants/) | `routes.ts`, `seo.ts`, `demo-content.ts` |
+| [`src/constants/`](src/constants/) | `routes.ts`, `seo.ts`, `navigation.ts` |
+| [`src/types/`](src/types/) | Shared marketing-domain types |
 | [`src/hooks/`](src/hooks/) | API hooks (`client.ts` / `server.ts` split) |
 | [`src/store/`](src/store/) | Redux store and slices |
 | [`public/images/`](public/images/) | Brand and marketing assets |

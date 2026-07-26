@@ -51,7 +51,7 @@ function PricingPlansSection({ className }: PricingPlansSectionProps) {
 
         <div className="mt-12 grid gap-6 lg:grid-cols-3">
           {plans.map((plan, index) => {
-            const featured = index === 1;
+            const featured = plan.featured;
             return (
               <ScrollReveal key={plan.id} delay={0.1 * (index + 1)}>
                 <Card
@@ -74,6 +74,9 @@ function PricingPlansSection({ className }: PricingPlansSectionProps) {
                     <CardTitle className="font-display text-2xl font-semibold text-brand-deep-ink">
                       {plan.name}
                     </CardTitle>
+                    {plan.nickname ? (
+                      <p className="text-sm font-medium text-brand-lavender">{plan.nickname}</p>
+                    ) : null}
                     <div className="mt-2 flex items-baseline gap-1">
                       <span className="font-display text-4xl font-semibold text-brand-deep-ink">
                         {formatPrice(plan.price)}
@@ -83,7 +86,8 @@ function PricingPlansSection({ className }: PricingPlansSectionProps) {
                       ) : null}
                     </div>
                     <CardDescription className="mt-2 text-sm leading-relaxed text-brand-ink-500">
-                      Everything you need to find the right match for your pet.
+                      {plan.description ||
+                        "Everything you need to find the right match for your pet."}
                     </CardDescription>
                   </CardHeader>
                   <CardContent className="flex-1">
@@ -112,7 +116,7 @@ function PricingPlansSection({ className }: PricingPlansSectionProps) {
                           : "border border-brand-ink-200 bg-brand-white text-brand-deep-ink hover:bg-brand-cream-200",
                       )}
                     >
-                      Get started
+                      {plan.ctaLabel}
                     </Link>
                   </CardFooter>
                 </Card>

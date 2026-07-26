@@ -43,9 +43,7 @@ function ArticleListSection({ className }: ArticleListSectionProps) {
                 >
                   <div className="min-w-0 flex-1">
                     <div className="mb-3 flex flex-wrap items-center gap-2">
-                      <Badge className="bg-brand-coral/15 text-brand-coral">
-                        {post.tags[0] ?? "Guide"}
-                      </Badge>
+                      <Badge className="bg-brand-coral/15 text-brand-coral">{post.category}</Badge>
                       <span className="text-xs text-brand-ink-500">
                         {formatDate(post.publishedAt)}
                       </span>
@@ -54,7 +52,7 @@ function ArticleListSection({ className }: ArticleListSectionProps) {
                       {post.title}
                     </h3>
                     <p className="mt-2 max-w-2xl text-sm leading-relaxed text-brand-ink-500 md:text-base">
-                      {post.excerpt ?? "Read the latest update from the PawPair team."}
+                      {post.excerpt || "Read the latest update from the PawPair team."}
                     </p>
                   </div>
                   <span className="shrink-0 text-sm font-medium text-brand-coral group-hover:underline">

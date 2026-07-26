@@ -10,6 +10,8 @@ export const metadata: Metadata = {
   description: PAGE_SEO.blogGrid.description,
 };
 
+export const dynamic = "force-dynamic";
+
 export default function BlogGridPage() {
   return (
     <>

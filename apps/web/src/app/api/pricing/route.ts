@@ -13,7 +13,11 @@ export async function GET() {
       name: plan.name,
       price: plan.price,
       interval: plan.interval,
+      nickname: plan.nickname ?? "",
+      description: plan.description ?? "",
       features: plan.features,
+      ctaLabel: plan.ctaLabel ?? "Get started",
+      featured: plan.featured,
     })),
   );
 }

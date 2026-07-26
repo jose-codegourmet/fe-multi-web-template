@@ -1,5 +1,5 @@
 import type { ReactNode } from "react";
-import { DEMO_BLOG_POSTS } from "@/constants/demo-content";
+import { fetchBlogPosts } from "@/hooks/use-blog-posts/server";
 import { CommunityCommitmentSection } from "@/sections/about/community-commitment/CommunityCommitmentSection";
 import { AboutFinalCtaSection } from "@/sections/about/final-cta/AboutFinalCtaSection";
 import { AboutHeroSection } from "@/sections/about/hero/AboutHeroSection";
@@ -41,8 +41,6 @@ import { PricingFinalCtaSection } from "@/sections/pricing/final-cta/PricingFina
 import { PricingHeroSection } from "@/sections/pricing/hero/PricingHeroSection";
 import { PricingPlansSection } from "@/sections/pricing/plans/PricingPlansSection";
 
-const demoPost = DEMO_BLOG_POSTS[0];
-
 function SectionPreview({
   path,
   label,
@@ -72,7 +70,13 @@ function SectionGroup({ title, children }: { title: string; children: ReactNode 
   );
 }
 
-function SectionsShowcase() {
+async function SectionsShowcase() {
+  const demoPost = (await fetchBlogPosts())[0];
+
+  if (!demoPost) {
+    return null;
+  }
+
   return (
     <div className="space-y-16">
       <SectionGroup title="Home">

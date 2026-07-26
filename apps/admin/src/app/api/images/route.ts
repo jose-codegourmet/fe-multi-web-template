@@ -31,6 +31,11 @@ export async function POST(req: Request) {
     return NextResponse.json({ error: "File too large (max 5 MB)" }, { status: 400 });
   }
 
+  const ALLOWED_TYPES = ["image/jpeg", "image/png", "image/gif", "image/webp", "image/svg+xml"];
+  if (!ALLOWED_TYPES.includes(file.type)) {
+    return NextResponse.json({ error: "Only image files are allowed" }, { status: 400 });
+  }
+
   const ext = file.name.split(".").pop() ?? "jpg";
   const path = `${user.id}/${Date.now()}.${ext}`;
 

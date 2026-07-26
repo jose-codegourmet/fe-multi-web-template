@@ -9,6 +9,8 @@ export const metadata: Metadata = {
   description: "Developer reference: pages, sections, components, and theme preview.",
 };
 
+export const dynamic = "force-dynamic";
+
 const SAMPLE_PAGES = [
   {
     name: "Home",

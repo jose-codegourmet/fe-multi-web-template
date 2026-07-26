@@ -238,11 +238,17 @@ export function PetDialog({ pet, ownerOptions, trigger }: PetDialogProps) {
                 </FormItem>
               )}
             />
+            {ownerOptions.length === 0 && (
+              <p className="text-sm text-destructive">No users found. Create a user first.</p>
+            )}
             <div className="flex justify-end gap-2 pt-2">
               <Button type="button" variant="outline" onClick={() => setOpen(false)}>
                 Cancel
               </Button>
-              <Button type="submit" disabled={form.formState.isSubmitting}>
+              <Button
+                type="submit"
+                disabled={ownerOptions.length === 0 || form.formState.isSubmitting}
+              >
                 {form.formState.isSubmitting ? "Saving…" : "Save"}
               </Button>
             </div>

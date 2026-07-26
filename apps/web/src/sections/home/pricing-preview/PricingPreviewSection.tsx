@@ -9,15 +9,17 @@ import {
   ScrollReveal,
 } from "@fe-template/ui";
 import Link from "next/link";
-import { DEMO_PRICING_PLANS } from "@/constants/demo-content";
 import { ROUTES } from "@/constants/routes";
+import { fetchPricingPlans } from "@/hooks/use-pricing-plans/server";
 import { cn } from "@/lib/utils";
 
 type PricingPreviewSectionProps = {
   className?: string;
 };
 
-function PricingPreviewSection({ className }: PricingPreviewSectionProps) {
+async function PricingPreviewSection({ className }: PricingPreviewSectionProps) {
+  const pricingPlans = await fetchPricingPlans();
+
   return (
     <section
       data-slot="pricing-preview-section"
@@ -31,7 +33,7 @@ function PricingPreviewSection({ className }: PricingPreviewSectionProps) {
         </ScrollReveal>
 
         <div className="mt-12 grid gap-6 md:grid-cols-3">
-          {DEMO_PRICING_PLANS.map((plan, index) => (
+          {pricingPlans.map((plan, index) => (
             <ScrollReveal key={plan.id} delay={0.1 * (index + 1)}>
               <Card
                 className={cn(
@@ -50,11 +52,11 @@ function PricingPreviewSection({ className }: PricingPreviewSectionProps) {
                   </div>
                   <p className="text-sm font-medium text-brand-lavender">{plan.nickname}</p>
                   <p className="font-display mt-2 text-3xl font-semibold text-brand-deep-ink">
-                    {plan.priceMonthly === 0 ? (
+                    {plan.price === 0 ? (
                       "Free"
                     ) : (
                       <>
-                        ${plan.priceMonthly}
+                        ${plan.price / 100}
                         <span className="text-base font-normal text-brand-ink-500">/mo</span>
                       </>
                     )}
