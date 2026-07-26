@@ -1,10 +1,26 @@
 "use client";
 
-import { Badge, Button } from "@fe-template/ui";
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+  AlertDialogTrigger,
+  Badge,
+  Button,
+} from "@fe-template/ui";
+import { useQueryClient } from "@tanstack/react-query";
+import { Trash2Icon } from "lucide-react";
 import { useTransition } from "react";
+import { toast } from "sonner";
 import { useContacts } from "@/hooks/use-contacts/client";
+import { contactsQueryKey } from "@/hooks/use-contacts/query";
 import type { ContactRow, ContactStatus } from "@/hooks/use-contacts/types";
-import { updateContactStatus } from "./actions";
+import { deleteContact, updateContactStatus } from "./actions";
 
 function statusBadgeClass(status: ContactStatus) {
   if (status === "RESOLVED") {
@@ -29,11 +45,24 @@ export function ContactsList() {
 }
 
 function ContactCard({ item }: { item: ContactRow }) {
+  const qc = useQueryClient();
   const [pending, startTransition] = useTransition();
 
   function setStatus(status: ContactStatus) {
     startTransition(async () => {
       await updateContactStatus(item.id, status);
+    });
+  }
+
+  function handleDelete() {
+    startTransition(async () => {
+      const result = await deleteContact(item.id);
+      if (!result.success) {
+        toast.error(result.error);
+        return;
+      }
+      toast.success("Contact deleted");
+      await qc.invalidateQueries({ queryKey: contactsQueryKey.list() });
     });
   }
 
@@ -86,10 +115,56 @@ function ContactCard({ item }: { item: ContactRow }) {
         >
           Mark unread
         </Button>
+        <DeleteContactDialog contact={item} pending={pending} onDelete={handleDelete} />
         <span className="ml-auto text-xs text-muted-foreground">
           {new Date(item.createdAt).toLocaleString()}
         </span>
       </div>
     </div>
+  );
+}
+
+type DeleteContactDialogProps = {
+  contact: ContactRow;
+  pending: boolean;
+  onDelete: () => void;
+};
+
+function DeleteContactDialog({ contact, pending, onDelete }: DeleteContactDialogProps) {
+  return (
+    <AlertDialog>
+      <AlertDialogTrigger
+        render={
+          <Button
+            type="button"
+            variant="ghost"
+            size="icon"
+            className="size-8 text-destructive hover:text-destructive"
+            disabled={pending}
+          >
+            <Trash2Icon className="size-4" />
+            <span className="sr-only">Delete</span>
+          </Button>
+        }
+      />
+      <AlertDialogContent>
+        <AlertDialogHeader>
+          <AlertDialogTitle>Delete contact from {contact.name}?</AlertDialogTitle>
+          <AlertDialogDescription>
+            This will permanently delete this contact submission. This action cannot be undone.
+          </AlertDialogDescription>
+        </AlertDialogHeader>
+        <AlertDialogFooter>
+          <AlertDialogCancel>Cancel</AlertDialogCancel>
+          <AlertDialogAction
+            disabled={pending}
+            onClick={onDelete}
+            className="bg-destructive text-destructive-foreground hover:bg-destructive/90"
+          >
+            {pending ? "Deleting…" : "Delete"}
+          </AlertDialogAction>
+        </AlertDialogFooter>
+      </AlertDialogContent>
+    </AlertDialog>
   );
 }
