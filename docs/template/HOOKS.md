@@ -51,7 +51,7 @@ apps/<app>/src/hooks/use-blog-posts/
 | Folder | `use-` prefix, kebab-case | `use-blog-posts/` |
 | Client export | `use` + PascalCase | `useBlogPosts` in `client.ts` |
 | Server export | `fetch` + PascalCase | `fetchBlogPosts` in `server.ts` |
-| Query keys | `*QueryKey.list()` | `blogPostsQueryKey.list()` → `["blogPosts","list"]` |
+| Query keys | `*QueryKey.list()` | `blogPostsQueryKey.list()` → `["blog-posts","list"]` |
 
 ---
 
