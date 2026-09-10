@@ -90,7 +90,7 @@ import { users } from "./constants/users";
 async function main() {
   for (const user of users) {
     await prisma.user.upsert({
-      where: { email: user.email },
+      where: { id: user.id },
       update: {},
       create: user,
     });

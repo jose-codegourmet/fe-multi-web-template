@@ -28,7 +28,7 @@ Prisma's split-schema layout, configured via `"prisma": { "schema": "prisma/sche
 packages/db/prisma/
 ├── schema/
 │   ├── schema.prisma      # generator + datasource
-│   ├── user.prisma        # User, Profile, Role
+│   ├── user.prisma        # User, Profile, Role, UserStatus
 │   ├── pet.prisma         # Pet, PetSpecies, PetMatch, MatchStatus
 │   ├── post.prisma        # Post
 │   ├── marketing.prisma   # Contact, Testimonial, PricingPlan
@@ -38,7 +38,7 @@ packages/db/prisma/
 
 | Model | Notes |
 | --- | --- |
-| `User` | Email-unique account with `role` (`USER` \| `ADMIN`), owns pets and posts |
+| `User` | Email-unique account with `role` (`USER` \| `ADMIN`) and `status` (`UserStatus`, default `PENDING`); owns pets and posts |
 | `Profile` | Supabase auth user (`id` = `auth.users` UUID) created after OTP confirmation |
 | `Pet` | Belongs to a `User`; species enum; cascade-deletes with its owner |
 | `PetMatch` | Requester/receiver pet pair with `PENDING` / `ACCEPTED` / `REJECTED` status |
