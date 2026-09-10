@@ -22,7 +22,7 @@ API hooks live in each app's own `src/hooks/` folder (`apps/web/src/hooks/`, `ap
 | `use-posts/` | `fetchPosts`, `fetchPost`, `usePosts` |
 | `use-contacts/` | `fetchContacts`, `useContacts` |
 | `use-testimonials/` | `fetchTestimonials`, `useTestimonials` |
-| `use-pricing-plans/` | `fetchPricingPlans` (no barrel file) |
+| `use-pricing-plans/` | `fetchPricingPlans`, `usePricingPlans` |
 | `use-current-user.ts` | Client current-user hook |
 | `current-user.ts` | Server `fetchCurrentUserByEmail` |
 | `use-mobile.ts` | Viewport utility |
@@ -39,7 +39,7 @@ apps/<app>/src/hooks/use-blog-posts/
 ├── server.ts    ← fetchBlogPosts (server fetch / Prisma)
 ├── query.ts     ← blogPostsQueryKey.list()
 ├── types.ts
-└── useBlogPosts.ts  ← barrel (most folders have one; admin use-pricing-plans does not)
+└── useBlogPosts.ts  ← barrel (every entity hook folder has one)
 ```
 
 ---

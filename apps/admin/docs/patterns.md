@@ -136,10 +136,10 @@ src/hooks/use-users/
   ├── server.ts
   ├── query.ts
   ├── types.ts
-  └── useUsers.ts          # barrel (five of six entity hooks have one)
+  └── useUsers.ts          # barrel (all six entity hooks have one)
 ```
 
-`use-pricing-plans/` has `client.ts`, `server.ts`, `query.ts`, and `types.ts` but no barrel file. Current-user helpers sit next to the folders as `use-current-user.ts` (client) and `current-user.ts` (server), plus the shared utility `use-mobile.ts`.
+`use-pricing-plans/` follows the same layout, including `usePricingPlans.ts`. Current-user helpers sit next to the folders as `use-current-user.ts` (client) and `current-user.ts` (server), plus the shared utility `use-mobile.ts`.
 
 Real references:
 
