@@ -170,11 +170,15 @@ Header, footer, and sidebar live in `src/modules/layout/`; the provider tree liv
 
 ## Admin Route Map
 
-Admin pages are async Server Components that query Prisma directly; mutations go through Server Actions in the co-located `actions.ts`. Everything under `(dashboard)` is gated by `apps/admin/middleware.ts` (Supabase session required).
+Admin pages are async Server Components that query Prisma directly; mutations go through Server Actions in the co-located `actions.ts`. Everything under `(dashboard)` is gated by `apps/admin/middleware.ts` (Supabase session required). `/` is not the dashboard: `app/page.tsx` redirects to `/dashboard`.
 
 | Route | File | Page |
 | --- | --- | --- |
-| `/` | `app/(dashboard)/page.tsx` | Dashboard — stat cards + posts-per-month chart |
+| `/` | `app/page.tsx` | Redirects to `/dashboard` |
+| `/login` | `app/login/page.tsx` | Supabase email/password sign-in (outside the shell) |
+| `/signup` | `app/signup/page.tsx` | Public self-signup |
+| `/otp` | `app/otp/page.tsx` | OTP confirmation |
+| `/dashboard` | `app/(dashboard)/dashboard/page.tsx` | Dashboard — stat cards + charts |
 | `/users` | `app/(dashboard)/users/page.tsx` | Users table with email search |
 | `/users/[id]` | `app/(dashboard)/users/[id]/page.tsx` | User detail; role change via `role-select.tsx` |
 | `/pets` | `app/(dashboard)/pets/page.tsx` | Pet profiles with owner |
@@ -183,8 +187,10 @@ Admin pages are async Server Components that query Prisma directly; mutations go
 | `/posts/[id]` | `app/(dashboard)/posts/[id]/page.tsx` | Edit post |
 | `/testimonials` | `app/(dashboard)/testimonials/page.tsx` | Testimonials with publish toggle |
 | `/contacts` | `app/(dashboard)/contacts/page.tsx` | Contact inbox with status actions |
-| `/login` | `app/login/page.tsx` | Supabase email/password sign-in (outside the shell) |
+| `/pricing-plans` | `app/(dashboard)/pricing-plans/page.tsx` | Pricing plan CRUD |
+| `/profile` | `app/(dashboard)/profile/page.tsx` | Signed-in admin profile |
+| `POST /api/images` | `app/api/images/route.ts` | Upload to Supabase Storage (`admin-uploads`) |
 
-Route-local client components (tables, forms, toggles) sit next to the page that uses them — `posts/posts-table.tsx`, `posts/post-form.tsx`, `contacts/contacts-list.tsx`, and so on. The admin shell (sidebar + header) is `app/(dashboard)/layout.tsx` composing `src/modules/layout/`.
+Route-local client components (tables, forms, toggles) sit next to the page that uses them — `posts/posts-table.tsx`, `posts/post-form/PostForm.tsx`, `contacts/contacts-list.tsx`, and so on. The admin shell (sidebar + header) is `app/(dashboard)/layout.tsx` composing `src/modules/layout/`.
 
 Setup and auth details: [`apps/admin/README.md`](../../apps/admin/README.md).
