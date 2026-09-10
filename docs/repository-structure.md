@@ -120,7 +120,7 @@ packages/ui/
     ├── index.ts              # Public barrel export
     ├── styles.css            # tw-animate-css import
     ├── lib/utils.ts          # cn()
-    └── components/           # ~60 component folders
+    └── components/           # 63 component folders; see packages/ui/src/index.ts
 ```
 
 ### `packages/db` — Prisma client and schema (`@fe-template/db`)

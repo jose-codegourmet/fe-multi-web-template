@@ -6,7 +6,7 @@ Purpose, consumers, and usage for the shared UI library.
 
 ## Purpose
 
-`@fe-template/ui` is a shared UI primitive library built on Base UI with shadcn-style conventions. It provides ~60 components, a `DataTable`, a `ScrollReveal` motion component, form helpers, and the `cn()` utility. Both apps import from it, so changes here affect all consumers.
+`@fe-template/ui` is a shared UI primitive library built on Base UI with shadcn-style conventions. It provides 63 component folders (see `src/index.ts` for the current export list), including a `DataTable`, a `ScrollReveal` motion component, form helpers, and the `cn()` utility. Both apps import from it, so changes here affect all consumers.
 
 ---
 
