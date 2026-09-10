@@ -75,10 +75,10 @@ Run the commands that apply to the scope of your change. Always run at least lin
 | Install | `pnpm install` | — |
 | Dev | `pnpm dev` | `pnpm --filter web dev` / `pnpm --filter admin dev` |
 | Build | `pnpm build` | `pnpm --filter web build` / `pnpm --filter admin build` |
-| Lint (Biome) | `pnpm lint` | `pnpm lint` (Biome scans the whole repo) |
+| Lint (Biome) | `pnpm lint` | `pnpm lint` (Biome scans the whole repo); `pnpm --filter @fe-template/ui lint` |
 | Lint fix (Biome) | `pnpm lint:fix` | `pnpm lint:fix` |
 | Format | `pnpm format` | `pnpm format` |
-| App lint (ESLint) | `pnpm lint:apps` | `pnpm --filter <name> lint` |
+| App lint (ESLint) | `pnpm lint:apps` | `pnpm --filter web lint` / `pnpm --filter admin lint` |
 | Type check | `pnpm typecheck` | `pnpm --filter <name> typecheck` |
 | Storybook | `pnpm storybook` | `pnpm --filter web storybook` / `pnpm --filter admin storybook` |
 | DB generate | `pnpm db:generate` | `pnpm --filter @fe-template/db db:generate` |

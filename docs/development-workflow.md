@@ -102,7 +102,7 @@ pnpm --filter web lint          # web only
 pnpm --filter admin lint        # admin only
 ```
 
-Note: `packages/ui` also has a `lint` script (`eslint .`), but `pnpm lint:apps` only runs `turbo run lint`, which includes whatever Turbo sees in the workspace. No package currently has `lint` in the root Turbo pipeline for all scopes, so package linting is normally reached via `pnpm --filter @fe-template/ui lint`.
+`packages/ui` is linted by Biome, not ESLint. Run `pnpm --filter @fe-template/ui lint` (`biome check .`) or the repo-wide `pnpm lint`. `pnpm lint:apps` is for Next.js ESLint in `apps/web` and `apps/admin` only.
 
 ---
 

@@ -78,7 +78,7 @@ Apps also keep a local `cn()` in `src/lib/utils.ts`, but the package exports it 
 | Command | Purpose |
 |---|---|
 | `pnpm --filter @fe-template/ui typecheck` | TypeScript check |
-| `pnpm --filter @fe-template/ui lint` | ESLint across the package |
+| `pnpm --filter @fe-template/ui lint` | Biome check for this package |
 | `pnpm lint` | Biome across the whole repo |
 
 ---
@@ -107,4 +107,4 @@ pnpm --filter web storybook
 
 ## Linting note
 
-`packages/ui` has a `lint` script that runs `eslint .`, but no `eslint.config.*` file exists in the package. The root `biome.json` also covers the package. If `pnpm --filter @fe-template/ui lint` fails due to missing config, use `pnpm lint` instead and consider adding a local ESLint config if the package needs app-specific rules.
+`packages/ui` is linted by Biome. `pnpm --filter @fe-template/ui lint` runs `biome check .` using the root `biome.json`. The same rules also apply when you run `pnpm lint` from the repo root. This package does not use ESLint.
