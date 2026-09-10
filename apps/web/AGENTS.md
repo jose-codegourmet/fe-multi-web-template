@@ -44,11 +44,14 @@ Local agent instructions for the public marketing site. Read `/AGENTS.md` first,
 |---|---|---|
 | `/` | `src/app/page.tsx` | Home page (force-dynamic) |
 | `/about` | `src/app/about/page.tsx` | About page |
-| `/blog` | `src/app/blog/page.tsx` | Blog list |
+| `/blog` | `src/app/blog/page.tsx` | Blog list (editorial) |
+| `/blog/grid` | `src/app/blog/grid/page.tsx` | Blog grid (`PAGE_SEO.blogGrid`) |
 | `/blog/[slug]` | `src/app/blog/[slug]/page.tsx` | Blog post detail |
 | `/pricing` | `src/app/pricing/page.tsx` | Pricing page |
 | `/contact` | `src/app/contact/page.tsx` | Contact page |
-| `/showcase` | `src/app/showcase/page.tsx` | Component showcase |
+| `/otp` | `src/app/otp/page.tsx` | OTP verification demo (`PAGE_SEO.otp`) |
+| `/showcase` | `src/app/showcase/page.tsx` | Dev catalog (`ComponentsShowcase`, `SectionsShowcase`, `ThemePreview`). Intentionally omitted from `PAGE_SEO` — not a marketing page. |
+| `not-found` | `src/app/not-found.tsx` | Branded 404 (`PAGE_SEO.notFound`) |
 | `/api/blog` | `src/app/api/blog/route.ts` | Blog posts API |
 | `/api/pricing` | `src/app/api/pricing/route.ts` | Pricing plans API |
 | `/api/testimonials` | `src/app/api/testimonials/route.ts` | Testimonials API |
