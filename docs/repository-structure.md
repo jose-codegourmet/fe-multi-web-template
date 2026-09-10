@@ -95,7 +95,7 @@ apps/admin/
     │       ├── dashboard/page.tsx
     │       ├── users/        # page, [id]/page, actions.ts, table/dialogs
     │       ├── pets/
-    │       ├── posts/        # page, new/, [id]/, actions.ts, post-form.tsx
+    │       ├── posts/        # page, new/, [id]/, actions.ts, post-form/PostForm.tsx
     │       ├── pricing-plans/
     │       ├── testimonials/
     │       ├── contacts/
