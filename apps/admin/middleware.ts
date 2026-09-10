@@ -36,17 +36,20 @@ export async function middleware(request: NextRequest) {
 
   // TODO: enforce User.role === ADMIN via Prisma once the auth user is linked to the DB User model.
 
-  const isLoginRoute = request.nextUrl.pathname.startsWith("/login");
+  const isPublicRoute =
+    request.nextUrl.pathname.startsWith("/login") ||
+    request.nextUrl.pathname.startsWith("/signup") ||
+    request.nextUrl.pathname.startsWith("/otp");
 
-  if (!user && !isLoginRoute) {
+  if (!user && !isPublicRoute) {
     const url = request.nextUrl.clone();
     url.pathname = "/login";
     return NextResponse.redirect(url);
   }
 
-  if (user && isLoginRoute) {
+  if (user && isPublicRoute) {
     const url = request.nextUrl.clone();
-    url.pathname = "/";
+    url.pathname = "/dashboard";
     return NextResponse.redirect(url);
   }
 

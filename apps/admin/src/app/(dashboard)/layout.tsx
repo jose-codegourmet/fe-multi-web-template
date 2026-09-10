@@ -6,7 +6,7 @@ import { AdminSidebar } from "@/modules/layout/AdminSidebar";
 import { SidebarInset, SidebarProvider } from "@/modules/layout/sidebar/Sidebar";
 
 const TITLES: Record<string, string> = {
-  "/": "Dashboard",
+  "/dashboard": "Dashboard",
   "/users": "Users",
   "/pets": "Pets",
   "/posts": "Blog",

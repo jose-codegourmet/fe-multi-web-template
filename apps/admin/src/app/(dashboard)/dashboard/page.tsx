@@ -9,8 +9,8 @@ import {
   UsersIcon,
 } from "lucide-react";
 import Link from "next/link";
-import { CommunityGrowthChart, type GrowthPoint } from "./community-growth-chart";
-import { type ActivityItem, RecentActivity } from "./recent-activity";
+import { CommunityGrowthChart, type GrowthPoint } from "../community-growth-chart";
+import { type ActivityItem, RecentActivity } from "../recent-activity";
 
 function startOfDay(date: Date) {
   const next = new Date(date);

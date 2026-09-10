@@ -1,9 +1,12 @@
+export type UserStatus = "PENDING" | "VERIFIED" | "DEACTIVATED" | "MOCK";
+
 export type UserRow = {
   id: string;
   name: string | null;
   email: string;
   avatarUrl: string | null;
   role: "USER" | "ADMIN";
+  status: UserStatus;
   bio: string | null;
   petsCount: number;
   createdAt: string;
@@ -15,6 +18,7 @@ export type UserDetail = {
   email: string;
   avatarUrl: string | null;
   role: "USER" | "ADMIN";
+  status: UserStatus;
   bio: string | null;
   createdAt: string;
   pets: Array<{

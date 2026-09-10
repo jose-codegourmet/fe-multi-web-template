@@ -1,6 +1,6 @@
 # `apps/web`
 
-The public marketing site (Next.js App Router) inside the [fe-multi-web-template](../../README.md) monorepo. Runs on **port 3000**; the admin portal lives in [`apps/admin`](../admin/README.md) on port 3001.
+The public marketing site (Next.js App Router) inside the [fe-multi-web-template](../../README.md) monorepo. Runs on **port 9000**; the admin portal lives in [`apps/admin`](../admin/README.md) on port 9001.
 
 Prefer running scripts from the **repo root** so workspace tooling and filters stay consistent.
 
@@ -12,7 +12,7 @@ From the monorepo root:
 
 ```bash
 pnpm install
-pnpm --filter web dev            # http://localhost:3000
+pnpm --filter web dev            # http://localhost:9000
 pnpm --filter web storybook      # http://localhost:6006
 pnpm --filter web build
 pnpm --filter web typecheck

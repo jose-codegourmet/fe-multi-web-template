@@ -1,7 +1,7 @@
 import { dehydrate, HydrationBoundary, QueryClient } from "@tanstack/react-query";
 import { usersQueryKey } from "@/hooks/use-users/query";
 import { fetchUsers } from "@/hooks/use-users/server";
-import { UserDialog } from "./user-dialog";
+import { UserDialog } from "./user-dialog/UserDialog";
 import { UsersTable } from "./users-table";
 
 export default async function UsersPage() {

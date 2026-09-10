@@ -15,6 +15,7 @@ export async function fetchUsers(): Promise<UserRow[]> {
     email: user.email,
     avatarUrl: user.avatarUrl,
     role: user.role,
+    status: user.status,
     bio: user.bio,
     petsCount: user._count.pets,
     createdAt: user.createdAt.toISOString(),
@@ -38,6 +39,7 @@ export async function fetchUser(id: string): Promise<UserDetail | null> {
     email: user.email,
     avatarUrl: user.avatarUrl,
     role: user.role,
+    status: user.status,
     bio: user.bio,
     createdAt: user.createdAt.toISOString(),
     pets: user.pets.map((pet) => ({

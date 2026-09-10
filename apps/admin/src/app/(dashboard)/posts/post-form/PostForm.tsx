@@ -16,35 +16,10 @@ import {
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { toast } from "sonner";
-import { z } from "zod";
 import { uploadImage } from "@/lib/upload-image";
-import { createPost, type PostFormData, updatePost } from "./actions";
-
-const postFormSchema = z.object({
-  title: z.string().min(1, "Title is required"),
-  slug: z
-    .string()
-    .min(1, "Slug is required")
-    .regex(/^[a-z0-9]+(?:-[a-z0-9]+)*$/, "Slug must be lowercase kebab-case"),
-  excerpt: z.string().optional(),
-  content: z.string().min(1, "Content is required"),
-  coverImage: z.string().optional().nullable(),
-  tags: z.string().optional(),
-  published: z.boolean(),
-  authorId: z.string().min(1, "Author is required"),
-});
-
-export type PostFormValues = {
-  id?: string;
-  title: string;
-  slug: string;
-  excerpt: string;
-  content: string;
-  coverImage: string;
-  tags: string;
-  published: boolean;
-  authorId: string;
-};
+import { createPost, type PostFormData, updatePost } from "../actions";
+import type { PostFormValues } from "./PostForm.defaults";
+import { type PostFormSchemaValues, postFormSchema } from "./PostForm.schema";
 
 type AuthorOption = {
   id: string;
@@ -73,7 +48,7 @@ export function PostForm({
     },
   });
 
-  async function onSubmit(values: z.infer<typeof postFormSchema>) {
+  async function onSubmit(values: PostFormSchemaValues) {
     const data: PostFormData = {
       title: values.title,
       slug: values.slug,
@@ -265,3 +240,5 @@ export function PostForm({
     </Form>
   );
 }
+
+export type { PostFormValues } from "./PostForm.defaults";

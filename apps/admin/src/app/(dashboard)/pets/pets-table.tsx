@@ -6,7 +6,7 @@ import { PawPrintIcon, PencilIcon, Trash2Icon } from "lucide-react";
 import { useMemo, useState } from "react";
 import { usePets } from "@/hooks/use-pets/client";
 import type { PetRow } from "@/hooks/use-pets/types";
-import { DeletePetDialog, type OwnerOption, PetDialog } from "./pet-dialog";
+import { DeletePetDialog, type OwnerOption, PetDialog } from "./pet-dialog/PetDialog";
 
 const SPECIES_FILTERS = ["ALL", "DOG", "CAT", "BIRD", "RABBIT", "OTHER"] as const;
 

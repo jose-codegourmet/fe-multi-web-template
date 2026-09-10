@@ -4,7 +4,7 @@ import { dehydrate, HydrationBoundary, QueryClient } from "@tanstack/react-query
 import { CatIcon, DogIcon, PawPrintIcon, RabbitIcon } from "lucide-react";
 import { petsQueryKey } from "@/hooks/use-pets/query";
 import { fetchPets } from "@/hooks/use-pets/server";
-import { PetDialog } from "./pet-dialog";
+import { PetDialog } from "./pet-dialog/PetDialog";
 import { PetsTable } from "./pets-table";
 
 async function getSpeciesStats() {

@@ -26,7 +26,7 @@ import { useTheme } from "next-themes";
 import { useActionState, useEffect, useState } from "react";
 import { currentUserQueryKey, getInitials, useCurrentUser } from "@/hooks/use-current-user";
 import { createClient } from "@/lib/supabase/client";
-import { type ProfileActionState, updateProfile } from "./actions";
+import { type ProfileActionState, updateProfile } from "../actions";
 
 const THEME_OPTIONS = [
   { value: "light", label: "Light" },

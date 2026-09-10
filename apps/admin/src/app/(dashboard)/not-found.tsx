@@ -22,7 +22,7 @@ export default function DashboardNotFound() {
         the pets registry.
       </p>
       <div className="mt-8 flex flex-wrap items-center justify-center gap-3">
-        <Button className="rounded-full" render={<Link href="/" />}>
+        <Button className="rounded-full" render={<Link href="/dashboard" />}>
           Return to dashboard
         </Button>
         <Button variant="outline" className="rounded-full" render={<Link href="/pets" />}>

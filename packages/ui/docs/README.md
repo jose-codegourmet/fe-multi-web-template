@@ -1,0 +1,107 @@
+# `@fe-template/ui` — Shared UI Primitives
+
+Purpose, consumers, and usage for the shared UI library.
+
+---
+
+## Purpose
+
+`@fe-template/ui` is a shared UI primitive library built on Base UI with shadcn-style conventions. It provides ~60 components, a `DataTable`, a `ScrollReveal` motion component, form helpers, and the `cn()` utility. Both apps import from it, so changes here affect all consumers.
+
+---
+
+## What problems it solves
+
+- Provides a single source of truth for UI primitives across the monorepo.
+- Avoids duplicated shadcn/component code in each app.
+- Enforces consistent styling, accessibility, and API patterns.
+
+---
+
+## Intended consumers
+
+- `apps/web` — marketing sections, layout, showcase.
+- `apps/admin` — dashboard tables, dialogs, forms, layout, charts.
+
+No package currently consumes this library.
+
+---
+
+## Public entry points
+
+| Entry | Path | What it provides |
+|---|---|---|
+| `@fe-template/ui` | `src/index.ts` | Barrel export of all components and `cn` |
+| `@fe-template/ui/styles.css` | `src/styles.css` | `tw-animate-css` import |
+| `@fe-template/ui/*` | `src/components/*` | Subpath access to individual components (not currently used by apps) |
+
+---
+
+## Major dependencies
+
+| Dependency | Purpose |
+|---|---|
+| `@base-ui/react` | Core accessible primitives (Button, Dialog, Select, Tabs, etc.) |
+| `@shadcn/react` | `MessageScroller` |
+| `@tanstack/react-table` | `DataTable` |
+| `class-variance-authority` | Variant APIs |
+| `clsx` + `tailwind-merge` | `cn()` utility |
+| `cmdk` | `Command` component |
+| `embla-carousel-react` | `Carousel` and `EmblaCarousel` |
+| `framer-motion` | `ScrollReveal` |
+| `input-otp` | `InputOTP` |
+| `lucide-react` | Icons |
+| `next-themes` | `Toaster` theme awareness |
+| `react-day-picker` | `Calendar` |
+| `react-hook-form` | `Form` helpers |
+| `react-resizable-panels` | `Resizable` components |
+| `recharts` | `Chart` components |
+| `sonner` | `Toaster` |
+| `tw-animate-css` | Global animation CSS |
+| `zod` | Form schemas in some components |
+
+---
+
+## Basic usage
+
+```tsx
+import { Button, Card, ScrollReveal, cn } from "@fe-template/ui";
+```
+
+For variant classes:
+
+```tsx
+import { buttonVariants } from "@fe-template/ui";
+import Link from "next/link";
+
+<Link href="/" className={buttonVariants({ variant: "outline" })}>Home</Link>
+```
+
+---
+
+## Development and validation commands
+
+| Command | Purpose |
+|---|---|
+| `pnpm --filter @fe-template/ui typecheck` | TypeScript check |
+| `pnpm --filter @fe-template/ui lint` | ESLint (currently runs `eslint .`) |
+| `pnpm lint` | Biome check across the repo |
+
+---
+
+## Local docs
+
+- `packages/ui/docs/api.md` — public exports and API stability
+- `packages/ui/docs/development.md` — how to add and change components
+- `packages/ui/docs/examples.md` — usage examples in consuming apps
+
+---
+
+## Common task routing
+
+| Task | Read next |
+|---|---|
+| Add a component | `packages/ui/docs/development.md`, `docs/template/COMPONENTS.md` |
+| Use a component | `docs/component-guide.md`, `packages/ui/docs/examples.md` |
+| Change an API | `packages/ui/docs/api.md`, then search all consumers |
+| Styling | `docs/styling-and-design-system.md` |

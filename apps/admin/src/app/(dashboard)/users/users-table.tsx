@@ -1,15 +1,131 @@
 "use client";
 
-import { Avatar, AvatarFallback, AvatarImage, Badge, Button, DataTable } from "@fe-template/ui";
+import {
+  Avatar,
+  AvatarFallback,
+  AvatarImage,
+  Badge,
+  Button,
+  DataTable,
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuLabel,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger,
+} from "@fe-template/ui";
+import { useQueryClient } from "@tanstack/react-query";
 import type { ColumnDef } from "@tanstack/react-table";
-import { PencilIcon, Trash2Icon } from "lucide-react";
+import { MoreHorizontalIcon, PencilIcon, Trash2Icon } from "lucide-react";
 import Link from "next/link";
-import { useMemo, useState } from "react";
+import { useMemo, useState, useTransition } from "react";
+import { toast } from "sonner";
 import { useUsers } from "@/hooks/use-users/client";
-import type { UserRow } from "@/hooks/use-users/types";
-import { DeleteUserDialog, UserDialog } from "./user-dialog";
+import { usersQueryKey } from "@/hooks/use-users/query";
+import type { UserRow, UserStatus } from "@/hooks/use-users/types";
+import { updateUserStatus } from "./actions";
+import { DeleteUserDialog, UserDialog } from "./user-dialog/UserDialog";
 
 const ROLE_FILTERS = ["ALL", "ADMIN", "USER"] as const;
+
+const STATUS_OPTIONS: { value: UserStatus; label: string }[] = [
+  { value: "PENDING", label: "Pending" },
+  { value: "VERIFIED", label: "Verified" },
+  { value: "DEACTIVATED", label: "Deactivated" },
+  { value: "MOCK", label: "Mock" },
+];
+
+const STATUS_BADGE_CLASS: Record<UserStatus, string> = {
+  PENDING: "border-transparent bg-amber-500/15 text-amber-700 dark:text-amber-400",
+  VERIFIED: "border-transparent bg-emerald-500/15 text-emerald-700 dark:text-emerald-400",
+  DEACTIVATED: "border-transparent bg-destructive/10 text-destructive",
+  MOCK: "border-transparent bg-slate-500/15 text-slate-600 dark:text-slate-400",
+};
+
+function StatusBadge({ status }: { status: UserStatus }) {
+  const label = STATUS_OPTIONS.find((option) => option.value === status)?.label ?? status;
+  return (
+    <Badge variant="outline" className={`rounded-full ${STATUS_BADGE_CLASS[status]}`}>
+      {label}
+    </Badge>
+  );
+}
+
+function UserRowActions({ user }: { user: UserRow }) {
+  const qc = useQueryClient();
+  const [pending, startTransition] = useTransition();
+
+  function handleStatusChange(status: UserStatus) {
+    if (status === user.status) return;
+    startTransition(async () => {
+      const result = await updateUserStatus(user.id, status);
+      if (!result.success) {
+        toast.error(result.error);
+        return;
+      }
+      toast.success(`Status set to ${status.toLowerCase()}`);
+      await qc.invalidateQueries({ queryKey: usersQueryKey.list() });
+    });
+  }
+
+  return (
+    <div className="flex items-center justify-end gap-1">
+      <UserDialog
+        user={user}
+        trigger={
+          <Button variant="ghost" size="icon" className="size-8">
+            <PencilIcon className="size-4" />
+            <span className="sr-only">Edit</span>
+          </Button>
+        }
+      />
+      <DeleteUserDialog
+        user={user}
+        trigger={
+          <Button
+            variant="ghost"
+            size="icon"
+            className="size-8 text-destructive hover:text-destructive"
+          >
+            <Trash2Icon className="size-4" />
+            <span className="sr-only">Delete</span>
+          </Button>
+        }
+      />
+      <DropdownMenu>
+        <DropdownMenuTrigger
+          render={
+            <Button
+              variant="ghost"
+              size="icon"
+              className="size-8"
+              disabled={pending}
+              aria-label="More actions"
+            />
+          }
+        >
+          <MoreHorizontalIcon className="size-4" />
+        </DropdownMenuTrigger>
+        <DropdownMenuContent align="end" className="min-w-44">
+          <DropdownMenuLabel>Set status</DropdownMenuLabel>
+          <DropdownMenuSeparator />
+          {STATUS_OPTIONS.map((option) => (
+            <DropdownMenuItem
+              key={option.value}
+              disabled={pending || option.value === user.status}
+              onClick={() => handleStatusChange(option.value)}
+            >
+              {option.label}
+              {option.value === user.status ? (
+                <span className="ml-auto text-xs text-muted-foreground">Current</span>
+              ) : null}
+            </DropdownMenuItem>
+          ))}
+        </DropdownMenuContent>
+      </DropdownMenu>
+    </div>
+  );
+}
 
 export function UsersTable() {
   const { data = [] } = useUsers();
@@ -56,6 +172,11 @@ export function UsersTable() {
         ),
       },
       {
+        accessorKey: "status",
+        header: "Status",
+        cell: ({ row }) => <StatusBadge status={row.original.status} />,
+      },
+      {
         accessorKey: "petsCount",
         header: "Pets",
       },
@@ -67,35 +188,7 @@ export function UsersTable() {
       {
         id: "actions",
         header: "",
-        cell: ({ row }) => {
-          const user = row.original;
-          return (
-            <div className="flex items-center justify-end gap-1">
-              <UserDialog
-                user={user}
-                trigger={
-                  <Button variant="ghost" size="icon" className="size-8">
-                    <PencilIcon className="size-4" />
-                    <span className="sr-only">Edit</span>
-                  </Button>
-                }
-              />
-              <DeleteUserDialog
-                user={user}
-                trigger={
-                  <Button
-                    variant="ghost"
-                    size="icon"
-                    className="size-8 text-destructive hover:text-destructive"
-                  >
-                    <Trash2Icon className="size-4" />
-                    <span className="sr-only">Delete</span>
-                  </Button>
-                }
-              />
-            </div>
-          );
-        },
+        cell: ({ row }) => <UserRowActions user={row.original} />,
       },
     ],
     [],

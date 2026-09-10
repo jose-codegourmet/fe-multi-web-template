@@ -11,8 +11,9 @@ For a shorter overview, see the [root README](../../README.md).
 ```text
 fe-multi-web-template/
 ├── apps/
-│   ├── web/                  # Marketing site (Next.js, port 3000)
-│   └── admin/                # Admin portal (Next.js, port 3001)
+│   ├── web/                  # Marketing site (Next.js, port 9000)
+│   └── admin/                # Admin portal (Next.js, port 9001)
+│       └── email-templates/  # Supabase Auth email HTML (copy into dashboard)
 ├── packages/
 │   ├── ui/                   # Shared UI primitives (@fe-template/ui)
 │   ├── db/                   # Prisma + Supabase Postgres (@fe-template/db)
@@ -34,6 +35,7 @@ Where things live:
 | Page sections | `apps/web/src/sections/[page]/[section]/` |
 | Header / footer / sidebar / providers | `apps/<app>/src/modules/` |
 | Database access | `packages/db` → `import { prisma } from "@fe-template/db"` |
+| Supabase Auth email HTML | `apps/<app>/email-templates/` (copy into Supabase dashboard) |
 
 ---
 
@@ -65,15 +67,15 @@ pnpm --filter @fe-template/db db:generate
 Per app:
 
 ```bash
-pnpm --filter web dev        # http://localhost:3000
-pnpm --filter admin dev      # http://localhost:3001
+pnpm --filter web dev        # http://localhost:9000
+pnpm --filter admin dev      # http://localhost:9001
 pnpm --filter web storybook  # http://localhost:6006
 ```
 
 Root-level shortcuts (all run through Turbo):
 
 ```bash
-pnpm dev                     # web (3000) + admin (3001) together
+pnpm dev                     # web (9000) + admin (9001) together
 pnpm build                   # production build of every workspace
 pnpm build-storybook         # static Storybook build
 pnpm db:generate             # Prisma client generation
@@ -113,6 +115,24 @@ apps/web/public/images/
 ```
 
 Keep UI text, buttons, pricing, and interactive elements in React — not baked into images.
+
+---
+
+## Email Templates
+
+Each app that integrates with Supabase Auth keeps an `email-templates/` folder at its app root (for example `apps/admin/email-templates/`).
+
+These HTML files use [Supabase Auth email template](https://supabase.com/docs/guides/auth/auth-email-templates) Go syntax — variables such as `{{ .ConfirmationURL }}` and `{{ .Token }}`.
+
+**They are not loaded by the app at runtime.** The folder exists so you can version-control the markup, then copy each file into the Supabase dashboard (**Authentication → Email Templates**) for previewing, debugging, and publishing.
+
+Current templates:
+
+| File | Supabase template |
+| --- | --- |
+| `apps/admin/email-templates/confirm-email.html` | Confirm signup |
+
+When you add auth to another app, create the same `email-templates/` folder there and keep only the templates that app needs.
 
 ---
 

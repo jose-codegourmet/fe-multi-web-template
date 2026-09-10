@@ -1,6 +1,6 @@
 # `apps/admin`
 
-The admin portal for [`apps/web`](../web/README.md) — a Next.js App Router app that manages the same Supabase Postgres database the marketing site is built around. Runs on **port 3001** so it can sit alongside web (3000).
+The admin portal for [`apps/web`](../web/README.md) — a Next.js App Router app that manages the same Supabase Postgres database the marketing site is built around. Runs on **port 9001** so it can sit alongside web (9000).
 
 It consumes [`@fe-template/ui`](../../packages/ui/README.md) for primitives and [`@fe-template/db`](../../packages/db/README.md) for the Prisma client.
 
@@ -29,7 +29,7 @@ From the monorepo root:
 ```bash
 pnpm install
 pnpm --filter @fe-template/db db:generate   # required before first run
-pnpm --filter admin dev                     # http://localhost:3001
+pnpm --filter admin dev                     # http://localhost:9001
 pnpm --filter admin build
 pnpm --filter admin typecheck
 ```
@@ -69,7 +69,7 @@ pnpm --filter @fe-template/db db:studio    # edit the User row, or
 pnpm --filter @fe-template/db db:seed      # seed demo data including an admin user
 ```
 
-3. Visit http://localhost:3001 and sign in.
+3. Visit http://localhost:9001 and sign in.
 
 > Role enforcement is not wired up yet: the middleware currently gates on "is there a Supabase session", and `middleware.ts` carries a TODO for the `User.role === ADMIN` check once auth users are linked to DB users. Any authenticated Supabase user can currently reach the dashboard.
 

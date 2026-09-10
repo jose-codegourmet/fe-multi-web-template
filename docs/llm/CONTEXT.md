@@ -25,7 +25,7 @@ Concise context for AI agents working in this repository.
 ## Folder Map
 
 ```text
-apps/web/src/               ← marketing site (port 3000)
+apps/web/src/               ← marketing site (port 9000)
 ├── app/                    ← pages (section composition only)
 ├── sections/               ← page sections, per page folder
 ├── constants/              ← routes.ts, seo.ts, navigation.ts
@@ -35,7 +35,7 @@ apps/web/src/               ← marketing site (port 3000)
 ├── modules/providers/      ← Redux + Query + theme
 └── store/                  ← Redux store + themeSlice
 
-apps/admin/src/             ← admin portal (port 3001)
+apps/admin/src/             ← admin portal (port 9001)
 ├── app/(dashboard)/        ← dashboard, users, pets, posts, testimonials, contacts
 ├── app/login/              ← Supabase sign-in
 ├── lib/supabase/           ← browser + server clients

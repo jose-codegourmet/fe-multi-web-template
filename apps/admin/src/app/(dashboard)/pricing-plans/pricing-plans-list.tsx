@@ -3,7 +3,10 @@
 import { Badge, Button } from "@fe-template/ui";
 import { PencilIcon, Trash2Icon } from "lucide-react";
 import { usePricingPlans } from "@/hooks/use-pricing-plans/client";
-import { DeletePricingPlanDialog, PricingPlanDialog } from "./pricing-plan-dialog";
+import {
+  DeletePricingPlanDialog,
+  PricingPlanDialog,
+} from "./pricing-plan-dialog/PricingPlanDialog";
 
 export function PricingPlansList() {
   const { data: plans = [] } = usePricingPlans();

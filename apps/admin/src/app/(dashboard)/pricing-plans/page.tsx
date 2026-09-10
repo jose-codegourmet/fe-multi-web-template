@@ -1,7 +1,7 @@
 import { dehydrate, HydrationBoundary, QueryClient } from "@tanstack/react-query";
 import { pricingPlansQueryKey } from "@/hooks/use-pricing-plans/query";
 import { fetchPricingPlans } from "@/hooks/use-pricing-plans/server";
-import { PricingPlanDialog } from "./pricing-plan-dialog";
+import { PricingPlanDialog } from "./pricing-plan-dialog/PricingPlanDialog";
 import { PricingPlansList } from "./pricing-plans-list";
 
 export default async function PricingPlansPage() {

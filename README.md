@@ -13,8 +13,8 @@ The bundled example brand is **PawPair**, a fictional pet social discovery app (
 ```text
 fe-multi-web-template/
 ├── apps/
-│   ├── web/                 # Public marketing site (Next.js, port 3000)
-│   └── admin/               # Admin portal: CMS, user management, analytics (Next.js, port 3001)
+│   ├── web/                 # Public marketing site (Next.js, port 9000)
+│   └── admin/               # Admin portal: CMS, user management, analytics (Next.js, port 9001)
 ├── packages/
 │   ├── ui/                  # Shared UI primitives (@fe-template/ui)
 │   ├── db/                  # Prisma client + schema, Supabase Postgres (@fe-template/db)
@@ -75,14 +75,14 @@ cp packages/db/.env.example packages/db/.env      # Prisma CLI reads this
 cp apps/web/.env.example apps/web/.env.local
 cp apps/admin/.env.example apps/admin/.env.local
 pnpm --filter @fe-template/db db:generate         # generate the Prisma client
-pnpm dev                                          # web :3000 + admin :3001 via Turbo
+pnpm dev                                          # web :9000 + admin :9001 via Turbo
 ```
 
 To run a single app:
 
 ```bash
-pnpm --filter web dev            # http://localhost:3000
-pnpm --filter admin dev          # http://localhost:3001
+pnpm --filter web dev            # http://localhost:9000
+pnpm --filter admin dev          # http://localhost:9001
 pnpm --filter web storybook      # http://localhost:6006
 ```
 
@@ -94,7 +94,7 @@ First-time database setup and admin login are covered in [`packages/db/README.md
 
 | Script | Runs |
 | --- | --- |
-| `pnpm dev` | `turbo run dev` — web (3000) and admin (3001) together |
+| `pnpm dev` | `turbo run dev` — web (9000) and admin (9001) together |
 | `pnpm build` | `turbo run build` — production build of every workspace |
 | `pnpm start` | `turbo run start` — start built apps |
 | `pnpm typecheck` | `turbo run typecheck` — TypeScript across all workspaces |

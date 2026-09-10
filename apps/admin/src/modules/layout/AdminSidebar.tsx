@@ -27,7 +27,7 @@ import {
 } from "@/modules/layout/sidebar/Sidebar";
 
 const NAV_ITEMS = [
-  { href: "/", label: "Dashboard", icon: LayoutDashboardIcon },
+  { href: "/dashboard", label: "Dashboard", icon: LayoutDashboardIcon },
   { href: "/users", label: "Users", icon: UsersIcon },
   { href: "/pets", label: "Pets", icon: PawPrintIcon },
   { href: "/posts", label: "Blog", icon: FileTextIcon },
@@ -59,8 +59,8 @@ export function AdminSidebar() {
             <SidebarMenu>
               {NAV_ITEMS.map(({ href, label, icon: Icon }) => {
                 const isActive =
-                  href === "/"
-                    ? pathname === "/"
+                  href === "/dashboard"
+                    ? pathname === "/dashboard"
                     : pathname === href || pathname.startsWith(`${href}/`);
 
                 return (

@@ -1,0 +1,7 @@
+NEXT_PUBLIC_SUPABASE_URL=https://iqysqkmmtkthxrfiklhc.supabase.co
+NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY=sb_publishable_6S7XHsbSaCrf26zux6KUFw_M3wr3MaT
+NEXT_PUBLIC_SUPABASE_ANON_KEY=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImlxeXNxa21tdGt0aHhyZmlrbGhjIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODQ5NDA1NDMsImV4cCI6MjEwMDUxNjU0M30.rdB689nElN19l-6Nzg7YoeI2K2MSpknhT2TlYt2tICI
+DATABASE_URL="postgresql://postgres.iqysqkmmtkthxrfiklhc:j4bw0rk12345jab@aws-0-ap-northeast-1.pooler.supabase.com:6543/postgres?pgbouncer=true"
+DIRECT_URL="postgresql://postgres.iqysqkmmtkthxrfiklhc:j4bw0rk12345jab@aws-0-ap-northeast-1.pooler.supabase.com:5432/postgres"
+DATABASE_PASSWORD=j4bw0rk12345jab
+

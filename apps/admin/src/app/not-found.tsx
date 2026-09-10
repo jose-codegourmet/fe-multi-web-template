@@ -22,7 +22,7 @@ export default function RootNotFound() {
         We couldn&apos;t find that page. Return to the dashboard or browse pets to keep exploring.
       </p>
       <div className="mt-8 flex flex-wrap items-center justify-center gap-3">
-        <Button className="rounded-full" render={<Link href="/" />}>
+        <Button className="rounded-full" render={<Link href="/dashboard" />}>
           Return to dashboard
         </Button>
         <Button variant="outline" className="rounded-full" render={<Link href="/pets" />}>
