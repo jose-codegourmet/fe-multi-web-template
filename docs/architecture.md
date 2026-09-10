@@ -132,7 +132,7 @@ See `docs/state-management.md` for details.
 | Concern | Tool | Config location |
 |---|---|---|
 | Monorepo orchestration | Turborepo 2 | `turbo.json`, `pnpm-workspace.yaml` |
-| Package manager | pnpm 11.0.8 | `packageManager`, `pnpm-workspace.yaml` |
+| Package manager | pnpm 11.0.8 | root `package.json` `packageManager` (not `pnpm-workspace.yaml`) |
 | Lint / format | Biome 2.5.4 | `biome.json` (root) |
 | App lint | ESLint 9 flat config | `apps/*/eslint.config.mjs` |
 | Type checking | TypeScript | `apps/*/tsconfig.json`, `packages/*/tsconfig.json` |
