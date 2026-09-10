@@ -1,19 +1,45 @@
 # API Hooks
 
-API hooks live in each app's own `src/hooks/` folder (`apps/web/src/hooks/`, `apps/admin/src/hooks/`) and follow a client/server split pattern for TanStack Query integration with Next.js App Router server components. Hooks are not shared through `packages/ui` — that package holds presentational primitives only.
+API hooks live in each app's own `src/hooks/` folder (`apps/web/src/hooks/`, `apps/admin/src/hooks/`) and follow a client/server split for TanStack Query plus Next.js App Router. Hooks are not shared through `packages/ui` — that package holds presentational primitives only.
 
-> Today both apps ship only the utility hook `use-mobile.ts`. The structure below is the convention to follow when you add data-fetching hooks; the `use-pet-profiles` examples are illustrative, not existing files.
+## Inventory
+
+### `apps/web`
+
+| Folder / file | Role |
+| --- | --- |
+| `use-blog-posts/` | `fetchBlogPosts`, `useBlogPosts`, `blogPostsQueryKey` |
+| `use-pricing-plans/` | `fetchPricingPlans`, `usePricingPlans` |
+| `use-testimonials/` | `fetchTestimonials`, `useTestimonials` |
+| `use-mobile.ts` | Viewport utility (single file, no `client.ts` / `server.ts`) |
+
+### `apps/admin`
+
+| Folder / file | Role |
+| --- | --- |
+| `use-users/` | `fetchUsers`, `fetchUser`, `useUsers`, `usersQueryKey` |
+| `use-pets/` | `fetchPets`, `usePets` |
+| `use-posts/` | `fetchPosts`, `fetchPost`, `usePosts` |
+| `use-contacts/` | `fetchContacts`, `useContacts` |
+| `use-testimonials/` | `fetchTestimonials`, `useTestimonials` |
+| `use-pricing-plans/` | `fetchPricingPlans` (no barrel file) |
+| `use-current-user.ts` | Client current-user hook |
+| `current-user.ts` | Server `fetchCurrentUserByEmail` |
+| `use-mobile.ts` | Viewport utility |
 
 ---
 
 ## Folder Structure
 
-Each hook is a kebab-case folder starting with `use-`:
+Each data hook is a kebab-case folder starting with `use-`:
 
 ```text
-apps/<app>/src/hooks/use-my-hook/
-├── client.ts    ← useMyHook (React Query hook for client components)
-└── server.ts    ← fetchMyHook (server-side fetch / prefetch for RSC)
+apps/<app>/src/hooks/use-blog-posts/
+├── client.ts    ← useBlogPosts (React Query hook)
+├── server.ts    ← fetchBlogPosts (server fetch / Prisma)
+├── query.ts     ← blogPostsQueryKey.list()
+├── types.ts
+└── useBlogPosts.ts  ← barrel (most folders have one; admin use-pricing-plans does not)
 ```
 
 ---
@@ -22,61 +48,75 @@ apps/<app>/src/hooks/use-my-hook/
 
 | Element | Convention | Example |
 | --- | --- | --- |
-| Folder | `use-` prefix, kebab-case | `use-pet-profiles/` |
-| Client export | `use` + PascalCase | `usePetProfiles` in `client.ts` |
-| Server export | `fetch` + PascalCase | `fetchPetProfiles` in `server.ts` |
+| Folder | `use-` prefix, kebab-case | `use-blog-posts/` |
+| Client export | `use` + PascalCase | `useBlogPosts` in `client.ts` |
+| Server export | `fetch` + PascalCase | `fetchBlogPosts` in `server.ts` |
+| Query keys | `*QueryKey.list()` | `blogPostsQueryKey.list()` → `["blogPosts","list"]` |
 
 ---
 
 ## Client Hook (`client.ts`)
 
-Used in Client Components (`"use client"`). Wraps TanStack Query:
+Used in Client Components (`"use client"`). Wraps TanStack Query and **re-imports the same `fetch*` function from `server.ts`** (it does not call `/api/...` from the browser as a separate path):
 
 ```ts
-// src/hooks/use-pet-profiles/client.ts
-import { useQuery } from "@tanstack/react-query";
+// apps/web/src/hooks/use-blog-posts/client.ts
+"use client";
 
-export function usePetProfiles() {
+import { useQuery } from "@tanstack/react-query";
+import { blogPostsQueryKey } from "./query";
+import { fetchBlogPosts } from "./server";
+
+export function useBlogPosts() {
   return useQuery({
-    queryKey: ["pet-profiles"],
-    queryFn: () => fetch("/api/pet-profiles").then((r) => r.json()),
+    queryKey: blogPostsQueryKey.list(),
+    queryFn: fetchBlogPosts,
   });
 }
 ```
+
+`next: { revalidate: 60 }` on the server fetch is a no-op when this runs in the browser.
 
 ---
 
 ## Server Fetch (`server.ts`)
 
-Used in Server Components and for prefetching before hydration:
+`apps/web` fetchers hit internal API routes with an inline origin (there is no `API_URL` or `getApiOrigin`):
 
 ```ts
-// src/hooks/use-pet-profiles/server.ts
-export async function fetchPetProfiles() {
-  const res = await fetch(`${process.env.API_URL}/pet-profiles`, {
+// apps/web/src/hooks/use-blog-posts/server.ts
+const apiOrigin = process.env.NEXT_PUBLIC_SITE_URL ?? "http://localhost:9000";
+
+export async function fetchBlogPosts(): Promise<BlogPost[]> {
+  const response = await fetch(new URL("/api/blog", apiOrigin), {
     next: { revalidate: 60 },
   });
-  return res.json();
+  if (!response.ok) {
+    throw new Error("Unable to load blog posts.");
+  }
+  return response.json();
 }
 ```
 
-Prefetch in a Server Component page:
+`apps/admin` `server.ts` files query `prisma` from `@fe-template/db` directly (for example `fetchUsers` in `use-users/server.ts`).
+
+Prefetch in a Server Component page uses `new QueryClient()` and `*QueryKey.list()`:
 
 ```tsx
-// app/page.tsx
 import { dehydrate, HydrationBoundary, QueryClient } from "@tanstack/react-query";
-import { fetchPetProfiles } from "@/hooks/use-pet-profiles/server";
+import { blogPostsQueryKey } from "@/hooks/use-blog-posts/query";
+import { fetchBlogPosts } from "@/hooks/use-blog-posts/server";
 
-export default async function Page() {
+export default async function BlogPage() {
   const queryClient = new QueryClient();
   await queryClient.prefetchQuery({
-    queryKey: ["pet-profiles"],
-    queryFn: fetchPetProfiles,
+    queryKey: blogPostsQueryKey.list(),
+    queryFn: fetchBlogPosts,
   });
 
   return (
     <HydrationBoundary state={dehydrate(queryClient)}>
-      {/* client components that call usePetProfiles() */}
+      {/* client components that call useBlogPosts() */}
     </HydrationBoundary>
   );
 }
@@ -92,7 +132,7 @@ Simple utility hooks that do not call an API may live as a single file (no folde
 src/hooks/use-mobile.ts
 ```
 
-These do not need a `client.ts` / `server.ts` split.
+Admin also keeps `use-current-user.ts` and `current-user.ts` as single files outside the `use-<name>/` folder convention.
 
 ---
 
@@ -102,6 +142,6 @@ TanStack Query Devtools are included in development only. Do not import or rende
 
 ---
 
-## Admin: prefer Prisma over hooks
+## Admin: Prisma in `server.ts`, Server Actions for writes
 
-In `apps/admin`, pages are Server Components that query `prisma` from `@fe-template/db` directly and mutate through Server Actions. Reach for a TanStack Query hook there only for genuinely client-driven data (polling, optimistic UI) — see [`docs/llm/PATTERNS.md`](../llm/PATTERNS.md#data-access).
+In `apps/admin`, list pages prefetch `fetch*` helpers that query Prisma. Mutations go through route-colocated Server Actions. Reach for a TanStack Query hook for client-driven UI (tables, dialogs, optimistic updates) — see [`docs/llm/PATTERNS.md`](../llm/PATTERNS.md#data-access) and [`docs/api-and-data-fetching.md`](../api-and-data-fetching.md).
