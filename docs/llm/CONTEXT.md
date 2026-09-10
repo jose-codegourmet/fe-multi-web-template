@@ -96,7 +96,7 @@ import { HeroSection } from "@/sections/home/hero/HeroSection";      // app-loca
 
 Fictional pet social discovery app. Tagline: **"Better matches. Happier tails."**
 
-Users create pet profiles, discover compatible pets nearby, match, chat, and arrange playdates. `apps/web` is a **marketing showcase** — it renders demo content and has no auth or matchmaking algorithm. The Prisma models in `packages/db` back the admin portal (users, pets, posts, testimonials, contacts), not the public site.
+Users create pet profiles, discover compatible pets nearby, match, chat, and arrange playdates. `apps/web` is a **marketing showcase** — it has no auth or matchmaking algorithm. Prisma models in `packages/db` back the admin portal **and** the public site's `/api/blog`, `/api/pricing`, and `/api/testimonials` routes. See [`docs/api-and-data-fetching.md`](../api-and-data-fetching.md).
 
 Primary CTAs: Find a playmate, Create a pet profile, Start matching, Join the pack.
 

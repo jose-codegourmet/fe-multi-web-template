@@ -71,10 +71,13 @@ Copy [`.env.example`](.env.example) to `.env.local` (gitignored):
 
 | Variable | Purpose |
 | --- | --- |
-| `NEXT_PUBLIC_SUPABASE_URL` | Supabase project URL |
-| `NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY` | Supabase publishable (anon) key |
+| `NEXT_PUBLIC_SITE_URL` | Origin used by `fetch*` server helpers (fallback `http://localhost:9000`) |
+| `DATABASE_URL` | Prisma connection for `/api/blog`, `/api/pricing`, and `/api/testimonials` |
+| `DIRECT_URL` | Direct Postgres URL (required by the shared Prisma schema) |
+| `NEXT_PUBLIC_SUPABASE_URL` | Optional scaffolding; this app has no Supabase client |
+| `NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY` | Optional scaffolding; this app has no Supabase client |
 
-This app renders demo content and does not query Supabase or Prisma yet — the variables are scaffolding for when it does. If you add direct Prisma access, depend on `@fe-template/db` and add `DATABASE_URL` / `DIRECT_URL` as well.
+This app has no auth and does not query Supabase. It **does** query Prisma from its API routes (`@fe-template/db` is a runtime dependency). Data flow: Prisma → `/api/*` → `src/hooks/use-*/server.ts` → sections. Canonical write-up: [`docs/api-and-data-fetching.md`](../../docs/api-and-data-fetching.md).
 
 ---
 
