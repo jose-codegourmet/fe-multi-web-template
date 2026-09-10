@@ -1316,7 +1316,7 @@ git commit -m "feat(admin): add PricingPlan CRUD page and sidebar nav entry"
 
 **Files:**
 - Modify: `apps/admin/src/app/(dashboard)/posts/actions.ts` — change `createPost`/`updatePost` to accept typed objects; add `deletePost`
-- Modify: `apps/admin/src/app/(dashboard)/posts/post-form.tsx` — rewrite to use React Hook Form
+- Modify: `apps/admin/src/app/(dashboard)/posts/post-form/PostForm.tsx` — rewrite to use React Hook Form
 - Modify: `apps/admin/src/app/(dashboard)/posts/posts-table.tsx` — add Delete column
 
 Before starting: Read all three files in full.
@@ -1363,9 +1363,9 @@ export async function updatePost(id: string, data: PostFormData): Promise<Action
 
 Keep the Zod schema and validation logic internally. After success: call `revalidatePath("/posts")`, then `redirect("/posts")`.
 
-- [ ] **Step 2: Rewrite post-form.tsx**
+- [ ] **Step 2: Rewrite PostForm.tsx**
 
-Rewrite `apps/admin/src/app/(dashboard)/posts/post-form.tsx` to use React Hook Form.
+Rewrite `apps/admin/src/app/(dashboard)/posts/post-form/PostForm.tsx` to use React Hook Form.
 
 Keep the same visual layout but use `Form`, `FormField`, `FormItem`, `FormLabel`, `FormControl`, `FormMessage`, `FileUploader` from `@fe-template/ui`.
 

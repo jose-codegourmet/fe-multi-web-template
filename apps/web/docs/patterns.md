@@ -131,5 +131,5 @@ Real references:
 `apps/web` does not use `react-hook-form`. Simple forms use local state and `zod` for validation where needed.
 
 Real references:
-- `src/sections/contact/form/ContactFormSection.tsx` for local-state form
-- `src/sections/contact/form/ContactFormSection.schema.ts` for zod schema
+- `src/sections/contact/contact-form/ContactFormSection.tsx` for local-state form
+- `src/sections/contact/contact-form/ContactFormSection.schema.ts` for zod schema

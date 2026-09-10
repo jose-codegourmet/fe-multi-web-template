@@ -54,7 +54,7 @@ Examples:
 - `apps/admin/src/app/(dashboard)/users/page.tsx`
 - `apps/admin/src/app/(dashboard)/users/actions.ts`
 - `apps/admin/src/app/(dashboard)/posts/posts-table.tsx`
-- `apps/admin/src/app/(dashboard)/posts/post-form.tsx`
+- `apps/admin/src/app/(dashboard)/posts/post-form/PostForm.tsx`
 
 See `apps/admin/docs/patterns.md` for concrete file references.
 
