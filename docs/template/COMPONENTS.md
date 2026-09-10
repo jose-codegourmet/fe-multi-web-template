@@ -76,7 +76,7 @@ Non-form components (cards, heroes, grids) do **not** get `.schema.ts` or `.defa
 | Folder | kebab-case | `scroll-area/`, `contact-form/` |
 | Component file | PascalCase | `ScrollArea.tsx` |
 | Story file | PascalCase + `.stories.tsx` | `ScrollArea.stories.tsx` |
-| Use-case doc | PascalCase + `.usecase.md` | `Button.usecase.md` |
+| Use-case doc | PascalCase + `.usecase.md` (required in `packages/ui`; optional in `apps/`) | `Button.usecase.md` |
 | Schema file | PascalCase + `.schema.ts` | `ContactFormSection.schema.ts` |
 | Default values | PascalCase + `.defaultvalues.ts` | `ContactFormSection.defaultvalues.ts` |
 
