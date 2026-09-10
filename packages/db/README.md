@@ -2,7 +2,7 @@
 
 Prisma 6 schema, migrations, seed data, and the shared `PrismaClient` singleton for the monorepo. The database is **Supabase Postgres**.
 
-Currently consumed by [`apps/admin`](../../apps/admin/README.md); [`apps/web`](../../apps/web/README.md) renders demo content and does not query the database yet.
+Consumed by [`apps/admin`](../../apps/admin/README.md) (Server Components and Server Actions) and by [`apps/web`](../../apps/web/README.md) API routes (`src/app/api/{blog,pricing,testimonials}/route.ts`). Marketing pages do not import Prisma; they go through those routes and `fetch*` helpers. See [`docs/api-and-data-fetching.md`](../../docs/api-and-data-fetching.md).
 
 ---
 

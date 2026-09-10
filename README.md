@@ -137,7 +137,7 @@ make fix-unsafe              # unsafe Biome fixes across the repo
 | --- | --- | --- |
 | `NEXT_PUBLIC_SUPABASE_URL` | `apps/admin` (auth), `apps/web` (reserved) | Supabase project URL |
 | `NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY` | `apps/admin` (auth), `apps/web` (reserved) | Supabase publishable (anon) key |
-| `DATABASE_URL` | `packages/db`, `apps/admin` | Postgres connection for Prisma at runtime — use the pooled URL (port 6543, `?pgbouncer=true`) in production/serverless |
+| `DATABASE_URL` | `packages/db`, `apps/admin`, `apps/web` | Postgres connection for Prisma at runtime — use the pooled URL (port 6543, `?pgbouncer=true`) in production/serverless |
 | `DIRECT_URL` | `packages/db` | Direct Postgres connection (port 5432) for migrations |
 
 Where each file lives:
@@ -150,7 +150,7 @@ Where each file lives:
 | `apps/admin/.env.local` | No | Loaded automatically by Next.js |
 | `*.env.example` | Yes | Placeholders only — never commit real credentials |
 
-`apps/web` does not query Supabase or Prisma today; its Supabase variables are scaffolding for when it does.
+`apps/web` has no auth or Supabase client, but its API routes query Prisma via `@fe-template/db`. Data flow: Prisma → `src/app/api/{blog,pricing,testimonials}` → `fetch*` in `src/hooks/use-*/server.ts` → sections. See [`docs/api-and-data-fetching.md`](docs/api-and-data-fetching.md).
 
 ---
 

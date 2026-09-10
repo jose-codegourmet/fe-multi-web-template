@@ -193,5 +193,4 @@ packages/config/
 - `apps/admin/src/login/` exists but is empty. Use `apps/admin/src/app/login/`.
 - `apps/admin/README.md` lists the dashboard as `/` and references `(dashboard)/page.tsx`; the current code redirects `/` to `/dashboard` and uses `app/(dashboard)/dashboard/page.tsx`.
 - `apps/admin` signup form references `/auth/callback` which does not exist.
-- `apps/web/README.md` says the app does not query Supabase/Prisma yet, but `apps/web/src/app/api/{blog,pricing,testimonials}/route.ts` use `prisma`.
-- `apps/web` uses `NEXT_PUBLIC_SITE_URL` internally but it is not documented in `apps/web/.env.example`.
+- `apps/web` API routes query Prisma; marketing pages fetch through `src/hooks/use-*/server.ts`. See `docs/api-and-data-fetching.md`.
