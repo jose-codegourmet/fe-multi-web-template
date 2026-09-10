@@ -29,7 +29,7 @@ const users = await prisma.user.findMany({ include: { pets: true } });
 
 `src/index.ts` re-exports everything from `@prisma/client`, including:
 
-- Generated model types: `User`, `Pet`, `Post`, `Contact`, `Testimonial`, `PricingPlan`, `Profile`
+- Generated model types: `User`, `Profile`, `Pet`, `PetMatch`, `Post`, `Contact`, `Testimonial`, `PricingPlan` (8 models)
 - Enums: `Role`, `UserStatus`, `PetSpecies`, `MatchStatus`, `ContactStatus`
 - The `Prisma` namespace
 - The `PrismaClient` class
