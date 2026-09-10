@@ -23,7 +23,7 @@ fe-multi-web-template/
 ├── docs/                     # Documentation system
 ├── apps/                     # Applications
 ├── packages/                 # Shared packages
-├── scripts/                  # Python cleanup/migration helpers
+├── scripts/                  # Python helpers (see Scripts below)
 ├── images/                   # Root source photography assets
 └── prompt.md                 # Original bootstrap prompt
 ```
@@ -168,6 +168,22 @@ packages/config/
 | `.nvmrc` | Node 24 |
 | `.husky/pre-commit` | `pnpm exec lint-staged` |
 | `.husky/commit-msg` | `pnpm exec commitlint --edit $1` |
+
+---
+
+## Scripts
+
+| Script | Purpose | When to run |
+|---|---|---|
+| `scripts/cleanup-unused.py` | Dry-run (default) or `--delete` unused folders under the paths it scans in `apps/web` | After forking the template, when pruning unused marketing sections |
+| `scripts/migrate-components.py` | One-off “PLAN 03” helper that moved flat `apps/web/src/components/ui/<kebab>.tsx` files into kebab folders | **Do not run.** That source directory no longer exists; primitives now live in `packages/ui`. The script rewrites imports and generates stub schema/story files. Keep it only as history. |
+
+---
+
+## Superpowers artifacts
+
+- `docs/superpowers/plans/` and `docs/superpowers/specs/` are **committed historical** implementation plans and specs. Read them for past decisions; they are not current agent instructions.
+- A root `.superpowers/` directory is **not** part of this repository. If a local Superpowers plugin creates one, treat it as machine-local state (gitignored). Do not commit it.
 
 ---
 

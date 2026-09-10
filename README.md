@@ -24,7 +24,9 @@ fe-multi-web-template/
 │   ├── llm/                 # AI agent context (CONTEXT, PATTERNS, PROMPTS)
 │   └── about-example-site/  # PawPair brand, content, image guide
 ├── scripts/
-│   └── cleanup-unused.py    # Remove unused component folders from apps/web
+│   ├── cleanup-unused.py        # Prune unused apps/web folders (dry-run by default)
+│   └── migrate-components.py    # Historical one-off; do not run (see docs/repository-structure.md)
+├── docs/superpowers/        # Historical plans/specs — not a live skill pack
 └── turbo.json               # Turborepo pipeline
 ```
 
