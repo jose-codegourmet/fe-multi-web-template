@@ -48,6 +48,32 @@ After OTP confirmation, `src/modules/auth/otp-form/actions.ts` creates a `Profil
 - Dashboard pages are async Server Components that query `prisma` directly.
 - Tables, forms, and dialogs are client components co-located with their page.
 
+### Client dashboard layout
+
+`(dashboard)/layout.tsx` is a **client** component (`"use client"`). It calls `usePathname()` to map the URL to the `AdminHeader` title (`TITLES` plus `/users/` and `/posts/` prefixes). Keep it a client component unless the title mapping is moved to a nested client child; converting it to a Server Component without that split would break the header title.
+
+### Route-group widgets (not routes)
+
+These files sit at the `(dashboard)` group root and are **not** pages. `dashboard/page.tsx` imports them via `../`:
+
+- `src/app/(dashboard)/community-growth-chart.tsx`
+- `src/app/(dashboard)/recent-activity.tsx`
+
+Do not add `page.tsx` next to them or treat them as dead leftovers.
+
+### Post editor wrappers
+
+`src/app/(dashboard)/posts/post-editor.tsx` exports `NewPostEditor` and `EditPostEditor`. They load authors/posts through `use-posts` and render `post-form/PostForm.tsx`. `/posts/new` and `/posts/[id]` use these wrappers rather than importing `PostForm` directly.
+
+### Two 404 boundaries
+
+| File | When it runs |
+|---|---|
+| `src/app/not-found.tsx` | Unknown URLs **outside** the dashboard shell (full-viewport branded 404) |
+| `src/app/(dashboard)/not-found.tsx` | Unknown URLs **inside** `(dashboard)` so the sidebar/header stay mounted |
+
+These are not duplicates. Deleting either changes 404 chrome for that segment.
+
 ---
 
 ## Data flow

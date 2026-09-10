@@ -64,13 +64,15 @@ See `packages/ui/docs/README.md` and `packages/ui/docs/api.md` for the public AP
 
 These are the current tokens for the bundled PawPair brand. Replace them when reusing the template.
 
-| Token | Value |
-|---|---|
-| Primary CTA | PawPair Coral `#FF6B6B` |
-| Light background | Warm Cream `#FFF8EE` |
-| Dark background | Night `#111015` |
-| Display font | Fraunces (Google Fonts via `next/font`) |
-| Body font | Manrope (Google Fonts via `next/font`) |
+| Token | Value | Where |
+|---|---|---|
+| Primary CTA | PawPair Coral `#FF6B6B` (`--color-brand-coral`) | Both apps |
+| Light background | Warm Cream `#FFF8EE` | Both apps |
+| Dark background | Night `#111015` | Both apps |
+| Display font | Fraunces (Google Fonts via `next/font`) | Both apps |
+| Body font | Manrope (Google Fonts via `next/font`) | Both apps |
+| `--color-brand-coral-soft` | `#ffe4e1` | **Admin only** (`apps/admin/src/app/globals.css`); light `--accent` |
+| `--color-brand-night-elevated-2` | `#26212e` | **Admin only**; dark `--secondary` / `--muted` |
 
 Fonts are loaded in each app's root layout via `next/font/google`.
 
