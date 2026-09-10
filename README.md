@@ -52,7 +52,7 @@ fe-multi-web-template/
 | Motion | Framer Motion (scroll-reveal only) |
 | Docs / UI kit | Storybook 10 (config in `apps/web/.storybook`) |
 | Lint / format | Biome |
-| Tests | Vitest |
+| Tests | Vitest (Storybook test runner in `apps/web` only; no `test` script or unit suite yet — see [`docs/testing.md`](docs/testing.md)) |
 | Git hooks | Husky, lint-staged, commitlint (Conventional Commits) |
 
 ---
@@ -144,7 +144,7 @@ Where each file lives:
 
 | File | Committed? | Notes |
 | --- | --- | --- |
-| `.env` | No | Root convenience copy; declared in `turbo.json` `globalEnv` |
+| `.env` | No | Root convenience copy; listed in `turbo.json` `globalDependencies`. `globalEnv` lists variable names (`NODE_ENV`, `DATABASE_URL`, `DIRECT_URL`, `NEXT_PUBLIC_SUPABASE_URL`, `NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY`). |
 | `packages/db/.env` | No | Read by the Prisma CLI |
 | `apps/web/.env.local` | No | Loaded automatically by Next.js |
 | `apps/admin/.env.local` | No | Loaded automatically by Next.js |
