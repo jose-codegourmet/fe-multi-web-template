@@ -18,11 +18,7 @@ import { useForm } from "react-hook-form";
 import { toast } from "sonner";
 import { uploadImage } from "@/lib/upload-image";
 import { createPost, type PostFormData, updatePost } from "../actions";
-import {
-  type PostFormSchemaValues,
-  type PostFormValues,
-  postFormSchema,
-} from "./PostForm.schema";
+import { type PostFormSchemaValues, type PostFormValues, postFormSchema } from "./PostForm.schema";
 
 type AuthorOption = {
   id: string;

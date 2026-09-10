@@ -1,20 +1,14 @@
 "use client";
 
 import { usePost, usePostAuthors } from "@/hooks/use-posts/client";
-import {
-  getNewPostDefaultValues,
-  getPostDefaultValues,
-} from "./post-form/PostForm.defaults";
 import { PostForm } from "./post-form/PostForm";
+import { getNewPostDefaultValues, getPostDefaultValues } from "./post-form/PostForm.defaults";
 
 export function NewPostEditor() {
   const { data: authors = [] } = usePostAuthors();
 
   return (
-    <PostForm
-      authors={authors}
-      defaultValues={getNewPostDefaultValues(authors[0]?.id ?? "")}
-    />
+    <PostForm authors={authors} defaultValues={getNewPostDefaultValues(authors[0]?.id ?? "")} />
   );
 }
 
