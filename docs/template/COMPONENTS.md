@@ -16,14 +16,16 @@ Rule of thumb: if both apps could use it, it belongs in `packages/ui`. If it kno
 
 ## Standard Component (display / layout)
 
-Every non-form component requires these files:
+**`packages/ui`:** new primitives require these files. Existing exceptions: `Form` and `FileUploader` have neither a story nor a `.usecase.md`.
 
 ```text
 packages/ui/src/components/my-component/
 ├── MyComponent.tsx
 ├── MyComponent.stories.tsx
-└── MyComponent.usecase.md   ← usage guide (purpose, when/when-not, examples)
+└── MyComponent.usecase.md   ← required for new packages/ui primitives
 ```
+
+**`apps/`:** `.tsx` + `.stories.tsx` for sections. A `.usecase.md` is recommended, not required. Only `apps/web/src/modules/providers/Providers.usecase.md` exists in apps today.
 
 Example — the shadcn button:
 
@@ -34,7 +36,7 @@ packages/ui/src/components/button/
 └── Button.usecase.md
 ```
 
-The co-located `*.usecase.md` is the detailed when-to-use / when-not-to-use guide for that component. The index across all components lives in [`docs/component-guide.md`](../component-guide.md).
+In `packages/ui`, the co-located `*.usecase.md` is the when-to-use / when-not-to-use guide. The index across primitives lives in [`docs/component-guide.md`](../component-guide.md).
 
 ---
 
@@ -57,10 +59,11 @@ Example — contact form section:
 apps/web/src/sections/contact/contact-form/
 ├── ContactFormSection.tsx
 ├── ContactFormSection.stories.tsx
-├── ContactFormSection.usecase.md
 ├── ContactFormSection.defaultvalues.ts
 └── ContactFormSection.schema.ts
 ```
+
+(`ContactFormSection.usecase.md` is optional at the app layer and is not present.)
 
 Non-form components (cards, heroes, grids) do **not** get `.schema.ts` or `.defaultvalues.ts`.
 
@@ -73,7 +76,7 @@ Non-form components (cards, heroes, grids) do **not** get `.schema.ts` or `.defa
 | Folder | kebab-case | `scroll-area/`, `contact-form/` |
 | Component file | PascalCase | `ScrollArea.tsx` |
 | Story file | PascalCase + `.stories.tsx` | `ScrollArea.stories.tsx` |
-| Use-case doc | PascalCase + `.usecase.md` | `Button.usecase.md` |
+| Use-case doc | PascalCase + `.usecase.md` (required in `packages/ui`; optional in `apps/`) | `Button.usecase.md` |
 | Schema file | PascalCase + `.schema.ts` | `ContactFormSection.schema.ts` |
 | Default values | PascalCase + `.defaultvalues.ts` | `ContactFormSection.defaultvalues.ts` |
 
