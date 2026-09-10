@@ -29,7 +29,7 @@ Local agent instructions for the shared UI package. Read `/AGENTS.md` first, the
 - `apps/web` — marketing sections, layout, showcase.
 - `apps/admin` — dashboard tables, dialogs, forms, layout, charts.
 
-No package currently consumes `@fe-template/ui`.
+Both apps consume `@fe-template/ui` at runtime. No other workspace *package* (`packages/db`, `packages/config`) depends on it.
 
 ---
 

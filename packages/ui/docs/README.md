@@ -23,7 +23,7 @@ Purpose, consumers, and usage for the shared UI library.
 - `apps/web` — marketing sections, layout, showcase.
 - `apps/admin` — dashboard tables, dialogs, forms, layout, charts.
 
-No package currently consumes this library.
+Both apps consume this library at runtime. No other workspace *package* (`packages/db`, `packages/config`) depends on it.
 
 ---
 
