@@ -37,31 +37,40 @@ apps/web/src/hooks/use-blog-posts/
   └── types.ts               # Shared types
 ```
 
-Example `server.ts` pattern:
+Example `server.ts` pattern (from `apps/web/src/hooks/use-blog-posts/server.ts`):
 
 ```ts
-import { getApiOrigin } from "@/lib/utils";
+const apiOrigin = process.env.NEXT_PUBLIC_SITE_URL ?? "http://localhost:9000";
 
-export async function getBlogPosts() {
-  const res = await fetch(new URL("/api/blog", getApiOrigin()), {
+export async function fetchBlogPosts(): Promise<BlogPost[]> {
+  const response = await fetch(new URL("/api/blog", apiOrigin), {
     next: { revalidate: 60 },
   });
-  return res.json();
+
+  if (!response.ok) {
+    throw new Error("Unable to load blog posts.");
+  }
+
+  return response.json();
 }
 ```
 
-`getApiOrigin` uses `NEXT_PUBLIC_SITE_URL` or falls back to `http://localhost:9000`.
+Hooks inline `process.env.NEXT_PUBLIC_SITE_URL ?? "http://localhost:9000"`. There is no `getApiOrigin` helper. The same `fetch*` naming is used in admin (`fetchUsers`, `fetchPets`, `fetchPosts`, `fetchContacts`, `fetchTestimonials`, `fetchPricingPlans`).
 
 ### Server Component usage
 
 ```tsx
-import { getBlogPosts } from "@/hooks/use-blog-posts/server";
+import { fetchBlogPosts } from "@/hooks/use-blog-posts/server";
 
-export default async function BlogPage() {
-  const posts = await getBlogPosts();
-  return <BlogGrid posts={posts} />;
+export default async function BlogPostPage({ params }: { params: Promise<{ slug: string }> }) {
+  const { slug } = await params;
+  const posts = await fetchBlogPosts();
+  const post = posts.find((item) => item.slug === slug);
+  // ...
 }
 ```
+
+List pages such as `apps/web/src/app/blog/page.tsx` prefetch with `new QueryClient()`, `blogPostsQueryKey.list()`, and `fetchBlogPosts` instead of calling the fetcher only for props.
 
 ### Client usage
 
@@ -78,27 +87,33 @@ export function BlogSection() {
 
 ## `apps/admin` pattern: Prisma + Server Actions
 
-### Server Components query directly
+### Server fetchers query Prisma
 
-```tsx
-import { prisma } from "@fe-template/db";
+List pages do not call `prisma` in `page.tsx`. They import `fetch*` from the hook folder; those server functions query Prisma. Example: `apps/admin/src/hooks/use-users/server.ts` exports `fetchUsers` and `fetchUser`.
 
-export default async function UsersPage() {
-  const users = await prisma.user.findMany({ include: { pets: true } });
-  return <UsersTable users={users} />;
-}
-```
+Dashboard pages that need aggregates (for example `apps/admin/src/app/(dashboard)/dashboard/page.tsx`) may still import `prisma` from `@fe-template/db` in the Server Component.
 
 ### Prefetch + hydration
 
-```tsx
-import { getUsers } from "@/hooks/use-users/server";
-import { HydrationBoundary, dehydrate } from "@tanstack/react-query";
+There is no `getQueryClient` export. Pages construct `new QueryClient()` and use the `*QueryKey.list()` factory (`usersQueryKey.list()` is `["users","list"]`).
 
-export default async function Page() {
-  const queryClient = getQueryClient();
-  await queryClient.prefetchQuery({ queryKey: ["users"], queryFn: getUsers });
-  return <HydrationBoundary state={dehydrate(queryClient)}><UsersTable /></HydrationBoundary>;
+```tsx
+import { dehydrate, HydrationBoundary, QueryClient } from "@tanstack/react-query";
+import { usersQueryKey } from "@/hooks/use-users/query";
+import { fetchUsers } from "@/hooks/use-users/server";
+import { UsersTable } from "./users-table";
+
+export default async function UsersPage() {
+  const queryClient = new QueryClient();
+  await queryClient.prefetchQuery({
+    queryKey: usersQueryKey.list(),
+    queryFn: fetchUsers,
+  });
+  return (
+    <HydrationBoundary state={dehydrate(queryClient)}>
+      <UsersTable />
+    </HydrationBoundary>
+  );
 }
 ```
 
