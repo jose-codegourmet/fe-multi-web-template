@@ -51,7 +51,7 @@ Both apps consume `@fe-template/ui` at runtime. No other workspace *package* (`p
 | Concern | Command |
 |---|---|
 | Type check | `pnpm --filter @fe-template/ui typecheck` |
-| Lint | `pnpm --filter @fe-template/ui lint` |
+| Lint (Biome) | `pnpm --filter @fe-template/ui lint` |
 | Biome (repo-wide) | `pnpm lint` |
 
 ---

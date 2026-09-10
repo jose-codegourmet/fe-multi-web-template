@@ -13,7 +13,7 @@
   },
   "scripts": {
     "typecheck": "tsc --noEmit",
-    "lint": "eslint ."
+    "lint": "biome check ."
   },
   "dependencies": {
     "@base-ui/react": "^1.6.0",
@@ -44,7 +44,6 @@
     "@storybook/nextjs-vite": "^10.5.0",
     "@types/react": "^19",
     "@types/react-dom": "^19",
-    "eslint": "^9",
     "typescript": "^5"
   }
 }

@@ -102,5 +102,5 @@ pnpm --filter web storybook        # http://localhost:6006
 
 ```bash
 pnpm --filter @fe-template/ui typecheck
-pnpm --filter @fe-template/ui lint
+pnpm --filter @fe-template/ui lint   # Biome (`biome check .`)
 ```

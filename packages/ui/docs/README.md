@@ -84,7 +84,7 @@ import Link from "next/link";
 | Command | Purpose |
 |---|---|
 | `pnpm --filter @fe-template/ui typecheck` | TypeScript check |
-| `pnpm --filter @fe-template/ui lint` | ESLint (currently runs `eslint .`) |
+| `pnpm --filter @fe-template/ui lint` | Biome check for this package (`biome check .`) |
 | `pnpm lint` | Biome check across the repo |
 
 ---
