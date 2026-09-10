@@ -7,7 +7,7 @@ How to install, run, lint, format, type-check, and test the monorepo. All comman
 ## Prerequisites
 
 - **Node.js 24** — pinned in `.nvmrc`
-- **pnpm 11.0.8** — pinned in `packageManager` and `pnpm-workspace.yaml`
+- **pnpm 11.0.8** — pinned only in the root `package.json` `packageManager` field. `pnpm-workspace.yaml` holds workspace globs and `allowBuilds`, not the version pin.
 
 Switch Node version:
 
@@ -112,7 +112,7 @@ Note: `packages/ui` also has a `lint` script (`eslint .`), but `pnpm lint:apps` 
 pnpm typecheck
 ```
 
-Runs `tsc --noEmit` in every workspace.
+Runs `tsc --noEmit` via Turbo in the four workspaces that define a `typecheck` script: `web`, `admin`, `@fe-template/ui`, and `@fe-template/db`. `packages/config` has no scripts and is excluded.
 
 Scoped:
 
