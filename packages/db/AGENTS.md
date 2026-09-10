@@ -28,7 +28,7 @@ Local agent instructions for the shared database package. Read `/AGENTS.md` firs
 - `apps/admin` — Server Components, Server Actions, and auth profile upserts.
 - `apps/web` — API routes (`src/app/api/{blog,pricing,testimonials}/route.ts`).
 
-No package currently consumes `@fe-template/db`.
+Both apps consume `@fe-template/db` at runtime. No other workspace *package* (`packages/ui`, `packages/config`) depends on it.
 
 ---
 
