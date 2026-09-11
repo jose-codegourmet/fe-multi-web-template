@@ -84,7 +84,7 @@ export async function createEntity(data: EntityValues) {
 
 Real references:
 
-- `src/app/(dashboard)/users/actions.ts` — `updateUserRole`, `inviteUser`, `updateUser`, `updateUserStatus`, `deleteUser`
+- `src/app/(dashboard)/users/actions.ts` — `updateUserRole`, `inviteUser`, `updateUser`, `updateUserStatus`, `deleteUser` (`deleteUser` removes the Prisma row and the matching Supabase Auth user via `createAdminClient`; a missing Auth user is ignored so the Prisma delete still proceeds)
 - `src/app/(dashboard)/posts/actions.ts` — create, update, delete post
 - `src/app/(dashboard)/contacts/actions.ts` — update contact status, delete
 - `src/app/(dashboard)/pets/actions.ts`

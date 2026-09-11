@@ -64,7 +64,7 @@ Authentication is Supabase Auth via `@supabase/ssr`:
 
 - `src/lib/supabase/client.ts` — browser client (login page)
 - `src/lib/supabase/server.ts` — cookie-based server client
-- `src/lib/supabase/admin.ts` — service-role client (user invite)
+- `src/lib/supabase/admin.ts` — service-role client (user invite and delete)
 - [`middleware.ts`](middleware.ts) — refreshes the session on every request and redirects unauthenticated visitors to `/login`; signed-in users hitting `/login`, `/signup`, or `/otp` are sent to `/dashboard`
 
 To get your first admin in:
