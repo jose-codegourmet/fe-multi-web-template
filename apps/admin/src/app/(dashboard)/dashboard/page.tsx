@@ -1,7 +1,18 @@
 import { prisma } from "@fe-template/db";
-import { Button, Card, CardContent, CardDescription, CardHeader, CardTitle } from "@fe-template/ui";
+import {
+  Alert,
+  AlertDescription,
+  AlertTitle,
+  Button,
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from "@fe-template/ui";
 import {
   ArrowRightIcon,
+  CircleAlertIcon,
   FileTextIcon,
   type LucideIcon,
   MailIcon,
@@ -199,33 +210,35 @@ async function getDashboardData() {
       growthByMonth,
       activity,
     };
-  } catch {
-    return {
-      userCount: 0,
-      petCount: 0,
-      postCount: 0,
-      unreadContacts: 0,
-      usersThisWeek: 0,
-      usersLastWeek: 0,
-      petsThisWeek: 0,
-      petsLastWeek: 0,
-      growthByMonth: Array.from({ length: 6 }, (_, index) => {
-        const date = new Date();
-        date.setMonth(date.getMonth() - (5 - index));
-        return {
-          month: date.toLocaleString("en", { month: "short" }),
-          users: 0,
-          pets: 0,
-          posts: 0,
-        };
-      }),
-      activity: [] as ActivityItem[],
-    };
+  } catch (error) {
+    console.error("Failed to load dashboard data", error);
+    return null;
   }
 }
 
 export default async function DashboardPage() {
   const data = await getDashboardData();
+
+  if (!data) {
+    return (
+      <div className="space-y-6">
+        <div>
+          <h2 className="font-display text-3xl tracking-tight md:text-4xl">
+            Your community at a glance
+          </h2>
+        </div>
+        <Alert variant="destructive" className="rounded-3xl px-4 py-4">
+          <CircleAlertIcon />
+          <AlertTitle>Failed to load dashboard</AlertTitle>
+          <AlertDescription>
+            Community stats could not be loaded. This is not an empty database — the request failed.
+            Check the server logs and try again.
+          </AlertDescription>
+        </Alert>
+      </div>
+    );
+  }
+
   const usersDelta = formatDelta(data.usersThisWeek, data.usersLastWeek);
   const petsDelta = formatDelta(data.petsThisWeek, data.petsLastWeek);
   const greeting = greetingForHour(new Date().getHours());
