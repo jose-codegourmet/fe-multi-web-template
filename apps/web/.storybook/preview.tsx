@@ -1,6 +1,6 @@
 import "../src/app/globals.css";
 import type { Preview } from "@storybook/nextjs-vite";
-import { Providers } from "../src/components/providers/Providers";
+import { Providers } from "../src/modules/providers/Providers";
 
 const preview: Preview = {
   globalTypes: {
