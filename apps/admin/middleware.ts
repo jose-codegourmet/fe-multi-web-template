@@ -44,6 +44,12 @@ export async function middleware(request: NextRequest) {
     isAuthCallback;
 
   if (!user && !isPublicRoute) {
+    // HTML login redirects break API clients. Let /api/* reach the route
+    // handler, which returns JSON 401 (see src/app/api/images/route.ts).
+    if (request.nextUrl.pathname.startsWith("/api/")) {
+      return supabaseResponse;
+    }
+
     const url = request.nextUrl.clone();
     url.pathname = "/login";
     return NextResponse.redirect(url);

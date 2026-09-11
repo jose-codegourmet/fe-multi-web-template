@@ -24,7 +24,8 @@ flowchart TD
 `apps/admin/middleware.ts`:
 
 - Refreshes the Supabase session on every request.
-- Redirects unauthenticated visitors from protected routes to `/login`.
+- Redirects unauthenticated visitors from protected **page** routes to `/login`.
+- Does not redirect unauthenticated `/api/*` requests. Those continue to the route handler (for example `POST /api/images` returns JSON `401`).
 - Redirects authenticated visitors away from `/login`, `/signup`, `/otp` to `/dashboard`.
 - Treats `/auth/callback` as a public route so the confirmation link can exchange the auth code while unauthenticated. Authenticated visitors are not redirected away from the callback.
 - **Known boundary**: gates on session presence only; `TODO` notes `User.role === ADMIN` enforcement is not yet wired.

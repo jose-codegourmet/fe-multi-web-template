@@ -76,7 +76,7 @@ pnpm --filter @fe-template/db db:generate
 ### Supabase session not persisting
 
 - Verify `NEXT_PUBLIC_SUPABASE_URL` and `NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY` are set in `apps/admin/.env.local`.
-- Verify middleware is not being skipped (it matches all non-static paths).
+- Verify middleware is not being skipped (it matches all non-static paths). Unauthenticated `/api/*` is not redirected to `/login`.
 
 ### User invite fails
 
