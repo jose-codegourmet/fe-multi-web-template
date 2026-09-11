@@ -66,7 +66,7 @@ These are the current tokens for the bundled PawPair brand. Replace them when re
 
 | Token | Value | Where |
 |---|---|---|
-| Primary CTA | PawPair Coral `#FF6B6B` (`--color-brand-coral`) | Both apps |
+| Primary CTA | PawPair Coral `#FF6B6B` (`--color-brand-coral`) | Both apps. Mapped to shadcn `--primary` / `--sidebar-primary` / `--ring` so default `Button` is coral. `--primary-foreground` is `--color-brand-deep-ink` (`#17151F`) for WCAG AA contrast (~6.6:1) on coral. |
 | Light background | Warm Cream `#FFF8EE` | Both apps |
 | Dark background | Night `#111015` | Both apps |
 | Display font | Fraunces (Google Fonts via `next/font`) | Both apps |
