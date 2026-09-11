@@ -60,6 +60,7 @@ Local development can point both at the direct URL, which is what `.env.example`
 ### `packages/db`
 
 - Only `DATABASE_URL` and `DIRECT_URL` are needed. `packages/db/prisma.config.ts` loads `packages/db/.env` via `dotenv`.
+- Both URLs must point at **Supabase Postgres** (hosted or `supabase start`). `Profile.id` foreign-keys to `auth.users`; plain Postgres is not supported. See `packages/db/README.md`.
 
 ---
 

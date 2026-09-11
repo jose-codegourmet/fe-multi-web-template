@@ -60,6 +60,7 @@ Never import `@fe-template/db` from a `"use client"` component.
 
 - Prisma errors bubble up as exceptions. Server Actions should catch them and return serializable error objects to the client.
 - Connection errors usually indicate incorrect `DATABASE_URL` or pooler settings. See `docs/environment-variables.md` for pooled vs direct URLs.
+- `db:migrate` / `db:deploy` fail before Prisma runs if `auth.users` is missing (plain Postgres). See `packages/db/README.md`.
 
 ---
 

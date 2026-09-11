@@ -6,7 +6,7 @@ Purpose, models, consumers, and commands for the Prisma + Supabase Postgres pack
 
 ## Purpose
 
-`@fe-template/db` provides the shared Prisma 6 schema, migrations, seed data, and `PrismaClient` singleton for the monorepo. The database is Supabase Postgres. It is consumed by `apps/admin` and by the API routes in `apps/web`.
+`@fe-template/db` provides the shared Prisma 6 schema, migrations, seed data, and `PrismaClient` singleton for the monorepo. The only supported database is **Supabase Postgres** (hosted or `supabase start`). Plain Postgres is not a target because `Profile.id` foreign-keys to `auth.users`. It is consumed by `apps/admin` and by the API routes in `apps/web`.
 
 ---
 
@@ -64,7 +64,7 @@ packages/db/prisma/schema/
 | Model/Enum | Notes |
 |---|---|
 | `User` | Email-unique, `role` (`USER` \| `ADMIN`), `status` (`PENDING` \| `VERIFIED` \| `DEACTIVATED` \| `MOCK`) |
-| `Profile` | Supabase auth user UUID (`id` = `auth.users` UUID) |
+| `Profile` | Supabase auth user UUID (`id` = `auth.users` UUID). Required FK `Profile_id_fkey` → `auth.users(id)` in `20260727060109_add_profiles_table`. |
 | `Pet` | Belongs to a `User`; species enum; cascade-deletes with owner |
 | `PetMatch` | Requester/receiver pet pair with match status |
 | `Post` | Slug, tags, `published` flag, author |
@@ -101,6 +101,8 @@ All run from the repo root with `pnpm --filter @fe-template/db <script>`:
 | `DIRECT_URL` | Direct Postgres connection for migrations | Yes for migrations |
 
 `prisma.config.ts` loads `packages/db/.env` via `dotenv` (not the root `.env`). Prisma 6 skips automatic `.env` loading when a config file is present.
+
+Both URLs must point at Supabase Postgres (hosted or local `supabase start`). See `packages/db/README.md` (supported targets) and `packages/db/docs/development.md` (`auth.users` requirement).
 
 ---
 

@@ -80,6 +80,32 @@ pnpm --filter @fe-template/db db:generate
 pnpm --filter @fe-template/db db:deploy
 ```
 
+`db:migrate` and `db:deploy` run `scripts/assert-supabase-auth.ts` first. That script queries `to_regclass('auth.users')` and exits if the relation is missing.
+
+---
+
+## Supabase `auth.users` requirement
+
+`20260727060109_add_profiles_table` ends with:
+
+```sql
+ALTER TABLE "Profile"
+  ADD CONSTRAINT "Profile_id_fkey"
+  FOREIGN KEY ("id") REFERENCES auth.users(id) ON DELETE CASCADE;
+```
+
+`auth.users` is a Supabase Auth table. It is **not** created by Prisma.
+
+| Target | What happens |
+|---|---|
+| Hosted Supabase | Migration applies. FK already exists on environments that have run this migration. |
+| `supabase start` | Local stack includes `auth.users`. Point `DATABASE_URL` / `DIRECT_URL` at the local URL, then migrate. |
+| Plain Postgres | Preflight fails with a documented error. Without the preflight, Prisma fails on the missing `auth.users` relation. |
+
+Do **not** edit the applied `20260727060109_add_profiles_table` SQL to add a guard or drop the FK. Changing that file invalidates `_prisma_migrations` checksums on the live Supabase project. Do **not** drop the FK to support generic Postgres — `Profile` is keyed to Supabase Auth users.
+
+`db:push` will create the `Profile` table without `Profile_id_fkey`. That is not a supported substitute for migrate on a real environment.
+
 ---
 
 ## Prototyping without migrations
@@ -122,7 +148,7 @@ See `docs/environment-variables.md` for the full matrix.
 |---|---|
 | `pnpm --filter @fe-template/db typecheck` | TypeScript check |
 | `pnpm --filter @fe-template/db db:generate` | Generate Prisma client |
-| `pnpm --filter @fe-template/db db:migrate` | Create and apply migration |
+| `pnpm --filter @fe-template/db db:migrate` | Preflight `auth.users`, then create and apply migration |
 | `pnpm --filter @fe-template/db db:seed` | Seed demo data |
 | `pnpm lint` | Biome across the repo |
 

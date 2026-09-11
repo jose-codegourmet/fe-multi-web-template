@@ -27,6 +27,11 @@ model User {
   @@index([status])
 }
 
+/// Application row for a Supabase Auth user. `id` must equal `auth.users.id`.
+/// The cross-schema FK is applied in `20260727060109_add_profiles_table`
+/// (not expressible in Prisma). That migration requires Supabase `auth.users`
+/// and is not edited after apply, so hosted checksums stay valid. Plain
+/// Postgres is unsupported — use hosted Supabase or `supabase start` locally.
 model Profile {
   id        String     @id @db.Uuid // Supabase auth.users UUID
   email     String     @unique

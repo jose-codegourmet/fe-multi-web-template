@@ -1,6 +1,6 @@
 # `@fe-template/db`
 
-Prisma 6 schema, migrations, seed data, and the shared `PrismaClient` singleton for the monorepo. The database is **Supabase Postgres**.
+Prisma 6 schema, migrations, seed data, and the shared `PrismaClient` singleton for the monorepo. The database target is **Supabase Postgres only** (hosted project or local `supabase start`). Plain Postgres is not supported.
 
 Consumed by [`apps/admin`](../../apps/admin/README.md) (Server Components and Server Actions) and by [`apps/web`](../../apps/web/README.md) API routes (`src/app/api/{blog,pricing,testimonials}/route.ts`). Marketing pages do not import Prisma; they go through those routes and `fetch*` helpers. See [`docs/api-and-data-fetching.md`](../../docs/api-and-data-fetching.md).
 
@@ -39,7 +39,7 @@ packages/db/prisma/
 | Model | Notes |
 | --- | --- |
 | `User` | Email-unique account with `role` (`USER` \| `ADMIN`) and `status` (`UserStatus`, default `PENDING`); owns pets and posts |
-| `Profile` | Supabase auth user (`id` = `auth.users` UUID) created after OTP confirmation |
+| `Profile` | Supabase auth user (`id` = `auth.users` UUID). `Profile.id` has a **required** cross-schema FK to `auth.users(id)` `ON DELETE CASCADE`, applied in `20260727060109_add_profiles_table` (not expressible in Prisma). |
 | `Pet` | Belongs to a `User`; species enum; cascade-deletes with its owner |
 | `PetMatch` | Requester/receiver pet pair with `PENDING` / `ACCEPTED` / `REJECTED` status |
 | `Post` | Blog post with slug, tags, `published` flag, and author |
@@ -65,6 +65,40 @@ Run from the repo root with `pnpm --filter @fe-template/db <script>`:
 | `typecheck` | `tsc --noEmit` |
 
 `pnpm db:generate` at the repo root runs `db:generate` across the workspace via Turbo.
+
+`db:migrate` and `db:deploy` run `scripts/assert-supabase-auth.ts` first. That preflight checks for `auth.users` and exits with a clear error on plain Postgres, instead of failing later on the `Profile_id_fkey` statement.
+
+---
+
+## Supported database targets
+
+| Target | Supported? | Notes |
+| --- | --- | --- |
+| Hosted Supabase Postgres | Yes | Production and shared-dev default. Includes `auth.users`. |
+| Local Supabase (`supabase start`) | Yes | Required path for running migrations on a machine without a cloud project. |
+| Plain Postgres (Docker, CI, other hosts) | No | No `auth` schema. `prisma migrate deploy` fails in `20260727060109_add_profiles_table` unless the preflight catches it first. |
+
+This is a hard product requirement, not an accident of the migration. Admin auth is Supabase Auth; `Profile.id` must stay aligned with `auth.users`. **Do not drop `Profile_id_fkey`** to make plain Postgres work — that would break the intended delete-cascade model.
+
+The applied SQL in `20260727060109_add_profiles_table` is left unchanged so checksums on already-migrated Supabase projects stay valid.
+
+### Local migrations (`supabase start`)
+
+1. Install the [Supabase CLI](https://supabase.com/docs/guides/local-development/cli/getting-started).
+2. From a directory with a Supabase project (or `supabase init` if you are bootstrapping local-only), start the stack:
+
+```bash
+supabase start
+```
+
+3. Copy the local database URL from the CLI output (default is typically `postgresql://postgres:postgres@127.0.0.1:54322/postgres`) into `packages/db/.env` for both `DATABASE_URL` and `DIRECT_URL`.
+4. Run migrations against that instance:
+
+```bash
+pnpm --filter @fe-template/db db:migrate
+```
+
+`db:push` does **not** create `Profile_id_fkey` (the FK is raw SQL, not in `user.prisma`). Use migrate against Supabase, not `db:push`, when you need the real schema.
 
 ---
 
