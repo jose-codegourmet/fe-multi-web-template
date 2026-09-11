@@ -111,7 +111,9 @@ Do not use Card/Item for chat bubbles, or ScrollArea for stick-to-bottom chat.
 | [Calendar](#calendar) | Date / range picker | Time-only → time input |
 | [Checkbox](#checkbox) | Multi-select boolean | Exclusive choice → RadioGroup |
 | [Combobox](#combobox) | Searchable select / chips | Small fixed list → Select |
-| [Field](#field) | Label / error layout chrome | Form store → RHF (not Field) |
+| [Field](#field) | Label / error layout chrome | Form store → Form (RHF) |
+| [FileUploader](#fileuploader) | Single-image dropzone | File chips → Attachment |
+| [Form](#form) | RHF field helpers | Layout-only chrome → Field |
 | [Input](#input) | Single-line text | Icons/addons → InputGroup; OTP → InputOTP |
 | [InputGroup](#inputgroup) | Input + addon chrome | Plain field → Input |
 | [InputOTP](#inputotp) | Digit / PIN entry | Free text → Input |
@@ -685,8 +687,40 @@ Do not use Card/Item for chat bubbles, or ScrollArea for stick-to-bottom chat.
   - Consistent label/description/error structure around Input/Select/etc.
   - Horizontal or responsive label+control rows
 - **When NOT to use:**
-  - As a form store / RHF replacement (this is layout/a11y chrome only)
+  - As a form store / RHF replacement → **Form**
 - **Gotchas:** `"use client"`; set `data-invalid` on Field for destructive text styling; FieldError returns null when empty.
+
+### FileUploader
+
+→ [`FileUploader.usecase.md`](../packages/ui/src/components/file-uploader/FileUploader.usecase.md)
+
+- **Purpose:** Single-image dropzone that uploads a file and stores the resulting URL.
+- **Import:** `@fe-template/ui`
+- **Exports:** `FileUploader`; type `FileUploaderProps`
+- **Key props / variants:** `value?: string | null`; `onChange(url)`; `onUpload(file) => Promise<string>`; `accept?` (default `image/*`); `disabled?`.
+- **When to use:**
+  - Cover images, avatars, and other one-file image fields
+  - Wiring into **Form** via RHF `field.value` / `field.onChange`
+- **When NOT to use:**
+  - Multi-file composer chips → **Attachment**
+  - Non-image documents unless you change `accept` (preview is still an `<img>`)
+- **Gotchas:** `"use client"`; you supply `onUpload`; rejected uploads show the error message; preview clear calls `onChange(null)`.
+
+### Form
+
+→ [`Form.usecase.md`](../packages/ui/src/components/form/Form.usecase.md)
+
+- **Purpose:** react-hook-form helpers that associate labels, descriptions, and validation messages with a field.
+- **Import:** `@fe-template/ui`
+- **Exports:** `Form`, `FormField`, `FormItem`, `FormLabel`, `FormControl`, `FormDescription`, `FormMessage`, `useFormField`
+- **Key props / variants:** `Form` is `FormProvider` (spread `useForm()`); `FormField` is RHF `Controller`; `FormMessage` shows the field error or `children`.
+- **When to use:**
+  - App/admin forms already using `useForm`
+  - Accessible error/description wiring around Input/Select/FileUploader
+- **When NOT to use:**
+  - Layout-only label/error chrome without RHF → **Field**
+  - A single input with no form store → **Label** + **Input**
+- **Gotchas:** `"use client"`; `useFormField` must be inside `FormField`; `FormControl` is a `div` that owns `id` / `aria-*`.
 
 ### Input
 
@@ -1079,6 +1113,7 @@ Do not use Card/Item for chat bubbles, or ScrollArea for stick-to-bottom chat.
 - **When NOT to use:**
   - Simple status tags → **Badge**
   - Full image galleries → **Carousel** / **EmblaCarousel**
+  - Single-image form upload with real `onUpload` → **FileUploader**
 - **Gotchas:** State is presentational (`data-state`); `AttachmentTrigger` is an absolute overlay for full-chip click targets.
 
 ### Bubble
