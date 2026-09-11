@@ -105,8 +105,79 @@ export async function updateUser(id: string, data: UserUpdateValues): Promise<Ac
   return { success: true };
 }
 
+function isMissingAuthUserError(error: { message: string; status?: number; code?: string }) {
+  const message = error.message.toLowerCase();
+  return (
+    error.status === 404 ||
+    error.code === "user_not_found" ||
+    message.includes("user not found") ||
+    message.includes("not found")
+  );
+}
+
+async function findAuthUserIdByEmail(
+  email: string,
+): Promise<{ id: string | null } | { error: string }> {
+  const profile = await prisma.profile.findUnique({ where: { email } });
+  if (profile) {
+    return { id: profile.id };
+  }
+
+  const supabase = createAdminClient();
+  const normalized = email.toLowerCase();
+  let page = 1;
+  const perPage = 200;
+
+  for (;;) {
+    const { data, error } = await supabase.auth.admin.listUsers({ page, perPage });
+    if (error) {
+      if (isMissingAuthUserError(error)) {
+        return { id: null };
+      }
+      return { error: error.message };
+    }
+
+    const match = data.users.find((authUser) => authUser.email?.toLowerCase() === normalized);
+    if (match) {
+      return { id: match.id };
+    }
+    if (data.users.length < perPage) {
+      return { id: null };
+    }
+    page += 1;
+  }
+}
+
+async function deleteMatchingAuthUser(email: string): Promise<ActionResult> {
+  const lookup = await findAuthUserIdByEmail(email);
+  if ("error" in lookup) {
+    return { success: false, error: lookup.error };
+  }
+  if (!lookup.id) {
+    return { success: true };
+  }
+
+  const supabase = createAdminClient();
+  const { error: deleteError } = await supabase.auth.admin.deleteUser(lookup.id);
+  if (deleteError && !isMissingAuthUserError(deleteError)) {
+    return { success: false, error: deleteError.message };
+  }
+
+  return { success: true };
+}
+
 export async function deleteUser(id: string): Promise<ActionResult> {
   try {
+    const user = await prisma.user.findUnique({ where: { id } });
+    if (!user) {
+      return { success: false, error: "User not found" };
+    }
+
+    const authResult = await deleteMatchingAuthUser(user.email);
+    if (!authResult.success) {
+      return authResult;
+    }
+
     await prisma.post.deleteMany({ where: { authorId: id } });
     await prisma.user.delete({ where: { id } });
   } catch (e) {

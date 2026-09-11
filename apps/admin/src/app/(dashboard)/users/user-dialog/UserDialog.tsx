@@ -119,8 +119,8 @@ export function DeleteUserDialog({ user, trigger }: DeleteUserDialogProps) {
         <AlertDialogHeader>
           <AlertDialogTitle>Delete {displayName}?</AlertDialogTitle>
           <AlertDialogDescription>
-            This will permanently delete {displayName}, all blog posts they authored, and all
-            related pets. This action cannot be undone.
+            This will permanently delete {displayName}, their sign-in account, all blog posts they
+            authored, and all related pets. This action cannot be undone.
           </AlertDialogDescription>
         </AlertDialogHeader>
         <AlertDialogFooter>
