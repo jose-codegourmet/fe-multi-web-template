@@ -31,11 +31,13 @@ These routes query `prisma` and return JSON:
 
 ```text
 apps/web/src/hooks/use-blog-posts/
-  ├── client.ts              # useBlogPosts() React Query hook
+  ├── client.ts              # useBlogPosts() + relative /api fetch
   ├── server.ts              # server-side fetch with ISR revalidation
   ├── query.ts               # Query keys/options
   └── types.ts               # Shared types
 ```
+
+Client hooks call the same routes with a relative path (`fetch("/api/blog")`) and do not import `server.ts`. Browser caching is TanStack Query `staleTime` (60s in `Providers`), not `next: { revalidate }`.
 
 Example `server.ts` pattern (from `apps/web/src/hooks/use-blog-posts/server.ts`):
 
