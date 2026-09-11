@@ -23,9 +23,8 @@ API hooks live in each app's own `src/hooks/` folder (`apps/web/src/hooks/`, `ap
 | `use-contacts/` | `fetchContacts`, `useContacts` |
 | `use-testimonials/` | `fetchTestimonials`, `useTestimonials` |
 | `use-pricing-plans/` | `fetchPricingPlans`, `usePricingPlans` |
-| `use-current-user.ts` | Client current-user hook |
-| `current-user.ts` | Server `fetchCurrentUserByEmail` |
-| `use-mobile.ts` | Viewport utility |
+| `use-current-user/` | `fetchCurrentUserByEmail`, `useCurrentUser`, `currentUserQueryKey` |
+| `use-mobile.ts` | Viewport utility (single file, no `client.ts` / `server.ts`) |
 
 ---
 
@@ -138,7 +137,7 @@ Simple utility hooks that do not call an API may live as a single file (no folde
 src/hooks/use-mobile.ts
 ```
 
-Admin also keeps `use-current-user.ts` and `current-user.ts` as single files outside the `use-<name>/` folder convention.
+`use-mobile.ts` stays flat on purpose. Data hooks that fetch (including admin `use-current-user`) use the `use-<name>/` folder.
 
 ---
 

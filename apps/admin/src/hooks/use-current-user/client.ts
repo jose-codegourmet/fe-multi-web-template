@@ -1,12 +1,10 @@
 "use client";
 
 import { useQuery } from "@tanstack/react-query";
-import { type CurrentUser, fetchCurrentUserByEmail } from "@/hooks/current-user";
 import { createClient } from "@/lib/supabase/client";
-
-export type { CurrentUser };
-
-export const currentUserQueryKey = ["current-user"] as const;
+import { currentUserQueryKey } from "./query";
+import { fetchCurrentUserByEmail } from "./server";
+import type { CurrentUser } from "./types";
 
 async function loadCurrentUser(): Promise<CurrentUser | null> {
   const supabase = createClient();
@@ -20,7 +18,7 @@ async function loadCurrentUser(): Promise<CurrentUser | null> {
 
 export function useCurrentUser() {
   return useQuery({
-    queryKey: currentUserQueryKey,
+    queryKey: currentUserQueryKey.current(),
     queryFn: loadCurrentUser,
   });
 }

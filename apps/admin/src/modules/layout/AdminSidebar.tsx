@@ -12,7 +12,7 @@ import {
 } from "lucide-react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { getInitials, useCurrentUser } from "@/hooks/use-current-user";
+import { getInitials, useCurrentUser } from "@/hooks/use-current-user/client";
 import {
   Sidebar,
   SidebarContent,

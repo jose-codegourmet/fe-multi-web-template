@@ -123,9 +123,8 @@ apps/admin/
     │   ├── use-contacts/
     │   ├── use-testimonials/
     │   ├── use-pricing-plans/
-    │   ├── use-current-user.ts
-    │   ├── current-user.ts
-    │   └── use-mobile.ts
+    │   ├── use-current-user/   # fetchCurrentUserByEmail + useCurrentUser
+    │   └── use-mobile.ts       # viewport utility (flat file)
     ├── lib/                    # supabase clients, upload-image, utils
     └── modules/
         ├── auth/               # login-form, signup-form, otp-form

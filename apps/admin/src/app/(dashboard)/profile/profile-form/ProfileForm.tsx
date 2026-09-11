@@ -24,7 +24,8 @@ import { CheckIcon, Loader2Icon, LogOutIcon, MoonIcon, SunIcon } from "lucide-re
 import { useRouter } from "next/navigation";
 import { useTheme } from "next-themes";
 import { useActionState, useEffect, useState } from "react";
-import { currentUserQueryKey, getInitials, useCurrentUser } from "@/hooks/use-current-user";
+import { getInitials, useCurrentUser } from "@/hooks/use-current-user/client";
+import { currentUserQueryKey } from "@/hooks/use-current-user/query";
 import { createClient } from "@/lib/supabase/client";
 import { type ProfileActionState, updateProfile } from "../actions";
 
@@ -51,7 +52,7 @@ export function ProfileForm() {
 
   useEffect(() => {
     if (state.success) {
-      void queryClient.invalidateQueries({ queryKey: currentUserQueryKey });
+      void queryClient.invalidateQueries({ queryKey: currentUserQueryKey.current() });
     }
   }, [state.success, queryClient]);
 

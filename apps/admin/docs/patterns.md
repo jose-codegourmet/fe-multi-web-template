@@ -145,7 +145,7 @@ src/hooks/use-users/
   └── useUsers.ts          # barrel (all six entity hooks have one)
 ```
 
-`use-pricing-plans/` follows the same layout, including `usePricingPlans.ts`. Current-user helpers sit next to the folders as `use-current-user.ts` (client) and `current-user.ts` (server), plus the shared utility `use-mobile.ts`.
+`use-pricing-plans/` and `use-current-user/` follow the same layout, including barrels (`usePricingPlans.ts`, `useCurrentUser.ts`). Viewport utility `use-mobile.ts` stays a single file — it is not a data hook.
 
 Real references:
 
@@ -158,8 +158,8 @@ Real references:
 - `src/hooks/use-contacts/server.ts`
 - `src/hooks/use-testimonials/server.ts`
 - `src/hooks/use-pricing-plans/server.ts`
-- `src/hooks/use-current-user.ts`
-- `src/hooks/current-user.ts`
+- `src/hooks/use-current-user/client.ts`
+- `src/hooks/use-current-user/server.ts`
 - `src/hooks/use-mobile.ts`
 
 ---

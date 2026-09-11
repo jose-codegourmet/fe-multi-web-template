@@ -74,7 +74,7 @@ hooks/use-[name]/
 ```
 
 - `apps/web` uses this pattern for `use-blog-posts`, `use-pricing-plans`, `use-testimonials`.
-- `apps/admin` also uses this pattern for `use-users`, `use-pets`, `use-posts`, `use-contacts`, `use-testimonials`, `use-pricing-plans`.
+- `apps/admin` also uses this pattern for `use-users`, `use-pets`, `use-posts`, `use-contacts`, `use-testimonials`, `use-pricing-plans`, `use-current-user`.
 - Admin Server Components often query `prisma` directly instead of going through hooks.
 
 See `docs/template/HOOKS.md` for the full hook convention.

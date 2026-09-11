@@ -22,7 +22,7 @@ Local agent instructions for the admin portal. Read `/AGENTS.md` first, then thi
 | `src/app/(dashboard)/` | Dashboard shell and all protected pages |
 | `src/app/login/`, `src/app/signup/`, `src/app/otp/`, `src/app/auth/callback/` | Public auth routes |
 | `src/app/api/images/route.ts` | Image upload endpoint for Supabase Storage |
-| `src/hooks/` | TanStack Query hooks (`use-users`, `use-pets`, `use-posts`, `use-contacts`, `use-testimonials`, `use-pricing-plans`) |
+| `src/hooks/` | TanStack Query data hooks in `use-<name>/` folders (`use-users`, `use-pets`, `use-posts`, `use-contacts`, `use-testimonials`, `use-pricing-plans`, `use-current-user`). Viewport utility `use-mobile.ts` stays a single file. |
 | `src/lib/supabase/` | Browser, server, and service-role Supabase clients |
 | `src/modules/auth/` | Login, signup, and OTP forms |
 | `src/modules/layout/` | AdminSidebar, AdminHeader, sidebar components |
