@@ -61,7 +61,7 @@ Run from the repo root with `pnpm --filter @fe-template/db <script>`:
 | `db:deploy` | Apply pending migrations (CI / production) |
 | `db:push` | Push the schema without a migration (prototyping only) |
 | `db:studio` | Open Prisma Studio to browse and edit rows |
-| `db:seed` | Seed demo data via `prisma/seed.ts` (includes `admin@example.com` with `Role.ADMIN` and `UserStatus.VERIFIED`) |
+| `db:seed` | Seed demo data via `prisma/seed.ts` (users, pets, posts, testimonials, plans, contacts, pet matches). `Profile` is upserted only for existing `auth.users` UUIDs — the seed never invents Auth rows. |
 | `typecheck` | `tsc --noEmit` |
 
 `pnpm db:generate` at the repo root runs `db:generate` across the workspace via Turbo.

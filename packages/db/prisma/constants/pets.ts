@@ -2,9 +2,17 @@ import { PetSpecies } from "@prisma/client";
 
 import { SEED_USER_IDS } from "./users";
 
+export const SEED_PET_IDS = {
+  mochi: "seed-pet-mochi",
+  luna: "seed-pet-luna",
+  atlas: "seed-pet-atlas",
+  pepper: "seed-pet-pepper",
+  benny: "seed-pet-benny",
+} as const;
+
 export const seedPets = [
   {
-    id: "seed-pet-mochi",
+    id: SEED_PET_IDS.mochi,
     name: "Mochi",
     species: PetSpecies.DOG,
     breed: "Shih Tzu mix",
@@ -14,7 +22,7 @@ export const seedPets = [
     ownerId: SEED_USER_IDS.admin,
   },
   {
-    id: "seed-pet-luna",
+    id: SEED_PET_IDS.luna,
     name: "Luna",
     species: PetSpecies.DOG,
     breed: "Golden Retriever",
@@ -24,7 +32,7 @@ export const seedPets = [
     ownerId: SEED_USER_IDS.bea,
   },
   {
-    id: "seed-pet-atlas",
+    id: SEED_PET_IDS.atlas,
     name: "Atlas",
     species: PetSpecies.DOG,
     breed: "Australian Shepherd",
@@ -34,7 +42,7 @@ export const seedPets = [
     ownerId: SEED_USER_IDS.marco,
   },
   {
-    id: "seed-pet-pepper",
+    id: SEED_PET_IDS.pepper,
     name: "Pepper",
     species: PetSpecies.CAT,
     breed: "Gray tabby",
@@ -44,7 +52,7 @@ export const seedPets = [
     ownerId: SEED_USER_IDS.nina,
   },
   {
-    id: "seed-pet-benny",
+    id: SEED_PET_IDS.benny,
     name: "Benny",
     species: PetSpecies.DOG,
     breed: "Mixed breed",
