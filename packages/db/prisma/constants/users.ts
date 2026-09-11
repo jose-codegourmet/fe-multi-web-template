@@ -1,4 +1,4 @@
-import { Role } from "@prisma/client";
+import { Role, UserStatus } from "@prisma/client";
 
 export const SEED_USER_IDS = {
   admin: "seed-user-admin",
@@ -15,6 +15,7 @@ export const seedUsers = [
     email: "admin@example.com",
     name: "Admin User",
     role: Role.ADMIN,
+    status: UserStatus.VERIFIED,
     bio: "Platform administrator",
   },
   {
@@ -22,6 +23,7 @@ export const seedUsers = [
     email: "bea@example.com",
     name: "Bea Lim",
     role: Role.USER,
+    status: UserStatus.VERIFIED,
     bio: "Pet Wellbeing Advisor",
   },
   {
@@ -29,12 +31,14 @@ export const seedUsers = [
     email: "marco@example.com",
     name: "Marco",
     role: Role.USER,
+    status: UserStatus.VERIFIED,
   },
   {
     id: SEED_USER_IDS.nina,
     email: "nina@example.com",
     name: "Nina Cruz",
     role: Role.USER,
+    status: UserStatus.VERIFIED,
     bio: "Community Writer",
   },
   {
@@ -42,6 +46,7 @@ export const seedUsers = [
     email: "aya@example.com",
     name: "Aya Santos",
     role: Role.USER,
+    status: UserStatus.VERIFIED,
     bio: "Community Experience Lead",
   },
   {
@@ -49,6 +54,7 @@ export const seedUsers = [
     email: "jules@example.com",
     name: "Jules Reyes",
     role: Role.USER,
+    status: UserStatus.VERIFIED,
     bio: "Head of Pet Safety",
   },
 ] as const;

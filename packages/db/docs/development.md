@@ -90,7 +90,7 @@ pnpm --filter @fe-template/db db:push
 pnpm --filter @fe-template/db db:seed
 ```
 
-Seed data is in `prisma/constants/` and imported by `prisma/seed.ts`. The demo seed includes an admin user.
+Seed data is in `prisma/constants/` and imported by `prisma/seed.ts`. The demo seed includes `admin@example.com` with `Role.ADMIN` and `UserStatus.VERIFIED`, plus other demo users also set to `VERIFIED`.
 
 ---
 
