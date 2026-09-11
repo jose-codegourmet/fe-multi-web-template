@@ -22,7 +22,7 @@ The client is a singleton cached on `globalThis` outside production, which keeps
 
 ## Schema
 
-Prisma's split-schema layout, configured via `"prisma": { "schema": "prisma/schema" }` in [package.json](package.json):
+Prisma's split-schema layout, configured via `schema` and `migrations.seed` in [prisma.config.ts](prisma.config.ts):
 
 ```text
 packages/db/prisma/

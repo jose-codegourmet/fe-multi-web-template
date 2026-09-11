@@ -21,6 +21,7 @@ packages/db/
 │   │   └── migrations/    # Prisma migrations
 │   ├── seed.ts            # Seed script
 │   └── constants/         # Seed data constants
+├── prisma.config.ts       # schema path + seed command
 ├── package.json
 └── tsconfig.json
 ```
@@ -29,13 +30,18 @@ packages/db/
 
 ## Multi-file schema
 
-Prisma is configured in `package.json` to use a directory:
+Prisma is configured in `prisma.config.ts` (not `package.json`):
 
-```json
-"prisma": {
-  "schema": "prisma/schema",
-  "seed": "tsx prisma/seed.ts"
-}
+```ts
+import { defineConfig } from "prisma/config";
+
+export default defineConfig({
+  schema: "prisma/schema",
+  migrations: {
+    path: "prisma/schema/migrations",
+    seed: "tsx prisma/seed.ts",
+  },
+});
 ```
 
 Keep models grouped by domain:

@@ -46,6 +46,8 @@ Purpose, models, consumers, and commands for the Prisma + Supabase Postgres pack
 
 ## Schema layout
 
+The multi-file schema directory and seed command are set in `packages/db/prisma.config.ts`. Do not put a `prisma` block in `package.json` (removed in Prisma 7).
+
 ```text
 packages/db/prisma/schema/
 ├── schema.prisma       # generator + datasource

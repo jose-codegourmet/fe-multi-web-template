@@ -127,7 +127,8 @@ packages/ui/
 
 ```text
 packages/db/
-├── package.json              # prisma: schema = prisma/schema
+├── package.json              # Prisma CLI scripts (config is prisma.config.ts)
+├── prisma.config.ts          # schema = prisma/schema, seed command
 ├── tsconfig.json             # noEmit
 ├── .env.example              # DATABASE_URL, DIRECT_URL
 ├── README.md                 # Existing package README
