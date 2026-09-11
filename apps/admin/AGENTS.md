@@ -20,7 +20,7 @@ Local agent instructions for the admin portal. Read `/AGENTS.md` first, then thi
 |---|---|
 | `src/app/` | Next.js App Router routes |
 | `src/app/(dashboard)/` | Dashboard shell and all protected pages |
-| `src/app/login/`, `src/app/signup/`, `src/app/otp/` | Public auth routes |
+| `src/app/login/`, `src/app/signup/`, `src/app/otp/`, `src/app/auth/callback/` | Public auth routes |
 | `src/app/api/images/route.ts` | Image upload endpoint for Supabase Storage |
 | `src/hooks/` | TanStack Query hooks (`use-users`, `use-pets`, `use-posts`, `use-contacts`, `use-testimonials`, `use-pricing-plans`) |
 | `src/lib/supabase/` | Browser, server, and service-role Supabase clients |
@@ -46,6 +46,7 @@ Local agent instructions for the admin portal. Read `/AGENTS.md` first, then thi
 | `/login` | `src/app/login/page.tsx` | Sign in |
 | `/signup` | `src/app/signup/page.tsx` | Sign up |
 | `/otp` | `src/app/otp/page.tsx` | OTP confirmation |
+| `/auth/callback` | `src/app/auth/callback/route.ts` | Signup email confirmation (PKCE code exchange) |
 | `/dashboard` | `src/app/(dashboard)/dashboard/page.tsx` | Dashboard with stats and charts |
 | `/users` | `src/app/(dashboard)/users/page.tsx` | User list |
 | `/users/[id]` | `src/app/(dashboard)/users/[id]/page.tsx` | User detail |
@@ -82,7 +83,7 @@ Local agent instructions for the admin portal. Read `/AGENTS.md` first, then thi
 - Forms use `react-hook-form` + `zod` + `@hookform/resolvers`. Follow the existing `.schema.ts` and `.defaultValues.ts` pattern in auth modules.
 - Shared UI wiring must remain in place: `transpilePackages` in `next.config.ts` and the `@source` directive in `globals.css`.
 - The empty directory `src/login/` is not used. Use `src/app/login/`.
-- Signup form references `/auth/callback` which does not exist. Verify callback behavior before changing auth flows.
+- Signup email confirmation uses `/auth/callback` (public middleware route) to exchange the Supabase auth code for a session.
 
 ---
 

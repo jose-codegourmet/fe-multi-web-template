@@ -49,6 +49,7 @@ Purpose, routes, features, and commands for the admin portal.
 | `/login` | `src/app/login/page.tsx` | Sign in |
 | `/signup` | `src/app/signup/page.tsx` | Sign up |
 | `/otp` | `src/app/otp/page.tsx` | OTP confirmation |
+| `/auth/callback` | `src/app/auth/callback/route.ts` | Signup email confirmation callback |
 | `/dashboard` | `src/app/(dashboard)/dashboard/page.tsx` | Dashboard |
 | `/users` | `src/app/(dashboard)/users/page.tsx` | User list |
 | `/users/[id]` | `src/app/(dashboard)/users/[id]/page.tsx` | User detail |
@@ -88,7 +89,7 @@ Purpose, routes, features, and commands for the admin portal.
 
 ## External services
 
-- **Supabase Auth** — session-based auth, login/signup/OTP, user invites.
+- **Supabase Auth** — session-based auth, login/signup/OTP, email confirmation callback, user invites.
 - **Supabase Storage** — `admin-uploads` bucket for image uploads.
 - **Supabase Postgres** — backing database, accessed via Prisma.
 

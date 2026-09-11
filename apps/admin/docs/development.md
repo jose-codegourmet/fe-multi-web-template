@@ -106,4 +106,4 @@ Check that `src/app/globals.css` still contains:
 
 - Middleware gates on session presence only. Role enforcement is a TODO.
 - The empty `src/login/` directory is not used.
-- Signup references `/auth/callback` which does not exist.
+- Signup confirmation links are handled by `/auth/callback` (must stay on the middleware public-route list).
