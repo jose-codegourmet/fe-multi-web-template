@@ -67,7 +67,7 @@ Do not add `page.tsx` next to them or treat them as dead leftovers.
 
 ### Post editor wrappers
 
-`src/app/(dashboard)/posts/post-editor.tsx` exports `NewPostEditor` and `EditPostEditor`. They load authors/posts through `use-posts` and render `post-form/PostForm.tsx`. `/posts/new` and `/posts/[id]` use these wrappers rather than importing `PostForm` directly.
+`src/app/(dashboard)/posts/post-editor/PostEditor.tsx` exports `NewPostEditor` and `EditPostEditor`. They load authors/posts through `use-posts` and render `post-form/PostForm.tsx`. `/posts/new` and `/posts/[id]` use these wrappers rather than importing `PostForm` directly.
 
 ### Two 404 boundaries
 

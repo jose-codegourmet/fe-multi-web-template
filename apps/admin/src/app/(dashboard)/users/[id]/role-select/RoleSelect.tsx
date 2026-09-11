@@ -3,7 +3,7 @@
 import type { Role } from "@fe-template/db";
 import { Button } from "@fe-template/ui";
 import { useTransition } from "react";
-import { updateUserRole } from "../actions";
+import { updateUserRole } from "../../actions";
 
 export function RoleSelect({ userId, role }: { userId: string; role: Role }) {
   const [pending, startTransition] = useTransition();

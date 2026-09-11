@@ -1,7 +1,7 @@
 import { dehydrate, HydrationBoundary, QueryClient } from "@tanstack/react-query";
 import { postsQueryKey } from "@/hooks/use-posts/query";
 import { fetchAuthors } from "@/hooks/use-posts/server";
-import { NewPostEditor } from "../post-editor";
+import { NewPostEditor } from "../post-editor/PostEditor";
 
 export default async function NewPostPage() {
   const queryClient = new QueryClient();

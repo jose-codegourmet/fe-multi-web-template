@@ -23,7 +23,7 @@ import { toast } from "sonner";
 import { usePosts } from "@/hooks/use-posts/client";
 import { postsQueryKey } from "@/hooks/use-posts/query";
 import type { PostRow } from "@/hooks/use-posts/types";
-import { deletePost } from "./actions";
+import { deletePost } from "../actions";
 
 function DeletePostDialog({ post }: { post: PostRow }) {
   const qc = useQueryClient();

@@ -6,7 +6,7 @@ import { usePricingPlans } from "@/hooks/use-pricing-plans/client";
 import {
   DeletePricingPlanDialog,
   PricingPlanDialog,
-} from "./pricing-plan-dialog/PricingPlanDialog";
+} from "../pricing-plan-dialog/PricingPlanDialog";
 
 export function PricingPlansList() {
   const { data: plans = [] } = usePricingPlans();

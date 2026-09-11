@@ -5,7 +5,7 @@ import { CatIcon, DogIcon, PawPrintIcon, RabbitIcon } from "lucide-react";
 import { petsQueryKey } from "@/hooks/use-pets/query";
 import { fetchPets } from "@/hooks/use-pets/server";
 import { PetDialog } from "./pet-dialog/PetDialog";
-import { PetsTable } from "./pets-table";
+import { PetsTable } from "./pets-table/PetsTable";
 
 async function getSpeciesStats() {
   try {

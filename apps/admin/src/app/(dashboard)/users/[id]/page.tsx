@@ -2,7 +2,7 @@ import { dehydrate, HydrationBoundary, QueryClient } from "@tanstack/react-query
 import { notFound } from "next/navigation";
 import { usersQueryKey } from "@/hooks/use-users/query";
 import { fetchUser } from "@/hooks/use-users/server";
-import { UserDetailView } from "./user-detail";
+import { UserDetailView } from "./user-detail/UserDetail";
 
 type PageProps = {
   params: Promise<{ id: string }>;

@@ -2,7 +2,7 @@ import { dehydrate, HydrationBoundary, QueryClient } from "@tanstack/react-query
 import { notFound } from "next/navigation";
 import { postsQueryKey } from "@/hooks/use-posts/query";
 import { fetchAuthors, fetchPost } from "@/hooks/use-posts/server";
-import { EditPostEditor } from "../post-editor";
+import { EditPostEditor } from "../post-editor/PostEditor";
 
 type PageProps = {
   params: Promise<{ id: string }>;

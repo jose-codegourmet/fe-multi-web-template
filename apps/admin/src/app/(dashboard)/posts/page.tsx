@@ -3,7 +3,7 @@ import { dehydrate, HydrationBoundary, QueryClient } from "@tanstack/react-query
 import Link from "next/link";
 import { postsQueryKey } from "@/hooks/use-posts/query";
 import { fetchPosts } from "@/hooks/use-posts/server";
-import { PostsTable } from "./posts-table";
+import { PostsTable } from "./posts-table/PostsTable";
 
 export default async function PostsPage() {
   const queryClient = new QueryClient();

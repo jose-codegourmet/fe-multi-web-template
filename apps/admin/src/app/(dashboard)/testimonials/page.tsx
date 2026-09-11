@@ -2,7 +2,7 @@ import { dehydrate, HydrationBoundary, QueryClient } from "@tanstack/react-query
 import { testimonialsQueryKey } from "@/hooks/use-testimonials/query";
 import { fetchTestimonials } from "@/hooks/use-testimonials/server";
 import { TestimonialDialog } from "./testimonial-dialog/TestimonialDialog";
-import { TestimonialsList } from "./testimonials-list";
+import { TestimonialsList } from "./testimonials-list/TestimonialsList";
 
 export default async function TestimonialsPage() {
   const queryClient = new QueryClient();
