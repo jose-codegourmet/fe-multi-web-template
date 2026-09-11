@@ -6,7 +6,7 @@ Each component gets:
   src/components/<kebab>/
     <Pascal>.tsx              (moved from components/ui/<kebab>.tsx)
     <Pascal>.schema.ts
-    <Pascal>.defaultvalues.ts
+    <Pascal>.defaults.ts
     <Pascal>.stories.tsx
 """
 
@@ -217,7 +217,7 @@ def generate_schema(kebab: str, pascal: str, tsx_content: str, exports: list[str
 
 
 def generate_defaultvalues(kebab: str, pascal: str, tsx_content: str, exports: list[str]) -> str:
-    """Generate <Pascal>.defaultvalues.ts content."""
+    """Generate <Pascal>.defaults.ts content."""
     main_export = exports[0]
     variants = get_variant_info(kebab, tsx_content)
 
@@ -274,7 +274,7 @@ def generate_stories(kebab: str, pascal: str, tsx_content: str, exports: list[st
         'import type { Meta, StoryObj } from "@storybook/react";',
         "",
         f'import {{ {main_export} }} from "./{pascal}";',
-        f'import {{ {camel}DefaultValues }} from "./{pascal}.defaultvalues";',
+        f'import {{ {camel}DefaultValues }} from "./{pascal}.defaults";',
         "",
         f"const meta: Meta<typeof {main_export}> = {{",
         f'  title: "Components/{pascal}",',
@@ -341,15 +341,15 @@ def migrate_component(kebab: str) -> None:
     schema_file = folder / f"{pascal}.schema.ts"
     schema_file.write_text(generate_schema(kebab, pascal, content, exports), encoding="utf-8")
 
-    # Write defaultvalues
-    dv_file = folder / f"{pascal}.defaultvalues.ts"
+    # Write defaults
+    dv_file = folder / f"{pascal}.defaults.ts"
     dv_file.write_text(generate_defaultvalues(kebab, pascal, content, exports), encoding="utf-8")
 
     # Write stories
     stories_file = folder / f"{pascal}.stories.tsx"
     stories_file.write_text(generate_stories(kebab, pascal, content, exports), encoding="utf-8")
 
-    print(f"  OK: {kebab}/ → {pascal}.tsx + schema + defaultvalues + stories")
+    print(f"  OK: {kebab}/ → {pascal}.tsx + schema + defaults + stories")
 
 
 def main():

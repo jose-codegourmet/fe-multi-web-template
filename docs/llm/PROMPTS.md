@@ -10,7 +10,7 @@ Copy-paste prompts for common scaffolding tasks. All prompts assume familiarity 
 Add a new page at /[route] in apps/web following template conventions:
 - page.tsx composes sections only
 - sections under apps/web/src/sections/[page-name]/[section-name]/ with .tsx + .stories.tsx + .usecase.md each
-- only add .schema.ts + .defaultvalues.ts if a section is a form
+- only add .schema.ts + .defaults.ts if a section is a form
 - import primitives from @fe-template/ui (never from a local components folder)
 - copy content from docs/about-example-site/aboustwebsite.md, colours/fonts from docs/about-example-site/branding.md
 - images from docs/about-example-site/image-guide.md in apps/web/public/images/
@@ -27,7 +27,7 @@ Add a new page at /[route] in apps/web following template conventions:
 Add section [SectionName] to page [page-name]:
 - folder: apps/web/src/sections/[page]/[section]/
 - files: SectionName.tsx + SectionName.stories.tsx + SectionName.usecase.md
-- only add SectionName.schema.ts + SectionName.defaultvalues.ts if the section is a form
+- only add SectionName.schema.ts + SectionName.defaults.ts if the section is a form
 - import primitives from @fe-template/ui
 - use ScrollReveal for in-view animation if appropriate
 - content from docs/about-example-site/aboustwebsite.md
@@ -42,7 +42,7 @@ Add section [SectionName] to page [page-name]:
 Add component [ComponentName] to the shared UI package:
 - folder: packages/ui/src/components/[component-name]/ (kebab-case)
 - files: ComponentName.tsx + ComponentName.stories.tsx + ComponentName.usecase.md
-- only add ComponentName.schema.ts + ComponentName.defaultvalues.ts if the component is a form
+- only add ComponentName.schema.ts + ComponentName.defaults.ts if the component is a form
 - build on @base-ui/react primitives where applicable, use cn() from the package lib
 - add "use client" only if it needs state/effects/browser APIs
 - export it from packages/ui/src/index.ts

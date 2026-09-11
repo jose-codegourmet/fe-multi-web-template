@@ -80,7 +80,7 @@ import { HeroSection } from "@/sections/home/hero/HeroSection";      // app-loca
 | Task | Location | Files |
 | --- | --- | --- |
 | New web page | `apps/web/src/app/[route]/page.tsx` + `apps/web/src/sections/[page]/` | `page.tsx` composes sections only |
-| New section | `apps/web/src/sections/[page]/[section]/` | `.tsx` + `.stories.tsx` + `.usecase.md`; add `.schema.ts` + `.defaultvalues.ts` only if it is a form |
+| New section | `apps/web/src/sections/[page]/[section]/` | `.tsx` + `.stories.tsx` + `.usecase.md`; add `.schema.ts` + `.defaults.ts` only if it is a form |
 | New shared primitive | `packages/ui/src/components/[name]/` | `.tsx` + `.stories.tsx` + `.usecase.md`, plus an export line in `packages/ui/src/index.ts` |
 | New admin page | `apps/admin/src/app/(dashboard)/[route]/page.tsx` | Async Server Component querying `prisma`; mutations in a co-located `actions.ts` |
 | New model / field | `packages/db/prisma/schema/*.prisma` | Then `pnpm --filter @fe-template/db db:migrate` and `db:generate` |

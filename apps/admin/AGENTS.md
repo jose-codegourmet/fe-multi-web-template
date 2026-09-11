@@ -80,7 +80,7 @@ Local agent instructions for the admin portal. Read `/AGENTS.md` first, then thi
 - All routes under `(dashboard)` are protected by `middleware.ts` by session presence only. Unauthenticated `/api/*` requests are not redirected to `/login`; the route handler returns JSON. A TODO in `middleware.ts` notes that `User.role === ADMIN` enforcement is not yet wired.
 - `(dashboard)/layout.tsx` is a client component (pathname → header title). Dashboard widgets `community-growth-chart.tsx` and `recent-activity.tsx` live at the route-group root. There are two 404 files (`app/not-found.tsx` and `(dashboard)/not-found.tsx`) plus `loading.tsx` / `error.tsx` at the app root and `(dashboard)` group. See `apps/admin/docs/architecture.md`.
 - `@fe-template/db` and `src/lib/supabase/admin.ts` are server-only. Never import them from client components.
-- Forms use `react-hook-form` + `zod` + `@hookform/resolvers`. Follow the existing `.schema.ts` and `.defaultValues.ts` pattern in auth modules.
+- Forms use `react-hook-form` + `zod` + `@hookform/resolvers`. Follow the existing `.schema.ts` and `.defaults.ts` pattern in auth modules.
 - Shared UI wiring must remain in place: `transpilePackages` in `next.config.ts` and the `@source` directive in `globals.css`.
 - The empty directory `src/login/` is not used. Use `src/app/login/`.
 - Signup email confirmation uses `/auth/callback` (public middleware route) to exchange the Supabase auth code for a session.

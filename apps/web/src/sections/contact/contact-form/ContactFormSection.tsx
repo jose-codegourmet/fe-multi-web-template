@@ -12,7 +12,7 @@ import {
 } from "@fe-template/ui";
 import { type FormEvent, useState } from "react";
 import { cn } from "@/lib/utils";
-import { contactFormSectionDefaultValues } from "./ContactFormSection.defaultvalues";
+import { contactFormSectionDefaultValues } from "./ContactFormSection.defaults";
 import type { ContactFormSectionProps } from "./ContactFormSection.schema";
 
 function ContactFormSection({
