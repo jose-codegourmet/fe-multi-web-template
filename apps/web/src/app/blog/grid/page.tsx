@@ -1,5 +1,9 @@
+import { dehydrate, HydrationBoundary, QueryClient } from "@tanstack/react-query";
 import type { Metadata } from "next";
+import { Suspense } from "react";
 import { PAGE_SEO } from "@/constants/seo";
+import { blogPostsQueryKey } from "@/hooks/use-blog-posts/query";
+import { fetchBlogPosts } from "@/hooks/use-blog-posts/server";
 import { ArticleGridSection } from "@/sections/blog/article-grid/ArticleGridSection";
 import { BlogFiltersSection } from "@/sections/blog/filters/BlogFiltersSection";
 import { BlogHeroSection } from "@/sections/blog/hero/BlogHeroSection";
@@ -12,13 +16,21 @@ export const metadata: Metadata = {
 
 export const dynamic = "force-dynamic";
 
-export default function BlogGridPage() {
+export default async function BlogGridPage() {
+  const queryClient = new QueryClient();
+  await queryClient.prefetchQuery({
+    queryKey: blogPostsQueryKey.list(),
+    queryFn: fetchBlogPosts,
+  });
+
   return (
-    <>
+    <HydrationBoundary state={dehydrate(queryClient)}>
       <BlogHeroSection />
-      <BlogFiltersSection />
-      <ArticleGridSection />
+      <Suspense>
+        <BlogFiltersSection />
+        <ArticleGridSection />
+      </Suspense>
       <BlogNewsletterSection />
-    </>
+    </HydrationBoundary>
   );
 }

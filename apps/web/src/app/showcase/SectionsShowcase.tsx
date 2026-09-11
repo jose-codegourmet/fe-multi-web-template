@@ -1,4 +1,4 @@
-import type { ReactNode } from "react";
+import { type ReactNode, Suspense } from "react";
 import { fetchBlogPosts } from "@/hooks/use-blog-posts/server";
 import { CommunityCommitmentSection } from "@/sections/about/community-commitment/CommunityCommitmentSection";
 import { AboutFinalCtaSection } from "@/sections/about/final-cta/AboutFinalCtaSection";
@@ -168,13 +168,19 @@ async function SectionsShowcase() {
           <FeaturedArticleSection />
         </SectionPreview>
         <SectionPreview path="sections/blog/article-list" label="Article List">
-          <ArticleListSection />
+          <Suspense>
+            <ArticleListSection />
+          </Suspense>
         </SectionPreview>
         <SectionPreview path="sections/blog/article-grid" label="Article Grid">
-          <ArticleGridSection />
+          <Suspense>
+            <ArticleGridSection />
+          </Suspense>
         </SectionPreview>
         <SectionPreview path="sections/blog/filters" label="Filters">
-          <BlogFiltersSection />
+          <Suspense>
+            <BlogFiltersSection />
+          </Suspense>
         </SectionPreview>
         <SectionPreview path="sections/blog/newsletter" label="Newsletter">
           <BlogNewsletterSection />

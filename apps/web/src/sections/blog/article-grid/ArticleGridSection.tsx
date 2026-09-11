@@ -1,3 +1,5 @@
+"use client";
+
 import {
   Badge,
   Card,
@@ -8,8 +10,11 @@ import {
   ScrollReveal,
 } from "@fe-template/ui";
 import Link from "next/link";
+import { useSearchParams } from "next/navigation";
+import { BLOG_CATEGORY_QUERY } from "@/constants/blog";
 import { ROUTES } from "@/constants/routes";
-import { fetchBlogPosts } from "@/hooks/use-blog-posts/server";
+import { useBlogPosts } from "@/hooks/use-blog-posts/client";
+import { filterPostsByCategory, parseBlogCategory } from "@/lib/blog-category";
 import { cn } from "@/lib/utils";
 import { SectionImage } from "@/sections/_shared/SectionImage";
 
@@ -17,8 +22,11 @@ type ArticleGridSectionProps = {
   className?: string;
 };
 
-async function ArticleGridSection({ className }: ArticleGridSectionProps) {
-  const posts = await fetchBlogPosts();
+function ArticleGridSection({ className }: ArticleGridSectionProps) {
+  const searchParams = useSearchParams();
+  const category = parseBlogCategory(searchParams.get(BLOG_CATEGORY_QUERY));
+  const { data: posts = [] } = useBlogPosts();
+  const visiblePosts = filterPostsByCategory(posts, category);
 
   return (
     <section
@@ -35,38 +43,46 @@ async function ArticleGridSection({ className }: ArticleGridSectionProps) {
           </p>
         </ScrollReveal>
 
-        <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
-          {posts.map((post, index) => (
-            <ScrollReveal key={post.slug} delay={0.06 * (index + 1)}>
-              <Card className="h-full overflow-hidden border-none bg-brand-warm-cream/60 shadow-none ring-1 ring-brand-ink-200/40 transition-shadow hover:shadow-md">
-                <Link href={ROUTES.blogPost(post.slug)} className="group block h-full">
-                  <SectionImage
-                    src={post.image}
-                    alt={post.title}
-                    className="aspect-[16/10] rounded-none rounded-t-[calc(var(--radius)*2)]"
-                    sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
-                  />
-                  <CardHeader>
-                    <Badge className="w-fit bg-brand-coral/15 text-brand-coral">
-                      {post.category}
-                    </Badge>
-                    <CardTitle className="font-display text-xl text-brand-deep-ink transition-colors group-hover:text-brand-coral">
-                      {post.title}
-                    </CardTitle>
-                    <CardDescription className="text-brand-ink-500">{post.excerpt}</CardDescription>
-                  </CardHeader>
-                  <CardContent>
-                    <p className="text-xs text-brand-ink-500">
-                      {post.author.name}
-                      <span className="mx-1.5">·</span>
-                      {post.readingTime}
-                    </p>
-                  </CardContent>
-                </Link>
-              </Card>
-            </ScrollReveal>
-          ))}
-        </div>
+        {visiblePosts.length === 0 ? (
+          <p className="text-base text-brand-ink-500">
+            No articles in this topic yet. Try another filter.
+          </p>
+        ) : (
+          <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+            {visiblePosts.map((post, index) => (
+              <ScrollReveal key={post.slug} delay={0.06 * (index + 1)}>
+                <Card className="h-full overflow-hidden border-none bg-brand-warm-cream/60 shadow-none ring-1 ring-brand-ink-200/40 transition-shadow hover:shadow-md">
+                  <Link href={ROUTES.blogPost(post.slug)} className="group block h-full">
+                    <SectionImage
+                      src={post.image}
+                      alt={post.title}
+                      className="aspect-[16/10] rounded-none rounded-t-[calc(var(--radius)*2)]"
+                      sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
+                    />
+                    <CardHeader>
+                      <Badge className="w-fit bg-brand-coral/15 text-brand-coral">
+                        {post.category}
+                      </Badge>
+                      <CardTitle className="font-display text-xl text-brand-deep-ink transition-colors group-hover:text-brand-coral">
+                        {post.title}
+                      </CardTitle>
+                      <CardDescription className="text-brand-ink-500">
+                        {post.excerpt}
+                      </CardDescription>
+                    </CardHeader>
+                    <CardContent>
+                      <p className="text-xs text-brand-ink-500">
+                        {post.author.name}
+                        <span className="mx-1.5">·</span>
+                        {post.readingTime}
+                      </p>
+                    </CardContent>
+                  </Link>
+                </Card>
+              </ScrollReveal>
+            ))}
+          </div>
+        )}
       </div>
     </section>
   );

@@ -46,7 +46,9 @@ src/sections/home/hero/
 Real references:
 - `src/sections/home/hero/HeroSection.tsx`
 - `src/sections/pricing/hero/PricingHeroSection.tsx`
-- `src/sections/blog/grid/BlogGridSection.tsx`
+- `src/sections/blog/article-grid/ArticleGridSection.tsx`
+
+Blog list and grid pages share a `?category=` query param. `BlogFiltersSection` writes it; `ArticleListSection` and `ArticleGridSection` filter the already-loaded posts client-side. Valid values live in `src/constants/blog.ts`.
 
 ---
 
