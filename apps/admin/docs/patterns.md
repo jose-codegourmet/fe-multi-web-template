@@ -186,7 +186,7 @@ src/app/(dashboard)/posts/post-form/
 
 Exceptions to copy carefully:
 
-- `src/app/(dashboard)/profile/profile-form/ProfileForm.tsx` has no schema or defaults file; it uses `useActionState` with raw `FormData`.
+- `src/app/(dashboard)/profile/profile-form/` uses two schemas in `ProfileForm.schema.ts` (`profileFormSchema` and `profilePasswordSchema`). Defaults live in `ProfileForm.defaults.ts`. Both Server Actions in `profile/actions.ts` import those schemas so password rules are not client-only.
 - `src/app/(dashboard)/posts/post-form/PostForm.defaults.ts` exports `getNewPostDefaultValues` and `getPostDefaultValues`. `PostFormValues` and `PostFormSchemaValues` live in `PostForm.schema.ts`. `PostFormValues` keeps an optional `id` so create vs update can branch on it; excerpt and coverImage stay non-nullable strings.
 
 Real references:

@@ -15,19 +15,35 @@ import {
   DropdownMenuContent,
   DropdownMenuItem,
   DropdownMenuTrigger,
+  Form,
+  FormControl,
+  FormField,
+  FormItem,
+  FormLabel,
+  FormMessage,
   Input,
   Label,
   Textarea,
 } from "@fe-template/ui";
+import { zodResolver } from "@hookform/resolvers/zod";
 import { useQueryClient } from "@tanstack/react-query";
 import { CheckIcon, Loader2Icon, LogOutIcon, MoonIcon, SunIcon } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { useTheme } from "next-themes";
-import { useActionState, useEffect, useState } from "react";
+import { useEffect } from "react";
+import { useForm } from "react-hook-form";
+import { toast } from "sonner";
 import { getInitials, useCurrentUser } from "@/hooks/use-current-user/client";
 import { currentUserQueryKey } from "@/hooks/use-current-user/query";
 import { createClient } from "@/lib/supabase/client";
-import { type ProfileActionState, updateProfile } from "../actions";
+import { updatePassword, updateProfile } from "../actions";
+import { getProfileDefaultValues, profilePasswordDefaultValues } from "./ProfileForm.defaults";
+import {
+  type ProfileFormValues,
+  type ProfilePasswordValues,
+  profileFormSchema,
+  profilePasswordSchema,
+} from "./ProfileForm.schema";
 
 const THEME_OPTIONS = [
   { value: "light", label: "Light" },
@@ -35,26 +51,27 @@ const THEME_OPTIONS = [
   { value: "system", label: "System" },
 ] as const;
 
-const initialState: ProfileActionState = {};
-
 export function ProfileForm() {
   const router = useRouter();
   const queryClient = useQueryClient();
   const { theme, setTheme } = useTheme();
   const { data: currentUser, isLoading } = useCurrentUser();
-  const [state, formAction, pending] = useActionState(updateProfile, initialState);
 
-  const [password, setPassword] = useState("");
-  const [confirmPassword, setConfirmPassword] = useState("");
-  const [passwordError, setPasswordError] = useState<string | null>(null);
-  const [passwordSuccess, setPasswordSuccess] = useState<string | null>(null);
-  const [passwordLoading, setPasswordLoading] = useState(false);
+  const profileForm = useForm<ProfileFormValues>({
+    resolver: zodResolver(profileFormSchema),
+    defaultValues: getProfileDefaultValues(currentUser),
+  });
+
+  const passwordForm = useForm<ProfilePasswordValues>({
+    resolver: zodResolver(profilePasswordSchema),
+    defaultValues: profilePasswordDefaultValues,
+  });
 
   useEffect(() => {
-    if (state.success) {
-      void queryClient.invalidateQueries({ queryKey: currentUserQueryKey.current() });
+    if (currentUser) {
+      profileForm.reset(getProfileDefaultValues(currentUser));
     }
-  }, [state.success, queryClient]);
+  }, [currentUser, profileForm]);
 
   async function handleSignOut() {
     const supabase = createClient();
@@ -63,33 +80,26 @@ export function ProfileForm() {
     router.refresh();
   }
 
-  async function handlePasswordChange(event: React.FormEvent<HTMLFormElement>) {
-    event.preventDefault();
-    setPasswordError(null);
-    setPasswordSuccess(null);
-
-    if (password.length < 8) {
-      setPasswordError("Password must be at least 8 characters.");
-      return;
-    }
-    if (password !== confirmPassword) {
-      setPasswordError("Passwords do not match.");
+  async function onProfileSubmit(values: ProfileFormValues) {
+    const result = await updateProfile(values);
+    if (!result.success) {
+      toast.error(result.error);
       return;
     }
 
-    setPasswordLoading(true);
-    const supabase = createClient();
-    const { error } = await supabase.auth.updateUser({ password });
-    setPasswordLoading(false);
+    toast.success(result.message);
+    await queryClient.invalidateQueries({ queryKey: currentUserQueryKey.current() });
+  }
 
-    if (error) {
-      setPasswordError(error.message);
+  async function onPasswordSubmit(values: ProfilePasswordValues) {
+    const result = await updatePassword(values);
+    if (!result.success) {
+      toast.error(result.error);
       return;
     }
 
-    setPassword("");
-    setConfirmPassword("");
-    setPasswordSuccess("Password updated.");
+    toast.success(result.message);
+    passwordForm.reset(profilePasswordDefaultValues);
   }
 
   if (isLoading) {
@@ -146,41 +156,52 @@ export function ProfileForm() {
           </div>
         </CardHeader>
         <CardContent>
-          <form action={formAction} className="space-y-4">
-            <div className="space-y-2">
-              <Label htmlFor="name">Name</Label>
-              <Input
-                id="name"
+          <Form {...profileForm}>
+            <form onSubmit={profileForm.handleSubmit(onProfileSubmit)} className="space-y-4">
+              <FormField
+                control={profileForm.control}
                 name="name"
-                defaultValue={currentUser.name ?? ""}
-                className="rounded-xl"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Name</FormLabel>
+                    <FormControl>
+                      <Input id="name" className="rounded-xl" {...field} />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
               />
-            </div>
-            <div className="space-y-2">
-              <Label htmlFor="email-readonly">Email</Label>
-              <Input
-                id="email-readonly"
-                value={currentUser.email}
-                readOnly
-                className="rounded-xl bg-muted/50"
-              />
-            </div>
-            <div className="space-y-2">
-              <Label htmlFor="bio">Bio</Label>
-              <Textarea
-                id="bio"
+              <div className="space-y-2">
+                <Label htmlFor="email-readonly">Email</Label>
+                <Input
+                  id="email-readonly"
+                  value={currentUser.email}
+                  readOnly
+                  className="rounded-xl bg-muted/50"
+                />
+              </div>
+              <FormField
+                control={profileForm.control}
                 name="bio"
-                rows={4}
-                defaultValue={currentUser.bio ?? ""}
-                className="rounded-2xl"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Bio</FormLabel>
+                    <FormControl>
+                      <Textarea id="bio" rows={4} className="rounded-2xl" {...field} />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
               />
-            </div>
-            {state.error ? <p className="text-sm text-destructive">{state.error}</p> : null}
-            {state.success ? <p className="text-sm text-primary">{state.success}</p> : null}
-            <Button type="submit" disabled={pending} className="rounded-full">
-              {pending ? "Saving…" : "Save profile"}
-            </Button>
-          </form>
+              <Button
+                type="submit"
+                disabled={profileForm.formState.isSubmitting}
+                className="rounded-full"
+              >
+                {profileForm.formState.isSubmitting ? "Saving…" : "Save profile"}
+              </Button>
+            </form>
+          </Form>
         </CardContent>
       </Card>
 
@@ -190,42 +211,62 @@ export function ProfileForm() {
           <CardDescription>Update your Supabase Auth password.</CardDescription>
         </CardHeader>
         <CardContent>
-          <form onSubmit={handlePasswordChange} className="space-y-4">
-            <div className="space-y-2">
-              <Label htmlFor="password">New password</Label>
-              <Input
-                id="password"
-                type="password"
-                autoComplete="new-password"
-                value={password}
-                onChange={(event) => setPassword(event.target.value)}
-                className="rounded-xl"
+          <Form {...passwordForm}>
+            <form onSubmit={passwordForm.handleSubmit(onPasswordSubmit)} className="space-y-4">
+              <FormField
+                control={passwordForm.control}
+                name="password"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>New password</FormLabel>
+                    <FormControl>
+                      <Input
+                        id="password"
+                        type="password"
+                        autoComplete="new-password"
+                        className="rounded-xl"
+                        {...field}
+                      />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
               />
-            </div>
-            <div className="space-y-2">
-              <Label htmlFor="confirmPassword">Confirm password</Label>
-              <Input
-                id="confirmPassword"
-                type="password"
-                autoComplete="new-password"
-                value={confirmPassword}
-                onChange={(event) => setConfirmPassword(event.target.value)}
-                className="rounded-xl"
+              <FormField
+                control={passwordForm.control}
+                name="confirmPassword"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Confirm password</FormLabel>
+                    <FormControl>
+                      <Input
+                        id="confirmPassword"
+                        type="password"
+                        autoComplete="new-password"
+                        className="rounded-xl"
+                        {...field}
+                      />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
               />
-            </div>
-            {passwordError ? <p className="text-sm text-destructive">{passwordError}</p> : null}
-            {passwordSuccess ? <p className="text-sm text-primary">{passwordSuccess}</p> : null}
-            <Button type="submit" disabled={passwordLoading} className="rounded-full">
-              {passwordLoading ? (
-                <>
-                  <Loader2Icon className="size-4 animate-spin" />
-                  Updating…
-                </>
-              ) : (
-                "Update password"
-              )}
-            </Button>
-          </form>
+              <Button
+                type="submit"
+                disabled={passwordForm.formState.isSubmitting}
+                className="rounded-full"
+              >
+                {passwordForm.formState.isSubmitting ? (
+                  <>
+                    <Loader2Icon className="size-4 animate-spin" />
+                    Updating…
+                  </>
+                ) : (
+                  "Update password"
+                )}
+              </Button>
+            </form>
+          </Form>
         </CardContent>
       </Card>
 
