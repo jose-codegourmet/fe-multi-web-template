@@ -21,6 +21,7 @@ packages/db/
 │   │   └── migrations/    # Prisma migrations
 │   ├── seed.ts            # Seed script
 │   └── constants/         # Seed data constants
+├── prisma.config.ts       # schema path + seed command
 ├── package.json
 └── tsconfig.json
 ```
@@ -29,13 +30,22 @@ packages/db/
 
 ## Multi-file schema
 
-Prisma is configured in `package.json` to use a directory:
+Prisma is configured in `prisma.config.ts` (not `package.json`):
 
-```json
-"prisma": {
-  "schema": "prisma/schema",
-  "seed": "tsx prisma/seed.ts"
-}
+```ts
+import { resolve } from "node:path";
+import { config as loadEnv } from "dotenv";
+import { defineConfig } from "prisma/config";
+
+loadEnv({ path: resolve(import.meta.dirname, ".env"), quiet: true });
+
+export default defineConfig({
+  schema: "prisma/schema",
+  migrations: {
+    path: "prisma/schema/migrations",
+    seed: "tsx prisma/seed.ts",
+  },
+});
 ```
 
 Keep models grouped by domain:
@@ -99,6 +109,8 @@ Seed data is in `prisma/constants/` and imported by `prisma/seed.ts`. The demo s
 - `DATABASE_URL` should use the pooled connection (`*.pooler.supabase.com:6543?pgbouncer=true`) in production/serverless.
 - `DIRECT_URL` must always use the direct connection (`db.<project-ref>.supabase.co:5432`) for migrations.
 - Local development can point both to the direct URL.
+
+`prisma.config.ts` loads `packages/db/.env` with `dotenv` because Prisma 6 skips automatic `.env` loading when a config file is present.
 
 See `docs/environment-variables.md` for the full matrix.
 

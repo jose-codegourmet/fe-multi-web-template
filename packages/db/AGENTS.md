@@ -38,6 +38,7 @@ Both apps consume `@fe-template/db` at runtime. No other workspace *package* (`p
 |---|---|
 | `src/client.ts` | PrismaClient singleton |
 | `src/index.ts` | Public exports |
+| `prisma.config.ts` | Schema path and seed command for the Prisma CLI |
 | `prisma/schema/` | Multi-file Prisma schema |
 | `prisma/schema/migrations/` | Prisma migrations |
 | `prisma/seed.ts` | Seed script |

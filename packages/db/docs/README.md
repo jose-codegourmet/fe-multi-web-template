@@ -40,11 +40,14 @@ Purpose, models, consumers, and commands for the Prisma + Supabase Postgres pack
 |---|---|
 | `@prisma/client` | Generated Prisma client and types |
 | `prisma` | CLI and migration engine (dev dependency) |
+| `dotenv` | Load `packages/db/.env` from `prisma.config.ts` (dev dependency) |
 | `tsx` | Run `seed.ts` (dev dependency) |
 
 ---
 
 ## Schema layout
+
+The multi-file schema directory and seed command are set in `packages/db/prisma.config.ts`. Do not put a `prisma` block in `package.json` (removed in Prisma 7).
 
 ```text
 packages/db/prisma/schema/
@@ -97,7 +100,7 @@ All run from the repo root with `pnpm --filter @fe-template/db <script>`:
 | `DATABASE_URL` | Prisma runtime connection | Yes |
 | `DIRECT_URL` | Direct Postgres connection for migrations | Yes for migrations |
 
-The Prisma CLI reads `packages/db/.env` (not the root `.env`).
+`prisma.config.ts` loads `packages/db/.env` via `dotenv` (not the root `.env`). Prisma 6 skips automatic `.env` loading when a config file is present.
 
 ---
 
