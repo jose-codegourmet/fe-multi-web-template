@@ -129,6 +129,33 @@ import Link from "next/link";
 
 See `docs/template/COMPONENTS.md` for the full convention.
 
+### shadcn CLI (`apps/web/components.json`)
+
+`apps/admin` has no `components.json`. The CLI config lives in `apps/web` because that is where the `shadcn` package and Tailwind CSS entry (`src/app/globals.css`) live.
+
+Aliases point at real import targets, not a local `src/components/` tree:
+
+| Alias | Resolves to | Why |
+|---|---|---|
+| `ui`, `components` | `@fe-template/ui` | Shared primitives. The package barrel and `./src/components/*` exports are the only UI primitive home. |
+| `utils` | `@/lib/utils` | Existing `apps/web/src/lib/utils.ts` (`cn()`). |
+| `lib` | `@/lib` | Existing `apps/web/src/lib/`. |
+| `hooks` | `@/hooks` | Existing `apps/web/src/hooks/`. |
+
+Run the CLI from `apps/web`:
+
+```bash
+pnpm --filter web exec shadcn add <component>
+```
+
+The CLI still emits a flat file. After it runs:
+
+1. Move the file into `packages/ui/src/components/<kebab-name>/<PascalName>.tsx`.
+2. Add a story and `.usecase.md`.
+3. Re-export from `packages/ui/src/index.ts`.
+4. Do not leave generated files under `apps/web/src/components/` and do not recreate `src/components/ui/`.
+5. App-only composition stays in `src/modules/` or `src/sections/`.
+
 ---
 
 ## Common mistakes to avoid

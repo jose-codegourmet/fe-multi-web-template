@@ -26,6 +26,8 @@ packages/ui/
 
 ## Adding a new component
 
+Prefer creating the kebab folder by hand. If you scaffold with the shadcn CLI, run it from `apps/web` (`pnpm --filter web exec shadcn add <name>`) using `apps/web/components.json`, then move the flat output into `src/components/[kebab-name]/` as below.
+
 1. Create a folder under `src/components/[kebab-name]/`.
 2. Add the component file `PascalCase.tsx`.
 3. Add a Storybook story `PascalCase.stories.tsx`.
