@@ -10,7 +10,9 @@ Authentication, rendering, data flow, and state management for the admin portal.
 flowchart TD
     LOGIN["/login\nLoginForm"] -->|signInWithPassword| SERVER["Supabase Auth"]
     SIGNUP["/signup\nSignupForm"] -->|signUp| OTP["/otp\nOtpForm"]
-    OTP -->|verifyOtp| CREATE_PROFILE["createProfile\nServer Action"]
+    SIGNUP -->|email link| CALLBACK["/auth/callback"]
+    CALLBACK -->|exchangeCodeForSession| CREATE_PROFILE["createProfile\nServer Action"]
+    OTP -->|verifyOtp| CREATE_PROFILE
     CREATE_PROFILE -->|upsert Profile| PRISMA["Prisma / Profile"]
     SERVER -->|session cookie| DASHBOARD["/dashboard"]
     CREATE_PROFILE --> DASHBOARD
@@ -24,6 +26,7 @@ flowchart TD
 - Refreshes the Supabase session on every request.
 - Redirects unauthenticated visitors from protected routes to `/login`.
 - Redirects authenticated visitors away from `/login`, `/signup`, `/otp` to `/dashboard`.
+- Treats `/auth/callback` as a public route so the confirmation link can exchange the auth code while unauthenticated. Authenticated visitors are not redirected away from the callback.
 - **Known boundary**: gates on session presence only; `TODO` notes `User.role === ADMIN` enforcement is not yet wired.
 
 ### Supabase clients
@@ -44,7 +47,7 @@ After OTP confirmation, `src/modules/auth/otp-form/actions.ts` creates a `Profil
 
 - Next.js 16 App Router with Server Components by default.
 - `(dashboard)` is a route group with a shared shell layout (`src/app/(dashboard)/layout.tsx`).
-- Public auth routes (`/login`, `/signup`, `/otp`) live outside the route group.
+- Public auth routes (`/login`, `/signup`, `/otp`, `/auth/callback`) live outside the route group.
 - Dashboard pages are async Server Components that query `prisma` directly.
 - Tables, forms, and dialogs are client components co-located with their page.
 
@@ -125,4 +128,4 @@ Mutation
 - Auth gates on session presence, not role. Any authenticated Supabase user can currently access the dashboard.
 - `@fe-template/db` and `src/lib/supabase/admin.ts` must not be imported from client components.
 - `src/login/` is an empty leftover directory. Use `src/app/login/`.
-- Signup form references `/auth/callback` which does not exist.
+- Signup confirmation links land on `/auth/callback`, which exchanges the PKCE code for a session and redirects to `/dashboard`.

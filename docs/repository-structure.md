@@ -208,5 +208,5 @@ packages/config/
 
 - `apps/admin/src/login/` exists but is empty. Use `apps/admin/src/app/login/`.
 - `apps/admin/README.md` lists the dashboard as `/` and references `(dashboard)/page.tsx`; the current code redirects `/` to `/dashboard` and uses `app/(dashboard)/dashboard/page.tsx`.
-- `apps/admin` signup form references `/auth/callback` which does not exist.
+- Signup email confirmation is handled by `apps/admin/src/app/auth/callback/route.ts`.
 - `apps/web` API routes query Prisma; marketing pages fetch through `src/hooks/use-*/server.ts`. See `docs/api-and-data-fetching.md`.

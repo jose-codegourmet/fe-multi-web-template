@@ -36,10 +36,12 @@ export async function middleware(request: NextRequest) {
 
   // TODO: enforce User.role === ADMIN via Prisma once the auth user is linked to the DB User model.
 
+  const isAuthCallback = request.nextUrl.pathname.startsWith("/auth/callback");
   const isPublicRoute =
     request.nextUrl.pathname.startsWith("/login") ||
     request.nextUrl.pathname.startsWith("/signup") ||
-    request.nextUrl.pathname.startsWith("/otp");
+    request.nextUrl.pathname.startsWith("/otp") ||
+    isAuthCallback;
 
   if (!user && !isPublicRoute) {
     const url = request.nextUrl.clone();
@@ -47,7 +49,9 @@ export async function middleware(request: NextRequest) {
     return NextResponse.redirect(url);
   }
 
-  if (user && isPublicRoute) {
+  // Leave /auth/callback reachable so the code exchange can run even if a
+  // partial session cookie is already present.
+  if (user && isPublicRoute && !isAuthCallback) {
     const url = request.nextUrl.clone();
     url.pathname = "/dashboard";
     return NextResponse.redirect(url);
