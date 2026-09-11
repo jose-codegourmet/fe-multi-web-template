@@ -10,7 +10,6 @@ import {
   DropdownMenuItem,
   DropdownMenuSeparator,
   DropdownMenuTrigger,
-  Input,
 } from "@fe-template/ui";
 import {
   BellIcon,
@@ -18,7 +17,6 @@ import {
   HelpCircleIcon,
   LogOutIcon,
   MoonIcon,
-  SearchIcon,
   SunIcon,
   UserIcon,
 } from "lucide-react";
@@ -56,16 +54,7 @@ export function AdminHeader({ title }: AdminHeaderProps) {
     <header className="sticky top-0 z-20 flex h-16 shrink-0 items-center gap-3 border-b border-border/60 bg-background/80 px-4 backdrop-blur md:px-6">
       <SidebarTrigger />
       <h1 className="hidden text-lg font-semibold tracking-tight sm:block">{title}</h1>
-      <div className="relative ml-auto w-full max-w-sm">
-        <SearchIcon className="pointer-events-none absolute top-1/2 left-3 size-4 -translate-y-1/2 text-muted-foreground" />
-        <Input
-          type="search"
-          placeholder="Search records, pets, or users..."
-          className="h-10 rounded-full bg-muted/50 pl-9"
-          aria-label="Search records, pets, or users"
-          readOnly
-        />
-      </div>
+      <div className="ml-auto" />
       <Button
         type="button"
         variant="ghost"
