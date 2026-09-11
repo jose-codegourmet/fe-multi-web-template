@@ -10,9 +10,9 @@
   "scripts": {
     "postinstall": "prisma generate",
     "db:generate": "prisma generate",
-    "db:migrate": "prisma migrate dev",
+    "db:migrate": "tsx scripts/assert-supabase-auth.ts && prisma migrate dev",
     "db:migrate:create": "prisma migrate dev --create-only",
-    "db:deploy": "prisma migrate deploy",
+    "db:deploy": "tsx scripts/assert-supabase-auth.ts && prisma migrate deploy",
     "db:studio": "prisma studio",
     "db:push": "prisma db push",
     "db:seed": "tsx prisma/seed.ts",

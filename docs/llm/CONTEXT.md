@@ -11,7 +11,7 @@ Concise context for AI agents working in this repository.
 | Monorepo | pnpm workspaces + Turborepo |
 | Framework | Next.js 16 App Router (two apps: `web`, `admin`) |
 | UI | shadcn/ui on Base UI, shared via `@fe-template/ui`; Tailwind CSS 4 |
-| Database | Prisma 6 + Supabase Postgres, shared via `@fe-template/db` |
+| Database | Prisma 6 + Supabase Postgres only (`Profile` FK → `auth.users`), shared via `@fe-template/db` |
 | Auth | Supabase Auth (`@supabase/ssr`) — admin only |
 | State | Redux Toolkit (`themeSlice`, web) |
 | Theme | next-themes (DOM), Redux source of truth |

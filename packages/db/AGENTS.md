@@ -65,6 +65,7 @@ Both apps consume `@fe-template/db` at runtime. No other workspace *package* (`p
 - Preserve the public API (`prisma` and re-exported Prisma types). Do not remove `export * from "@prisma/client"` without a plan.
 - Do not add app-specific logic to this package. Keep it a generic database client and schema.
 - Migrations must be applied in the correct order. Do not edit existing migration files after they have been applied to a shared environment.
+- `Profile.id` has a required FK to Supabase `auth.users` (`20260727060109_add_profiles_table`). Do not drop that FK to support plain Postgres. Do not rewrite that migration SQL (checksums on the live Supabase project). Local/CI databases must be Supabase (`supabase start` or hosted).
 - Use the pooled URL for `DATABASE_URL` in production/serverless; use the direct URL for `DIRECT_URL` always.
 
 ---
