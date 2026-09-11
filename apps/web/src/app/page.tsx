@@ -18,7 +18,7 @@ export const metadata: Metadata = {
   description: PAGE_SEO.home.description,
 };
 
-export const dynamic = "force-dynamic";
+export const revalidate = 60;
 
 export default function HomePage() {
   return (

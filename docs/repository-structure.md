@@ -50,7 +50,7 @@ apps/web/
 └── src/
     ├── app/                  # Next.js App Router routes
     │   ├── layout.tsx        # Root layout, fonts, providers
-    │   ├── page.tsx          # Home page (force-dynamic)
+    │   ├── page.tsx          # Home page (ISR, `revalidate = 60`)
     │   ├── not-found.tsx
     │   ├── about/
     │   ├── blog/             # page, grid/page, [slug]/page
