@@ -24,7 +24,7 @@ import { setTheme } from "@/store/slices/themeSlice";
 - Provider: `apps/web/src/modules/providers/Providers.tsx`
 - Hooks: `apps/web/src/hooks/use-blog-posts/client.ts`, `use-pricing-plans/client.ts`, `use-testimonials/client.ts`
 
-Server-state (blog posts, pricing, testimonials) is cached via React Query. Server-side fetches happen in `use-*/server.ts` and are revalidated with `next: { revalidate: 60 }`.
+Server-state (blog posts, pricing, testimonials) is cached via React Query. Server-side fetches happen in `use-*/server.ts` and are revalidated with `next: { revalidate: 60 }`. Pages that prefetch for client hooks (`/`, `/blog`, `/blog/grid`, `/pricing`) pass dehydrated state through `HydrationBoundary` so the client does not refetch on hydration.
 
 ### Local component state
 

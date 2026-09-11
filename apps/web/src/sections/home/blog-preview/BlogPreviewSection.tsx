@@ -1,3 +1,5 @@
+"use client";
+
 import {
   Badge,
   buttonVariants,
@@ -10,7 +12,7 @@ import {
 } from "@fe-template/ui";
 import Link from "next/link";
 import { ROUTES } from "@/constants/routes";
-import { fetchBlogPosts } from "@/hooks/use-blog-posts/server";
+import { useBlogPosts } from "@/hooks/use-blog-posts/client";
 import { cn } from "@/lib/utils";
 import { SectionImage } from "@/sections/_shared/SectionImage";
 
@@ -18,8 +20,9 @@ type BlogPreviewSectionProps = {
   className?: string;
 };
 
-async function BlogPreviewSection({ className }: BlogPreviewSectionProps) {
-  const previewPosts = (await fetchBlogPosts()).slice(0, 3);
+function BlogPreviewSection({ className }: BlogPreviewSectionProps) {
+  const { data: posts = [] } = useBlogPosts();
+  const previewPosts = posts.slice(0, 3);
 
   return (
     <section

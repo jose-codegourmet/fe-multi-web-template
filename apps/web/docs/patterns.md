@@ -26,9 +26,12 @@ export default function HomePage() {
 ```
 
 Real references:
-- `src/app/page.tsx` — home page composition
-- `src/app/pricing/page.tsx` — pricing page composition
-- `src/app/about/page.tsx` — about page composition
+- `src/app/page.tsx` — home page composition (prefetch + `HydrationBoundary` for testimonials, pricing, and blog previews)
+- `src/app/blog/page.tsx` / `src/app/blog/grid/page.tsx` — blog list/grid (prefetch + `HydrationBoundary`)
+- `src/app/pricing/page.tsx` — pricing page composition (prefetch + `HydrationBoundary`)
+- `src/app/about/page.tsx` — about page composition (no query consumers)
+
+Every page that prefetches for `use-*/client.ts` hooks must dehydrate into `HydrationBoundary`. RSC-only `fetch*` pages do not.
 
 ---
 

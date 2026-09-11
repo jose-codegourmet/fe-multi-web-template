@@ -1,5 +1,12 @@
+import { dehydrate, HydrationBoundary, QueryClient } from "@tanstack/react-query";
 import type { Metadata } from "next";
 import { PAGE_SEO } from "@/constants/seo";
+import { blogPostsQueryKey } from "@/hooks/use-blog-posts/query";
+import { fetchBlogPosts } from "@/hooks/use-blog-posts/server";
+import { pricingPlansQueryKey } from "@/hooks/use-pricing-plans/query";
+import { fetchPricingPlans } from "@/hooks/use-pricing-plans/server";
+import { testimonialsQueryKey } from "@/hooks/use-testimonials/query";
+import { fetchTestimonials } from "@/hooks/use-testimonials/server";
 import { AnnouncementSection } from "@/sections/home/announcement/AnnouncementSection";
 import { BlogPreviewSection } from "@/sections/home/blog-preview/BlogPreviewSection";
 import { CompatibilityFeaturesSection } from "@/sections/home/compatibility-features/CompatibilityFeaturesSection";
@@ -20,9 +27,25 @@ export const metadata: Metadata = {
 
 export const revalidate = 60;
 
-export default function HomePage() {
+export default async function HomePage() {
+  const queryClient = new QueryClient();
+  await Promise.all([
+    queryClient.prefetchQuery({
+      queryKey: blogPostsQueryKey.list(),
+      queryFn: fetchBlogPosts,
+    }),
+    queryClient.prefetchQuery({
+      queryKey: pricingPlansQueryKey.list(),
+      queryFn: fetchPricingPlans,
+    }),
+    queryClient.prefetchQuery({
+      queryKey: testimonialsQueryKey.list(),
+      queryFn: fetchTestimonials,
+    }),
+  ]);
+
   return (
-    <>
+    <HydrationBoundary state={dehydrate(queryClient)}>
       <AnnouncementSection />
       <HeroSection />
       <SocialProofSection />
@@ -35,6 +58,6 @@ export default function HomePage() {
       <PricingPreviewSection />
       <BlogPreviewSection />
       <FinalCtaSection />
-    </>
+    </HydrationBoundary>
   );
 }

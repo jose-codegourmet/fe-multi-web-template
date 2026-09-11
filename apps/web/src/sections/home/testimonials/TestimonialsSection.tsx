@@ -1,3 +1,5 @@
+"use client";
+
 import {
   Card,
   CardContent,
@@ -6,15 +8,15 @@ import {
   CardTitle,
   ScrollReveal,
 } from "@fe-template/ui";
-import { fetchTestimonials } from "@/hooks/use-testimonials/server";
+import { useTestimonials } from "@/hooks/use-testimonials/client";
 import { cn } from "@/lib/utils";
 
 type TestimonialsSectionProps = {
   className?: string;
 };
 
-async function TestimonialsSection({ className }: TestimonialsSectionProps) {
-  const testimonials = await fetchTestimonials();
+function TestimonialsSection({ className }: TestimonialsSectionProps) {
+  const { data: testimonials = [] } = useTestimonials();
 
   return (
     <section
