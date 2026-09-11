@@ -13,10 +13,10 @@ All documented environment variable names. Values are never committed or exposed
 | `SUPABASE_SERVICE_ROLE_KEY` | `apps/admin` | Supabase service role for admin actions | Yes for admin user invite |
 | `DATABASE_URL` | root, `apps/admin`, `packages/db` | Prisma runtime connection | Yes for Prisma |
 | `DIRECT_URL` | root, `apps/admin`, `packages/db` | Direct Postgres connection for migrations | Yes for migrations |
-| `NEXT_PUBLIC_SITE_URL` | `apps/web` | API origin for server-side self-fetch | Recommended for web SSR |
+| `NEXT_PUBLIC_SITE_URL` | `apps/web` | API origin for server-side self-fetch | Yes for web SSR in deployed environments |
 | `NODE_ENV` | all apps | Standard Node environment | Auto-set |
 
-`turbo.json` declares `globalEnv`: `NODE_ENV`, `DATABASE_URL`, `DIRECT_URL`, `NEXT_PUBLIC_SUPABASE_URL`, `NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY`.
+`turbo.json` `globalEnv` (cache keys for these deployment-required vars plus `NODE_ENV`): `NODE_ENV`, `DATABASE_URL`, `DIRECT_URL`, `NEXT_PUBLIC_SUPABASE_URL`, `NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY`, `SUPABASE_SERVICE_ROLE_KEY`, `NEXT_PUBLIC_SITE_URL`.
 
 ---
 
