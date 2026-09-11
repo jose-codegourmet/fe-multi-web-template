@@ -9,7 +9,7 @@ async function main() {
     seedUsers.map((user) =>
       prisma.user.upsert({
         where: { id: user.id },
-        update: {},
+        update: { status: user.status, role: user.role },
         create: user,
       }),
     ),
