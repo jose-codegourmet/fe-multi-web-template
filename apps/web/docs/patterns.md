@@ -66,7 +66,7 @@ src/hooks/use-blog-posts/
 
 Real references:
 - `src/hooks/use-blog-posts/server.ts` — SSR fetch with `next: { revalidate: 60 }`
-- `src/hooks/use-blog-posts/client.ts` — React Query hook
+- `src/hooks/use-blog-posts/client.ts` — React Query hook + relative `/api/blog` fetch
 - `src/hooks/use-pricing-plans/server.ts`
 - `src/hooks/use-testimonials/server.ts`
 

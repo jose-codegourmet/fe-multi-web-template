@@ -57,7 +57,7 @@ apps/<app>/src/hooks/use-blog-posts/
 
 ## Client Hook (`client.ts`)
 
-Used in Client Components (`"use client"`). Wraps TanStack Query and **re-imports the same `fetch*` function from `server.ts`** (it does not call `/api/...` from the browser as a separate path):
+Used in Client Components (`"use client"`). Fetches the public `/api/...` route with a **relative path** and relies on TanStack Query `staleTime` (configured in `Providers`) for caching. Do not import `server.ts` fetchers here — those pass `next: { revalidate }`, which is a no-op in the browser.
 
 ```ts
 // apps/web/src/hooks/use-blog-posts/client.ts
@@ -65,7 +65,15 @@ Used in Client Components (`"use client"`). Wraps TanStack Query and **re-import
 
 import { useQuery } from "@tanstack/react-query";
 import { blogPostsQueryKey } from "./query";
-import { fetchBlogPosts } from "./server";
+import type { BlogPost } from "./types";
+
+async function fetchBlogPosts(): Promise<BlogPost[]> {
+  const response = await fetch("/api/blog");
+  if (!response.ok) {
+    throw new Error("Unable to load blog posts.");
+  }
+  return response.json();
+}
 
 export function useBlogPosts() {
   return useQuery({
@@ -74,8 +82,6 @@ export function useBlogPosts() {
   });
 }
 ```
-
-`next: { revalidate: 60 }` on the server fetch is a no-op when this runs in the browser.
 
 ---
 

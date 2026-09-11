@@ -2,7 +2,17 @@
 
 import { useQuery } from "@tanstack/react-query";
 import { pricingPlansQueryKey } from "./query";
-import { fetchPricingPlans } from "./server";
+import type { PricingPlan } from "./types";
+
+async function fetchPricingPlans(): Promise<PricingPlan[]> {
+  const response = await fetch("/api/pricing");
+
+  if (!response.ok) {
+    throw new Error("Unable to load pricing plans.");
+  }
+
+  return response.json();
+}
 
 export function usePricingPlans() {
   return useQuery({
