@@ -202,7 +202,7 @@ src/components/
 └── my-component/
     ├── MyComponent.tsx
     ├── MyComponent.stories.tsx
-    ├── MyComponent.defaultvalues.ts
+    ├── MyComponent.defaults.ts
     └── MyComponent.schema.ts
 ```
 
@@ -210,7 +210,7 @@ Rules:
 - Folder name: kebab-case (`my-component`)
 - Files: PascalCase matching the component name
 - `.stories.tsx` — Storybook stories (complete, not empty stubs)
-- `.defaultvalues.ts` — default props / defaults
+- `.defaults.ts` — default props / defaults
 - `.schema.ts` — types / Zod (or equivalent) schema for props
 - Do **not** leave shadcn components as only flat files under `components/ui/` after Phase 3
 
@@ -228,7 +228,7 @@ src/components/sections/
     └── [section-name]/
         ├── SectionName.tsx
         ├── SectionName.stories.tsx
-        ├── SectionName.defaultvalues.ts
+        ├── SectionName.defaults.ts
         └── SectionName.schema.ts
 ```
 

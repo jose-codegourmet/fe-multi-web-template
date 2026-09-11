@@ -65,7 +65,7 @@ packages/ui/src/
 └── styles.css
 ```
 
-Folder names are kebab-case; files are PascalCase. Form components additionally carry `<Name>.schema.ts` and `<Name>.defaultvalues.ts`. Full conventions: [`docs/template/COMPONENTS.md`](../../docs/template/COMPONENTS.md).
+Folder names are kebab-case; files are PascalCase. Form components additionally carry `<Name>.schema.ts` and `<Name>.defaults.ts`. Full conventions: [`docs/template/COMPONENTS.md`](../../docs/template/COMPONENTS.md).
 
 Note that a few nested primitives break the flat pattern: `table/data-table/DataTable.tsx` and `motion/scroll-reveal/ScrollReveal.tsx`.
 
@@ -74,7 +74,7 @@ Note that a few nested primitives break the flat pattern: `table/data-table/Data
 ## Adding a primitive
 
 1. Create `src/components/<kebab-name>/<PascalName>.tsx`.
-2. Add `<PascalName>.stories.tsx` and `<PascalName>.usecase.md` alongside it (add `.schema.ts` / `.defaultvalues.ts` only if it is a form).
+2. Add `<PascalName>.stories.tsx` and `<PascalName>.usecase.md` alongside it (add `.schema.ts` / `.defaults.ts` only if it is a form).
 3. Export it from [`src/index.ts`](src/index.ts):
 
 ```ts

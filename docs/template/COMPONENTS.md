@@ -49,7 +49,7 @@ my-component/
 ├── MyComponent.tsx
 ├── MyComponent.stories.tsx
 ├── MyComponent.usecase.md
-├── MyComponent.defaultvalues.ts   ← only for forms
+├── MyComponent.defaults.ts        ← only for forms
 └── MyComponent.schema.ts          ← only for forms
 ```
 
@@ -59,13 +59,13 @@ Example — contact form section:
 apps/web/src/sections/contact/contact-form/
 ├── ContactFormSection.tsx
 ├── ContactFormSection.stories.tsx
-├── ContactFormSection.defaultvalues.ts
+├── ContactFormSection.defaults.ts
 └── ContactFormSection.schema.ts
 ```
 
 (`ContactFormSection.usecase.md` is optional at the app layer and is not present.)
 
-Non-form components (cards, heroes, grids) do **not** get `.schema.ts` or `.defaultvalues.ts`.
+Non-form components (cards, heroes, grids) do **not** get `.schema.ts` or `.defaults.ts`.
 
 ---
 
@@ -78,7 +78,7 @@ Non-form components (cards, heroes, grids) do **not** get `.schema.ts` or `.defa
 | Story file | PascalCase + `.stories.tsx` | `ScrollArea.stories.tsx` |
 | Use-case doc | PascalCase + `.usecase.md` (required in `packages/ui`; optional in `apps/`) | `Button.usecase.md` |
 | Schema file | PascalCase + `.schema.ts` | `ContactFormSection.schema.ts` |
-| Default values | PascalCase + `.defaultvalues.ts` | `ContactFormSection.defaultvalues.ts` |
+| Default values | PascalCase + `.defaults.ts` | `ContactFormSection.defaults.ts` |
 
 ---
 
@@ -144,8 +144,6 @@ packages/ui/src/components/table/
 ├── Table.tsx
 ├── Table.stories.tsx
 ├── Table.usecase.md
-├── Table.schema.ts
-├── Table.defaultvalues.ts
 └── data-table/
     ├── DataTable.tsx
     └── DataTable.usecase.md

@@ -166,7 +166,7 @@ Real references:
 
 ## Form pattern (react-hook-form + zod)
 
-Auth modules and dashboard dialogs use PascalCase files plus colocated `*.schema.ts` and `*.defaults.ts`. No file in this app uses `.schema.ts` / `.defaultValues.ts` as hidden-dot names or camelCase `defaultValues`.
+Auth modules and dashboard dialogs use PascalCase files plus colocated `*.schema.ts` and `*.defaults.ts`.
 
 ```text
 src/modules/auth/login-form/

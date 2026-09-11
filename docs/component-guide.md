@@ -277,7 +277,7 @@ Do not use Card/Item for chat bubbles, or ScrollArea for stick-to-bottom chat.
 - **Purpose:** Custom-scrollbar overflow container for clipped content.
 - **Import:** `@fe-template/ui`
 - **Exports:** `ScrollArea`, `ScrollBar`
-- **Key props / variants:** `ScrollBar` `orientation?: "vertical" | "horizontal"` (default `"vertical"`). Schema/defaultvalues files are Storybook helpers only.
+- **Key props / variants:** `ScrollBar` `orientation?: "vertical" | "horizontal"` (default `"vertical"`). Schema/defaults files are Storybook helpers only.
 - **When to use:**
   - Fixed-height lists that overflow
   - Horizontal chip/tag rows (add horizontal `ScrollBar`)
@@ -307,7 +307,7 @@ Do not use Card/Item for chat bubbles, or ScrollArea for stick-to-bottom chat.
 
 - **Purpose:** Pulsing muted placeholder block for loading UI.
 - **Import:** `@fe-template/ui`
-- **Key props / variants:** `React.ComponentProps<"div">` — shape/size via `className`. Schema/defaultvalues are Storybook helpers.
+- **Key props / variants:** `React.ComponentProps<"div">` — shape/size via `className`. Schema/defaults are Storybook helpers.
 - **When to use:**
   - Placeholder lines/circles/cards while data loads
 - - Composing multiple skeletons to mimic a layout

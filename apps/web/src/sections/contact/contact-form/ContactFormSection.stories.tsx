@@ -1,6 +1,6 @@
 import type { Meta, StoryObj } from "@storybook/nextjs-vite";
 import { ContactFormSection } from "./ContactFormSection";
-import { contactFormSectionDefaultValues } from "./ContactFormSection.defaultvalues";
+import { contactFormSectionDefaultValues } from "./ContactFormSection.defaults";
 
 const meta: Meta<typeof ContactFormSection> = {
   title: "Sections/Contact/ContactFormSection",

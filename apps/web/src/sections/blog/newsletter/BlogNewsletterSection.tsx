@@ -3,7 +3,7 @@
 import { Button, Input, Label, ScrollReveal } from "@fe-template/ui";
 import { type FormEvent, useState } from "react";
 import { cn } from "@/lib/utils";
-import { blogNewsletterSectionDefaultValues } from "./BlogNewsletterSection.defaultvalues";
+import { blogNewsletterSectionDefaultValues } from "./BlogNewsletterSection.defaults";
 import type { BlogNewsletterSectionProps } from "./BlogNewsletterSection.schema";
 
 function BlogNewsletterSection({

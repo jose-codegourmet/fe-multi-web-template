@@ -1,6 +1,6 @@
 import type { Meta, StoryObj } from "@storybook/nextjs-vite";
 import { BlogNewsletterSection } from "./BlogNewsletterSection";
-import { blogNewsletterSectionDefaultValues } from "./BlogNewsletterSection.defaultvalues";
+import { blogNewsletterSectionDefaultValues } from "./BlogNewsletterSection.defaults";
 
 const meta: Meta<typeof BlogNewsletterSection> = {
   title: "Sections/Blog/BlogNewsletterSection",

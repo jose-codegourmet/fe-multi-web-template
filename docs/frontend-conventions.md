@@ -90,8 +90,8 @@ Forms use `react-hook-form` + `zod` + `@hookform/resolvers`. Form modules live i
 ```text
 modules/auth/[form-name]/
   ├── [FormName].tsx
-  ├── .schema.ts            # zod schema
-  └── .defaultValues.ts     # default form values
+  ├── [FormName].schema.ts    # zod schema
+  └── [FormName].defaults.ts  # default form values
 ```
 
 Examples: `login-form`, `signup-form`, `otp-form`.
@@ -100,7 +100,7 @@ Dashboard forms use the `Form`, `FormField`, `FormItem`, etc. primitives from `@
 
 ### `apps/web`
 
-`apps/web` does **not** depend on `react-hook-form`. Contact and newsletter forms use local state and `zod` schemas for section props where applicable (e.g., `ContactFormSection.schema.ts`).
+`apps/web` does **not** depend on `react-hook-form`. Contact and newsletter forms use local state, `zod` schemas, and colocated `*.defaults.ts` files where applicable (e.g., `ContactFormSection.schema.ts`, `ContactFormSection.defaults.ts`).
 
 ---
 
@@ -124,7 +124,7 @@ packages/ui/src/components/[kebab-name]/
   └── PascalCase.usecase.md
 ```
 
-Some components (like `form/`, `file-uploader/`, `scroll-area/`, `skeleton/`) may omit stories or add `.schema.ts` / `.defaultValues.ts` when they are form helpers.
+Some components (like `form/`, `file-uploader/`, `scroll-area/`, `skeleton/`) may omit stories or add `.schema.ts` / `.defaults.ts` when they are form helpers.
 
 See `docs/template/COMPONENTS.md` and `docs/component-guide.md` for usage guidance.
 

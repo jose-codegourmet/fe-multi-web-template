@@ -120,7 +120,7 @@ final-cta/
 
 ```text
 hero/
-contact-form/        ← form: includes .schema.ts + .defaultvalues.ts
+contact-form/        ← form: includes .schema.ts + .defaults.ts
 contact-options/
 faq-preview/
 final-cta/
@@ -137,7 +137,7 @@ article-header/      ← used on /blog/[slug]
 article-body/        ← used on /blog/[slug]
 filters/
 related-posts/       ← used on /blog/[slug]
-newsletter/          ← form: includes .schema.ts + .defaultvalues.ts
+newsletter/          ← form: includes .schema.ts + .defaults.ts
 ```
 
 ### Not Found — `src/sections/not-found/`
@@ -159,7 +159,7 @@ src/sections/otp/OtpVerifySection.tsx   ← single-file section, no folder
 
 1. Create `app/[route]/page.tsx` — compose sections only
 2. Add sections under `src/sections/[page-name]/[section-name]/`
-3. Each section: `.tsx` + `.stories.tsx` (add `.schema.ts` + `.defaultvalues.ts` only if it is a form)
+3. Each section: `.tsx` + `.stories.tsx` (add `.schema.ts` + `.defaults.ts` only if it is a form)
 4. Register the route in `src/constants/routes.ts`
 5. Add SEO metadata in `src/constants/seo.ts`
 6. Copy content from [`docs/about-example-site/aboustwebsite.md`](../about-example-site/aboustwebsite.md)

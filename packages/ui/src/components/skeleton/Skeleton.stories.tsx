@@ -1,7 +1,7 @@
 import type { Meta, StoryObj } from "@storybook/nextjs-vite";
 
 import { Skeleton } from "./Skeleton";
-import { skeletonDefaultValues } from "./Skeleton.defaultvalues";
+import { skeletonDefaultValues } from "./Skeleton.defaults";
 
 const meta: Meta<typeof Skeleton> = {
   title: "Components/Skeleton",

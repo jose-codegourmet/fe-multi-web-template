@@ -1,7 +1,7 @@
 import type { Meta, StoryObj } from "@storybook/nextjs-vite";
 
 import { ScrollArea, ScrollBar } from "./ScrollArea";
-import { scrollAreaDefaultValues } from "./ScrollArea.defaultvalues";
+import { scrollAreaDefaultValues } from "./ScrollArea.defaults";
 
 const meta: Meta<typeof ScrollArea> = {
   title: "Components/ScrollArea",

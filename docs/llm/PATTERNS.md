@@ -23,7 +23,7 @@ Never re-create `apps/*/src/components/` for something shared — it belongs in 
 
 In `apps/`, `.usecase.md` is **recommended, not mandatory**. App sections typically have `.tsx` + `.stories.tsx` only (40 web sections have stories; the only app usecase file today is `apps/web/src/modules/providers/Providers.usecase.md`). Do not block a PR solely for a missing app-level `.usecase.md`.
 
-Add `.schema.ts` + `.defaultvalues.ts` **only** when the component is a form (Zod validation, React Hook Form). Admin dashboard forms use `*.defaults.ts` instead.
+Add `.schema.ts` + `.defaults.ts` **only** when the component is a form (Zod validation, React Hook Form).
 
 ```text
 packages/ui/src/components/my-component/
@@ -31,7 +31,7 @@ packages/ui/src/components/my-component/
 ├── MyComponent.stories.tsx
 ├── MyComponent.usecase.md         ← required for new packages/ui primitives
 ├── MyComponent.schema.ts          ← forms only
-└── MyComponent.defaultvalues.ts   ← forms only (web); admin uses *.defaults.ts
+└── MyComponent.defaults.ts        ← forms only
 ```
 
 - Folder: kebab-case
