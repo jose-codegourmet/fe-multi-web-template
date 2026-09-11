@@ -97,6 +97,20 @@ import Link from "next/link";
 
 ---
 
+## shadcn CLI alongside this package
+
+New primitives belong in this package, not in either app. `apps/admin` has no CLI config. `apps/web/components.json` is the shadcn config for the monorepo: its `ui` and `components` aliases are `@fe-template/ui`, while `utils` / `lib` / `hooks` stay on the web app's existing `@/lib` and `@/hooks` trees.
+
+```bash
+pnpm --filter web exec shadcn add <component>
+```
+
+Treat CLI output as a draft. Relocate the generated file into `src/components/<kebab-name>/`, add a story and `.usecase.md`, and export it from `src/index.ts`. Do not keep a parallel `components/ui` tree in `apps/web` or `apps/admin`.
+
+See `docs/styling-and-design-system.md` and `packages/ui/docs/development.md`.
+
+---
+
 ## Common task routing
 
 | Task | Read next |

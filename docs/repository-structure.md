@@ -43,7 +43,7 @@ apps/web/
 ├── postcss.config.mjs        # Tailwind 4 PostCSS plugin
 ├── vitest.config.ts          # Vitest + Storybook + Playwright browser
 ├── vitest.shims.d.ts         # Vitest type shims
-├── components.json           # shadcn "base-nova" config
+├── components.json           # shadcn "base-nova" CLI config; ui/components → @fe-template/ui
 ├── .env.example              # Env var names
 ├── .storybook/               # Storybook config (port 6006)
 ├── public/                   # Static assets, images/
