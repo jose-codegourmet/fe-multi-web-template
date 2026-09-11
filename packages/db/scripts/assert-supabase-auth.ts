@@ -1,6 +1,6 @@
 import { resolve } from "node:path";
-import { config as loadEnv } from "dotenv";
 import { PrismaClient } from "@prisma/client";
+import { config as loadEnv } from "dotenv";
 
 /**
  * Profile.id is a foreign key to Supabase `auth.users` (applied in
