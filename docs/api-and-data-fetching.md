@@ -147,7 +147,7 @@ Some admin actions (user invites) use the service role client:
 import { createAdminClient } from "@/lib/supabase/admin";
 ```
 
-See `apps/admin/src/app/(dashboard)/users/actions.ts` for the `inviteUserByEmail` pattern.
+See `apps/admin/src/app/(dashboard)/users/actions.ts` for the `inviteUserByEmail` + `app_metadata.role` pattern.
 
 ---
 
