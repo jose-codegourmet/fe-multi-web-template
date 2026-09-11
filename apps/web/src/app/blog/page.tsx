@@ -1,5 +1,6 @@
 import { dehydrate, HydrationBoundary, QueryClient } from "@tanstack/react-query";
 import type { Metadata } from "next";
+import { Suspense } from "react";
 import { PAGE_SEO } from "@/constants/seo";
 import { blogPostsQueryKey } from "@/hooks/use-blog-posts/query";
 import { fetchBlogPosts } from "@/hooks/use-blog-posts/server";
@@ -27,8 +28,10 @@ export default async function BlogPage() {
     <HydrationBoundary state={dehydrate(queryClient)}>
       <BlogHeroSection />
       <FeaturedArticleSection />
-      <BlogFiltersSection />
-      <ArticleListSection />
+      <Suspense>
+        <BlogFiltersSection />
+        <ArticleListSection />
+      </Suspense>
       <BlogNewsletterSection />
     </HydrationBoundary>
   );

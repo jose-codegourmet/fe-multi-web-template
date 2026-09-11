@@ -2,8 +2,11 @@
 
 import { Badge, ScrollReveal } from "@fe-template/ui";
 import Link from "next/link";
+import { useSearchParams } from "next/navigation";
+import { BLOG_CATEGORY_QUERY } from "@/constants/blog";
 import { ROUTES } from "@/constants/routes";
 import { useBlogPosts } from "@/hooks/use-blog-posts/client";
+import { filterPostsByCategory, parseBlogCategory } from "@/lib/blog-category";
 import { cn } from "@/lib/utils";
 
 type ArticleListSectionProps = {
@@ -19,7 +22,10 @@ function formatDate(value: string) {
 }
 
 function ArticleListSection({ className }: ArticleListSectionProps) {
+  const searchParams = useSearchParams();
+  const category = parseBlogCategory(searchParams.get(BLOG_CATEGORY_QUERY));
   const { data: posts = [] } = useBlogPosts();
+  const visiblePosts = filterPostsByCategory(posts, category);
 
   return (
     <section
@@ -33,36 +39,44 @@ function ArticleListSection({ className }: ArticleListSectionProps) {
           </h2>
         </ScrollReveal>
 
-        <ul className="mt-10 divide-y divide-brand-ink-200/70 border-y border-brand-ink-200/70">
-          {posts.map((post, index) => (
-            <li key={post.slug}>
-              <ScrollReveal delay={0.06 * (index + 1)}>
-                <Link
-                  href={ROUTES.blogPost(post.slug)}
-                  className="group flex flex-col gap-3 py-8 transition-colors sm:flex-row sm:items-start sm:justify-between sm:gap-10"
-                >
-                  <div className="min-w-0 flex-1">
-                    <div className="mb-3 flex flex-wrap items-center gap-2">
-                      <Badge className="bg-brand-coral/15 text-brand-coral">{post.category}</Badge>
-                      <span className="text-xs text-brand-ink-500">
-                        {formatDate(post.publishedAt)}
-                      </span>
+        {visiblePosts.length === 0 ? (
+          <p className="mt-10 text-base text-brand-ink-500">
+            No articles in this topic yet. Try another filter.
+          </p>
+        ) : (
+          <ul className="mt-10 divide-y divide-brand-ink-200/70 border-y border-brand-ink-200/70">
+            {visiblePosts.map((post, index) => (
+              <li key={post.slug}>
+                <ScrollReveal delay={0.06 * (index + 1)}>
+                  <Link
+                    href={ROUTES.blogPost(post.slug)}
+                    className="group flex flex-col gap-3 py-8 transition-colors sm:flex-row sm:items-start sm:justify-between sm:gap-10"
+                  >
+                    <div className="min-w-0 flex-1">
+                      <div className="mb-3 flex flex-wrap items-center gap-2">
+                        <Badge className="bg-brand-coral/15 text-brand-coral">
+                          {post.category}
+                        </Badge>
+                        <span className="text-xs text-brand-ink-500">
+                          {formatDate(post.publishedAt)}
+                        </span>
+                      </div>
+                      <h3 className="font-display text-xl font-semibold text-brand-deep-ink transition-colors group-hover:text-brand-coral md:text-2xl">
+                        {post.title}
+                      </h3>
+                      <p className="mt-2 max-w-2xl text-sm leading-relaxed text-brand-ink-500 md:text-base">
+                        {post.excerpt || "Read the latest update from the PawPair team."}
+                      </p>
                     </div>
-                    <h3 className="font-display text-xl font-semibold text-brand-deep-ink transition-colors group-hover:text-brand-coral md:text-2xl">
-                      {post.title}
-                    </h3>
-                    <p className="mt-2 max-w-2xl text-sm leading-relaxed text-brand-ink-500 md:text-base">
-                      {post.excerpt || "Read the latest update from the PawPair team."}
-                    </p>
-                  </div>
-                  <span className="shrink-0 text-sm font-medium text-brand-coral group-hover:underline">
-                    Read more
-                  </span>
-                </Link>
-              </ScrollReveal>
-            </li>
-          ))}
-        </ul>
+                    <span className="shrink-0 text-sm font-medium text-brand-coral group-hover:underline">
+                      Read more
+                    </span>
+                  </Link>
+                </ScrollReveal>
+              </li>
+            ))}
+          </ul>
+        )}
       </div>
     </section>
   );

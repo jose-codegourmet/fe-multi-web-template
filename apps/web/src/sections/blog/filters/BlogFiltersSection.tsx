@@ -1,25 +1,33 @@
 "use client";
 
 import { ScrollReveal } from "@fe-template/ui";
-import { useState } from "react";
+import { usePathname, useRouter, useSearchParams } from "next/navigation";
+import { BLOG_CATEGORIES, BLOG_CATEGORY_ALL, BLOG_CATEGORY_QUERY } from "@/constants/blog";
+import { parseBlogCategory } from "@/lib/blog-category";
 import { cn } from "@/lib/utils";
 
 type BlogFiltersSectionProps = {
   className?: string;
 };
 
-const CATEGORIES = [
-  "All",
-  "Pet Socialization",
-  "First Meetups",
-  "Behavior and Play",
-  "Walking and Exercise",
-  "Community Stories",
-  "Safety",
-] as const;
-
 function BlogFiltersSection({ className }: BlogFiltersSectionProps) {
-  const [active, setActive] = useState<string>("All");
+  const router = useRouter();
+  const pathname = usePathname();
+  const searchParams = useSearchParams();
+  const active = parseBlogCategory(searchParams.get(BLOG_CATEGORY_QUERY));
+
+  function selectCategory(category: string) {
+    const params = new URLSearchParams(searchParams.toString());
+
+    if (category === BLOG_CATEGORY_ALL) {
+      params.delete(BLOG_CATEGORY_QUERY);
+    } else {
+      params.set(BLOG_CATEGORY_QUERY, category);
+    }
+
+    const query = params.toString();
+    router.replace(query ? `${pathname}?${query}` : pathname, { scroll: false });
+  }
 
   return (
     <section
@@ -34,13 +42,13 @@ function BlogFiltersSection({ className }: BlogFiltersSectionProps) {
 
           <fieldset className="m-0 flex flex-wrap gap-2 border-0 p-0">
             <legend className="sr-only">Filter articles by category</legend>
-            {CATEGORIES.map((category) => {
+            {BLOG_CATEGORIES.map((category) => {
               const isActive = active === category;
               return (
                 <button
                   key={category}
                   type="button"
-                  onClick={() => setActive(category)}
+                  onClick={() => selectCategory(category)}
                   aria-pressed={isActive}
                   className={cn(
                     "inline-flex h-10 items-center justify-center rounded-full px-5 text-sm font-medium transition-colors",
