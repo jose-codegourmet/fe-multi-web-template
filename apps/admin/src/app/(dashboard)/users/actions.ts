@@ -37,24 +37,55 @@ export async function inviteUser(data: UserInviteValues): Promise<ActionResult> 
 
   try {
     const supabase = createAdminClient();
-    const { error } = await supabase.auth.admin.inviteUserByEmail(parsed.data.email);
+    const { data: inviteData, error } = await supabase.auth.admin.inviteUserByEmail(
+      parsed.data.email,
+    );
 
     if (error) {
       return { success: false, error: error.message };
     }
 
-    await prisma.user.upsert({
-      where: { email: parsed.data.email },
-      create: {
-        email: parsed.data.email,
-        role: parsed.data.role,
-        status: "PENDING",
-      },
-      update: {
-        role: parsed.data.role,
-        status: "PENDING",
-      },
+    const authUser = inviteData.user;
+    if (!authUser) {
+      return { success: false, error: "Invite succeeded but no auth user was returned" };
+    }
+
+    // Role for JWT / middleware must live in app_metadata (not user-editable user_metadata).
+    const { error: metadataError } = await supabase.auth.admin.updateUserById(authUser.id, {
+      app_metadata: { role: parsed.data.role },
     });
+    if (metadataError) {
+      return { success: false, error: metadataError.message };
+    }
+
+    const existing = await prisma.user.findUnique({
+      where: { email: parsed.data.email },
+      select: { role: true },
+    });
+
+    try {
+      await prisma.user.upsert({
+        where: { email: parsed.data.email },
+        create: {
+          email: parsed.data.email,
+          role: parsed.data.role,
+          status: "PENDING",
+        },
+        update: {
+          role: parsed.data.role,
+          status: "PENDING",
+        },
+      });
+    } catch (prismaError) {
+      if (existing) {
+        await supabase.auth.admin.updateUserById(authUser.id, {
+          app_metadata: { role: existing.role },
+        });
+      } else {
+        await supabase.auth.admin.deleteUser(authUser.id);
+      }
+      throw prismaError;
+    }
   } catch (e) {
     return { success: false, error: e instanceof Error ? e.message : "Failed to invite user" };
   }

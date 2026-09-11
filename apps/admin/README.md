@@ -81,6 +81,15 @@ pnpm --filter @fe-template/db db:seed      # seed demo data including an admin u
 
 Auth today is **session-only**. `middleware.ts` gates on "is there a Supabase session" and carries a TODO for `User.role === ADMIN`. `/signup` is a public route, so anyone who can register gets a session and can reach every dashboard route. Most Server Actions do not re-check the session or role. An ADMIN role gate is not implemented yet.
 
+### Role source of truth (invites)
+
+`inviteUser` dual-writes the selected role so Prisma and Supabase cannot drift after a successful invite:
+
+- **Prisma `User.role`** — application record used by admin CRUD (list, detail, role/status editors).
+- **Supabase `app_metadata.role`** — authorization claim on the Auth user (`raw_app_meta_data`). Written with the service-role client via `updateUserById` immediately after `inviteUserByEmail`. Session/JWT checks (including a future middleware role gate) must read this field, **not** `user_metadata` (`raw_user_meta_data` is user-editable).
+
+If the Prisma upsert fails after Auth is updated, the action restores the previous `app_metadata.role` when a Prisma user already existed, or deletes the newly invited Auth user when there was no Prisma row — so a failed invite does not leave mismatched roles. Role changes after invite (`updateUserRole` / `updateUser`) still update Prisma only until a later sync is added.
+
 ---
 
 ## Structure

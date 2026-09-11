@@ -35,7 +35,7 @@ flowchart TD
 |---|---|---|
 | Browser | `src/lib/supabase/client.ts` | Login, signup, OTP, sign-out forms |
 | Server (cookie) | `src/lib/supabase/server.ts` | Server Components / Server Actions needing auth context |
-| Service role | `src/lib/supabase/admin.ts` | Invite users via `inviteUserByEmail` |
+| Service role | `src/lib/supabase/admin.ts` | Invite users via `inviteUserByEmail`, then set `app_metadata.role` |
 
 ### Profile creation
 
