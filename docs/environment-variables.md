@@ -59,7 +59,7 @@ Local development can point both at the direct URL, which is what `.env.example`
 
 ### `packages/db`
 
-- Only `DATABASE_URL` and `DIRECT_URL` are needed. The Prisma CLI reads `packages/db/.env`.
+- Only `DATABASE_URL` and `DIRECT_URL` are needed. `packages/db/prisma.config.ts` loads `packages/db/.env` via `dotenv`.
 
 ---
 

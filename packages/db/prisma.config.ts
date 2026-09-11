@@ -1,4 +1,9 @@
+import { resolve } from "node:path";
+import { config as loadEnv } from "dotenv";
 import { defineConfig } from "prisma/config";
+
+// Prisma 6 skips automatic .env loading when prisma.config.ts is present.
+loadEnv({ path: resolve(import.meta.dirname, ".env"), quiet: true });
 
 /**
  * Prisma CLI config for Prisma 6.19+.

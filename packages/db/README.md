@@ -70,7 +70,7 @@ Run from the repo root with `pnpm --filter @fe-template/db <script>`:
 
 ## Environment
 
-The Prisma CLI reads [`packages/db/.env`](.env.example) (not the root `.env`), so this package keeps its own copy:
+`prisma.config.ts` loads [`packages/db/.env`](.env.example) with `dotenv` (Prisma skips automatic `.env` loading when a config file is present). The package keeps its own copy rather than using the root `.env`:
 
 ```bash
 cp packages/db/.env.example packages/db/.env

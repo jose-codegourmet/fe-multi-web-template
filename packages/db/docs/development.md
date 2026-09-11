@@ -33,7 +33,11 @@ packages/db/
 Prisma is configured in `prisma.config.ts` (not `package.json`):
 
 ```ts
+import { resolve } from "node:path";
+import { config as loadEnv } from "dotenv";
 import { defineConfig } from "prisma/config";
+
+loadEnv({ path: resolve(import.meta.dirname, ".env"), quiet: true });
 
 export default defineConfig({
   schema: "prisma/schema",
@@ -105,6 +109,8 @@ Seed data is in `prisma/constants/` and imported by `prisma/seed.ts`. The demo s
 - `DATABASE_URL` should use the pooled connection (`*.pooler.supabase.com:6543?pgbouncer=true`) in production/serverless.
 - `DIRECT_URL` must always use the direct connection (`db.<project-ref>.supabase.co:5432`) for migrations.
 - Local development can point both to the direct URL.
+
+`prisma.config.ts` loads `packages/db/.env` with `dotenv` because Prisma 6 skips automatic `.env` loading when a config file is present.
 
 See `docs/environment-variables.md` for the full matrix.
 
