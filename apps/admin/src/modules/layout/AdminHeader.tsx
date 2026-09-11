@@ -11,15 +11,7 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@fe-template/ui";
-import {
-  BellIcon,
-  CheckIcon,
-  HelpCircleIcon,
-  LogOutIcon,
-  MoonIcon,
-  SunIcon,
-  UserIcon,
-} from "lucide-react";
+import { CheckIcon, HelpCircleIcon, LogOutIcon, MoonIcon, SunIcon, UserIcon } from "lucide-react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useTheme } from "next-themes";
@@ -55,15 +47,6 @@ export function AdminHeader({ title }: AdminHeaderProps) {
       <SidebarTrigger />
       <h1 className="hidden text-lg font-semibold tracking-tight sm:block">{title}</h1>
       <div className="ml-auto" />
-      <Button
-        type="button"
-        variant="ghost"
-        size="icon-sm"
-        aria-label="Notifications"
-        className="rounded-full"
-      >
-        <BellIcon className="size-4" />
-      </Button>
       <Button
         type="button"
         variant="ghost"
