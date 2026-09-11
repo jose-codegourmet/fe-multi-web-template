@@ -20,6 +20,20 @@ Content direction: [`docs/about-example-site/aboustwebsite.md`](../about-example
 | `/blog/grid` | `app/blog/grid/page.tsx` | Blog grid |
 | `/blog/[slug]` | `app/blog/[slug]/page.tsx` | Blog post |
 | `/otp` | `app/otp/page.tsx` | OTP verification demo |
+| `/careers` | `app/careers/page.tsx` | Company stub |
+| `/partners` | `app/partners/page.tsx` | Company stub |
+| `/press` | `app/press/page.tsx` | Company stub |
+| `/resources/community-guide` | `app/resources/community-guide/page.tsx` | Resource stub |
+| `/resources/first-meet-checklist` | `app/resources/first-meet-checklist/page.tsx` | Resource stub |
+| `/help` | `app/help/page.tsx` | Help center stub |
+| `/status` | `app/status/page.tsx` | Status stub |
+| `/legal/privacy` | `app/legal/privacy/page.tsx` | Legal stub |
+| `/legal/terms` | `app/legal/terms/page.tsx` | Legal stub |
+| `/legal/community-guidelines` | `app/legal/community-guidelines/page.tsx` | Legal stub |
+| `/legal/cookies` | `app/legal/cookies/page.tsx` | Legal stub |
+| `/legal/accessibility` | `app/legal/accessibility/page.tsx` | Legal stub |
+| `/sign-in` | `app/sign-in/page.tsx` | Auth CTA stub (no auth) |
+| `/create-profile` | `app/create-profile/page.tsx` | Auth CTA stub (no auth) |
 | `/showcase` | `app/showcase/page.tsx` | Component showcase |
 | `not-found` | `app/not-found.tsx` | Branded 404 |
 

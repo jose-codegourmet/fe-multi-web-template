@@ -110,8 +110,9 @@ Real references:
 - Routes: `src/constants/routes.ts`
 - SEO: `src/constants/seo.ts`
 - Navigation: `src/constants/navigation.ts`
+- Footer/header stub copy: `src/constants/placeholder-pages.ts` + `src/sections/placeholder/`
 
-Add new routes to these files when adding pages.
+Add new routes to these files when adding pages. Every `ROUTES` path must have a matching `page.tsx`.
 
 ---
 
