@@ -9,7 +9,7 @@ Testing tools, commands, and conventions in the monorepo.
 | Workspace | Unit tests | E2E tests | Storybook | Config |
 |---|---|---|---|---|
 | `apps/web` | No standalone files | No | Yes (port 6006) | `vitest.config.ts`, Storybook 10 + `@storybook/addon-vitest` |
-| `apps/admin` | No | No | Yes (port 6007) | `.storybook/` only |
+| `apps/admin` | No | No | Yes (port 6007) | `.storybook/` plus admin-specific stories under `src/` |
 | `packages/ui` | No | No | Consumed by `apps/web` storybook | No test config |
 | `packages/db` | No | No | No | No test config |
 
@@ -38,7 +38,19 @@ pnpm --filter web build-storybook # build static Storybook
 
 ## `apps/admin` testing setup
 
-Storybook is configured but there are no story files under `apps/admin/src/`. Storybook globs `packages/ui` stories, so running admin Storybook is useful for reviewing shared primitives.
+Storybook on port 6007 globs both `apps/admin/src/**/*.stories.*` and `packages/ui` stories. Admin coverage is a small, representative set — not every page:
+
+| Story | Path | Why it exists |
+|---|---|---|
+| `AdminHeader` | `src/modules/layout/AdminHeader.stories.tsx` | Dashboard shell chrome |
+| `AdminSidebar` | `src/modules/layout/AdminSidebar.stories.tsx` | Dashboard shell chrome |
+| `LoginForm` | `src/modules/auth/login-form/LoginForm.stories.tsx` | Representative auth form |
+| `UsersTable` | `src/app/(dashboard)/users/users-table/UsersTable.stories.tsx` | Representative DataTable usage |
+| `StatusBadge` | `src/app/(dashboard)/users/StatusBadge.stories.tsx` | User status chip used in tables |
+
+Do not add a story for every admin route. Prefer isolated chrome, forms, and tables that regress independently of page data fetching.
+
+Stories that depend on TanStack Query seed cache via `src/storybook/seeded-query.tsx` so they render without Prisma or a live Supabase session.
 
 ### Commands
 
@@ -53,7 +65,8 @@ pnpm --filter admin build-storybook # build static Storybook
 
 - Co-locate stories with components: `ComponentName.stories.tsx` next to `ComponentName.tsx`.
 - Co-locate use-case docs: `ComponentName.usecase.md` next to the component.
-- Shared primitives are in `packages/ui/src/components/**` and are consumed by `apps/web` Storybook.
+- Shared primitives are in `packages/ui/src/components/**` and are consumed by both app Storybooks.
+- `apps/admin` also ships a small set of admin-only stories (shell, one form, one table). See the admin section above.
 
 See `docs/template/COMPONENTS.md` for story conventions.
 
