@@ -78,6 +78,17 @@ Do not add `page.tsx` next to them or treat them as dead leftovers.
 
 These are not duplicates. Deleting either changes 404 chrome for that segment.
 
+### Loading and error boundaries
+
+| File | When it runs |
+|---|---|
+| `src/app/loading.tsx` | Suspense fallback for public routes (login/signup/otp) |
+| `src/app/error.tsx` | Uncaught errors **outside** the dashboard shell (full-viewport branded error + reset) |
+| `src/app/(dashboard)/loading.tsx` | Suspense fallback for dashboard pages (DataTable-style skeleton; shell stays mounted) |
+| `src/app/(dashboard)/error.tsx` | Uncaught errors **inside** `(dashboard)` with a reset action; sidebar/header stay mounted |
+
+`error.tsx` files are Client Components. They log the error and expose `reset()` so a thrown Server Component error (for example on a list page) renders branded UI instead of the Next.js default.
+
 ---
 
 ## Data flow

@@ -219,8 +219,12 @@ export function UsersTable() {
 }
 ```
 
+Route-group navigation uses `src/app/(dashboard)/loading.tsx` (DataTable-style `Skeleton` rows) while Server Components fetch. Uncaught page errors render `src/app/(dashboard)/error.tsx` with a `reset()` action.
+
 Real references:
 
+- `src/app/(dashboard)/loading.tsx`
+- `src/app/(dashboard)/error.tsx`
 - `src/app/(dashboard)/users/users-table.tsx`
 - `src/app/(dashboard)/posts/posts-table.tsx`
 - `src/app/(dashboard)/pets/pets-table.tsx`
