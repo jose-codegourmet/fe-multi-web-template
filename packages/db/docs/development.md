@@ -126,7 +126,9 @@ pnpm --filter @fe-template/db db:push
 pnpm --filter @fe-template/db db:seed
 ```
 
-Seed data is in `prisma/constants/` and imported by `prisma/seed.ts`. The demo seed includes `admin@example.com` with `Role.ADMIN` and `UserStatus.VERIFIED`, plus other demo users also set to `VERIFIED`.
+Seed data is in `prisma/constants/` and imported by `prisma/seed.ts`. The demo seed includes `admin@example.com` with `Role.ADMIN` and `UserStatus.VERIFIED`, plus other demo users also set to `VERIFIED`. It also upserts representative `Contact` rows (one per `ContactStatus`) and `PetMatch` rows between seeded pets (one per `MatchStatus`).
+
+`Profile` is **not** invented by the seed. `Profile.id` must be a real `auth.users` UUID; demo `User` rows use string IDs such as `seed-user-admin` and are a separate application table. The seed never writes to `auth.users`. If Auth users already exist, it upserts a `Profile` for each of those UUIDs. If `auth.users` is empty or unreadable, Profile seeding is skipped and the seed still succeeds.
 
 ---
 

@@ -100,7 +100,7 @@ async function main() {
 main();
 ```
 
-Real reference: `packages/db/prisma/seed.ts` and `packages/db/prisma/constants/`.
+Real reference: `packages/db/prisma/seed.ts` and `packages/db/prisma/constants/` (`users`, `pets`, `posts`, `testimonials`, `pricing-plans`, `contacts`, `pet-matches`). `Profile` is seeded only when matching `auth.users` rows already exist; see `packages/db/docs/development.md`.
 
 ---
 

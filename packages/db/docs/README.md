@@ -86,7 +86,7 @@ All run from the repo root with `pnpm --filter @fe-template/db <script>`:
 | `db:deploy` | `prisma migrate deploy` | Apply pending migrations in CI/prod |
 | `db:push` | `prisma db push` | Push schema without migration (prototyping only) |
 | `db:studio` | `prisma studio` | Open Prisma Studio |
-| `db:seed` | `tsx prisma/seed.ts` | Seed demo data |
+| `db:seed` | `tsx prisma/seed.ts` | Seed demo data, including contacts and pet matches. Profile rows only when `auth.users` UUIDs already exist. |
 | `typecheck` | `tsc --noEmit` | TypeScript check |
 
 `postinstall` in `package.json` also runs `prisma generate`.
