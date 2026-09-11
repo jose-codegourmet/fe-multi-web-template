@@ -15,7 +15,7 @@ import { CheckIcon, HelpCircleIcon, LogOutIcon, MoonIcon, SunIcon, UserIcon } fr
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useTheme } from "next-themes";
-import { getInitials, useCurrentUser } from "@/hooks/use-current-user";
+import { getInitials, useCurrentUser } from "@/hooks/use-current-user/client";
 import { createClient } from "@/lib/supabase/client";
 import { SidebarTrigger } from "@/modules/layout/sidebar/Sidebar";
 

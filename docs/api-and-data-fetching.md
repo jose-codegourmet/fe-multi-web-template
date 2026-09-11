@@ -57,7 +57,7 @@ export async function fetchBlogPosts(): Promise<BlogPost[]> {
 }
 ```
 
-Hooks inline `process.env.NEXT_PUBLIC_SITE_URL ?? "http://localhost:9000"`. There is no `getApiOrigin` helper. The same `fetch*` naming is used in admin (`fetchUsers`, `fetchPets`, `fetchPosts`, `fetchContacts`, `fetchTestimonials`, `fetchPricingPlans`).
+Hooks inline `process.env.NEXT_PUBLIC_SITE_URL ?? "http://localhost:9000"`. There is no `getApiOrigin` helper. The same `fetch*` naming is used in admin (`fetchUsers`, `fetchPets`, `fetchPosts`, `fetchContacts`, `fetchTestimonials`, `fetchPricingPlans`, `fetchCurrentUserByEmail`).
 
 ### Server Component usage
 

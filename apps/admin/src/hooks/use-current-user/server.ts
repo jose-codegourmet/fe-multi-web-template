@@ -1,15 +1,7 @@
 "use server";
 
 import { prisma } from "@fe-template/db";
-
-export type CurrentUser = {
-  email: string;
-  name: string | null;
-  avatarUrl: string | null;
-  role: "USER" | "ADMIN";
-  bio: string | null;
-  createdAt: string;
-};
+import type { CurrentUser } from "./types";
 
 export async function fetchCurrentUserByEmail(email: string): Promise<CurrentUser | null> {
   const user = await prisma.user.findUnique({
