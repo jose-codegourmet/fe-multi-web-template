@@ -7,8 +7,8 @@ Rendering model, data flow, state, and boundaries for the public marketing site.
 ## Rendering model
 
 - Next.js 16 App Router with Server Components by default.
-- Home page (`src/app/page.tsx`) is marked `dynamic = "force-dynamic"`.
-- Other pages are static when possible, with server-side data fetching via `use-*/server.ts`.
+- Marketing pages are static or ISR. Home, blog list, blog grid, and blog post routes set `revalidate = 60` to match `next: { revalidate: 60 }` on `use-*/server.ts` fetches. `/showcase` is a static developer catalog (no auth, cookies, or request-time data).
+- Do not set `dynamic = "force-dynamic"` unless a page reads cookies, headers, or other request-time data. `apps/web` has no auth or middleware today.
 - Client components are marked `"use client"` and live in sections, providers, and interactive UI pieces.
 
 ---
@@ -23,7 +23,7 @@ Prisma (packages/db)
   → sections and pages
 ```
 
-- Server Components import `use-*/server.ts` to fetch data at render time with `next: { revalidate: 60 }`.
+- Server Components import `use-*/server.ts` to fetch data at render time with `next: { revalidate: 60 }`. During `next build`, those self-fetches cannot reach `localhost` API routes, so the helpers return empty lists and ISR regenerates from a live origin afterward.
 - Client sections use `use-*/client.ts` for React Query caching.
 - No Server Actions in `apps/web`. Mutations are not needed for the marketing site today.
 

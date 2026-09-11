@@ -42,11 +42,11 @@ Local agent instructions for the public marketing site. Read `/AGENTS.md` first,
 
 | Route | File | Purpose |
 |---|---|---|
-| `/` | `src/app/page.tsx` | Home page (force-dynamic) |
+| `/` | `src/app/page.tsx` | Home page (ISR, `revalidate = 60`) |
 | `/about` | `src/app/about/page.tsx` | About page |
-| `/blog` | `src/app/blog/page.tsx` | Blog list (editorial) |
-| `/blog/grid` | `src/app/blog/grid/page.tsx` | Blog grid (`PAGE_SEO.blogGrid`) |
-| `/blog/[slug]` | `src/app/blog/[slug]/page.tsx` | Blog post detail |
+| `/blog` | `src/app/blog/page.tsx` | Blog list (editorial, ISR `revalidate = 60`) |
+| `/blog/grid` | `src/app/blog/grid/page.tsx` | Blog grid (`PAGE_SEO.blogGrid`, ISR `revalidate = 60`) |
+| `/blog/[slug]` | `src/app/blog/[slug]/page.tsx` | Blog post detail (ISR + `generateStaticParams`) |
 | `/pricing` | `src/app/pricing/page.tsx` | Pricing page |
 | `/contact` | `src/app/contact/page.tsx` | Contact page |
 | `/otp` | `src/app/otp/page.tsx` | OTP verification demo (`PAGE_SEO.otp`) |

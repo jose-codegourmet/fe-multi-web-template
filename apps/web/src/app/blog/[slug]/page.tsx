@@ -11,7 +11,18 @@ type BlogPostPageProps = {
   params: Promise<{ slug: string }>;
 };
 
-export const dynamic = "force-dynamic";
+export const revalidate = 60;
+
+export async function generateStaticParams() {
+  try {
+    const posts = await fetchBlogPosts();
+    return posts.map((post) => ({ slug: post.slug }));
+  } catch {
+    // Build-time self-fetch to /api/blog fails when the web server is not running.
+    // On-demand ISR still generates each slug on first request.
+    return [];
+  }
+}
 
 export async function generateMetadata({ params }: BlogPostPageProps): Promise<Metadata> {
   const { slug } = await params;
