@@ -158,7 +158,7 @@ python scripts/cleanup-unused.py           # dry-run (default) — lists unused 
 python scripts/cleanup-unused.py --delete  # permanently remove unused component folders
 ```
 
-The script scans `apps/web/src/app`, `components`, `hooks`, and `store` for import references and reports any component folder with no incoming imports.
+The script looks for unused PascalCase component folders under `apps/web/src/modules` and `apps/web/src/sections`. It scans `apps/web/src/{app,modules,sections,hooks,store}` for `@/` and relative import references and reports any component folder with no incoming imports from outside itself.
 
 > Shared primitives now live in `packages/ui`, which the script does not scan. Prune unused `packages/ui/src/components/*` folders by hand and remove their export lines from `packages/ui/src/index.ts`.
 

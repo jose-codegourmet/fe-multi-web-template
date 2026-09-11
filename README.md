@@ -169,7 +169,7 @@ python scripts/cleanup-unused.py           # dry-run (default)
 python scripts/cleanup-unused.py --delete  # permanently remove unused folders
 ```
 
-> The cleanup script scans `apps/web/src/{app,components,hooks,store}` for import references. Shared primitives now live in `packages/ui`, so the script does not currently prune them — remove unused `packages/ui/src/components/*` folders (and their `packages/ui/src/index.ts` export lines) by hand.
+> The cleanup script scans `apps/web/src/{app,modules,sections,hooks,store}` for import references and reports unused folders under `modules/` and `sections/`. Shared primitives now live in `packages/ui`, so the script does not currently prune them — remove unused `packages/ui/src/components/*` folders (and their `packages/ui/src/index.ts` export lines) by hand.
 
 ---
 

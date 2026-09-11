@@ -2,6 +2,10 @@
 """
 Remove unused component folders from apps/web after copying this template.
 
+Looks for PascalCase *.tsx component folders under modules/ and sections/,
+and checks whether they are imported from the current apps/web src trees
+(app, modules, sections, hooks, store).
+
 Usage:
   python scripts/cleanup-unused.py           # dry-run (default)
   python scripts/cleanup-unused.py --delete  # delete unused folders
@@ -17,18 +21,50 @@ import shutil
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parent.parent
-WEB_COMPONENTS = ROOT / "apps/web/src/components"
+WEB_SRC = ROOT / "apps/web/src"
+
+# Folders that may contain unused component units to report/delete.
+CANDIDATE_ROOTS = [
+    WEB_SRC / "modules",
+    WEB_SRC / "sections",
+]
+
+# Trees scanned for import references (must exist in the current layout).
 SCAN_ROOTS = [
-    ROOT / "apps/web/src/app",
-    ROOT / "apps/web/src/components",
-    ROOT / "apps/web/src/hooks",
-    ROOT / "apps/web/src/store",
+    WEB_SRC / "app",
+    WEB_SRC / "modules",
+    WEB_SRC / "sections",
+    WEB_SRC / "hooks",
+    WEB_SRC / "store",
 ]
 
 # Matches import/export ... from "..." (alias and relative paths)
 IMPORT_RE = re.compile(r"""\bfrom\s+["']([^"']+)["']""")
 
 SKIP_DIR_NAMES = {"node_modules", ".git", "dist", ".next"}
+
+
+def existing_dirs(paths: list[Path]) -> list[Path]:
+    return [path for path in paths if path.is_dir()]
+
+
+def is_under(path: Path, root: Path) -> bool:
+    try:
+        path.resolve().relative_to(root.resolve())
+        return True
+    except ValueError:
+        return False
+
+
+def is_under_any(path: Path, roots: list[Path]) -> bool:
+    return any(is_under(path, root) for root in roots)
+
+
+def display_path(path: Path) -> str:
+    try:
+        return str(path.relative_to(ROOT))
+    except ValueError:
+        return str(path)
 
 
 def is_component_tsx(path: Path) -> bool:
@@ -42,27 +78,25 @@ def is_component_tsx(path: Path) -> bool:
     return bool(stem) and stem[0].isupper()
 
 
-def find_component_folders(root: Path) -> list[Path]:
+def find_component_folders(roots: list[Path]) -> list[Path]:
     """
     Find folders that contain a primary *.tsx component file.
 
     Examples:
-      button/Button.tsx
+      modules/layout/navigation/header/Header.tsx
       sections/home/hero/HeroSection.tsx
-      motion/scroll-reveal/ScrollReveal.tsx
     """
-    if not root.is_dir():
-        return []
-
     folders: list[Path] = []
-    for dirpath, dirnames, filenames in os.walk(root):
-        dirnames[:] = [d for d in dirnames if d not in SKIP_DIR_NAMES]
-        current = Path(dirpath)
-        for name in filenames:
-            if is_component_tsx(current / name):
-                # Any primary component .tsx qualifies (Button.tsx, HeroSection.tsx, etc.)
-                folders.append(current)
-                break
+    for root in roots:
+        if not root.is_dir():
+            continue
+        for dirpath, dirnames, filenames in os.walk(root):
+            dirnames[:] = [d for d in dirnames if d not in SKIP_DIR_NAMES]
+            current = Path(dirpath)
+            for name in filenames:
+                if is_component_tsx(current / name):
+                    folders.append(current)
+                    break
     return sorted(set(folders))
 
 
@@ -80,25 +114,23 @@ def iter_source_files(scan_roots: list[Path]) -> list[Path]:
     return files
 
 
-def resolve_import(source_file: Path, spec: str) -> Path | None:
+def resolve_import(source_file: Path, spec: str, candidate_roots: list[Path]) -> Path | None:
     """
-    Resolve an import specifier to a filesystem path under WEB_COMPONENTS when possible.
+    Resolve an import specifier to a filesystem path under a candidate root.
     Returns a path that may be a file or directory (caller normalizes to folder).
     """
-    if spec.startswith("@/components/"):
-        rel = spec[len("@/components/") :]
-        return (WEB_COMPONENTS / rel).resolve()
+    resolved: Path | None = None
 
-    if spec.startswith("./") or spec.startswith("../"):
+    if spec.startswith("@/"):
+        resolved = (WEB_SRC / spec[2:]).resolve()
+    elif spec.startswith("./") or spec.startswith("../"):
         resolved = (source_file.parent / spec).resolve()
-        # Only care about imports that land under components/
-        try:
-            resolved.relative_to(WEB_COMPONENTS.resolve())
-        except ValueError:
-            return None
-        return resolved
 
-    return None
+    if resolved is None:
+        return None
+    if not is_under_any(resolved, candidate_roots):
+        return None
+    return resolved
 
 
 def normalize_to_file_or_dir(path: Path) -> Path | None:
@@ -123,9 +155,9 @@ def collect_used_folders(scan_roots: list[Path], component_folders: list[Path]) 
     """
     Return component folders that are imported from outside themselves.
 
-    Self-imports (e.g. Button.stories.tsx → ./Button) do not count as usage,
-    but imports from other stories/pages/components do — so Storybook-only
-    cross-usage keeps a component alive.
+    Self-imports (e.g. HeroSection.stories.tsx → ./HeroSection) do not count
+    as usage, but imports from other stories/pages/components do — so
+    Storybook-only cross-usage keeps a component alive.
     """
     folder_set = {f.resolve() for f in component_folders}
     used: set[Path] = set()
@@ -140,15 +172,14 @@ def collect_used_folders(scan_roots: list[Path], component_folders: list[Path]) 
         source_resolved = source.resolve()
         for match in IMPORT_RE.finditer(text):
             spec = match.group(1)
-            # Skip side-effect CSS and non-path imports
             if not (
-                spec.startswith("@/components/")
+                spec.startswith("@/")
                 or spec.startswith("./")
                 or spec.startswith("../")
             ):
                 continue
 
-            target = resolve_import(source, spec)
+            target = resolve_import(source, spec, CANDIDATE_ROOTS)
             if target is None:
                 continue
 
@@ -187,11 +218,17 @@ def folder_display(folder: Path) -> str:
         return str(folder) + "/"
 
 
+def print_roots(label: str, paths: list[Path]) -> None:
+    print(label)
+    for path in paths:
+        print(f"  {display_path(path)}/")
+
+
 def main() -> int:
     parser = argparse.ArgumentParser(
         description=(
             "Detect (and optionally delete) unused component folders "
-            "under apps/web/src/components."
+            "under apps/web/src/modules and apps/web/src/sections."
         )
     )
     parser.add_argument(
@@ -201,16 +238,40 @@ def main() -> int:
     )
     args = parser.parse_args()
 
-    if not WEB_COMPONENTS.is_dir():
-        print(f"Components directory not found: {WEB_COMPONENTS}")
+    scan_roots = existing_dirs(SCAN_ROOTS)
+    candidate_roots = existing_dirs(CANDIDATE_ROOTS)
+
+    missing_scan = [p for p in SCAN_ROOTS if p not in scan_roots]
+    missing_candidates = [p for p in CANDIDATE_ROOTS if p not in candidate_roots]
+
+    if missing_scan:
+        print("Warning: scan root(s) not found:")
+        for path in missing_scan:
+            print(f"  {display_path(path)}/")
+    if missing_candidates:
+        print("Warning: candidate root(s) not found:")
+        for path in missing_candidates:
+            print(f"  {display_path(path)}/")
+
+    if not candidate_roots:
+        print("No candidate directories found under apps/web/src (expected modules/ and/or sections/).")
+        return 1
+    if not scan_roots:
+        print("No scan roots found under apps/web/src.")
         return 1
 
-    component_folders = find_component_folders(WEB_COMPONENTS)
-    used = collect_used_folders(SCAN_ROOTS, component_folders)
+    print_roots("Scanning import references in:", scan_roots)
+    print_roots("Looking for unused component folders under:", candidate_roots)
+    print()
+
+    component_folders = find_component_folders(candidate_roots)
+    used = collect_used_folders(scan_roots, component_folders)
     unused = sorted(
         (f for f in component_folders if f.resolve() not in used),
         key=lambda p: str(p),
     )
+
+    print(f"Found {len(component_folders)} component folder(s); {len(used)} referenced.")
 
     if not unused:
         print("No unused component folders found.")
