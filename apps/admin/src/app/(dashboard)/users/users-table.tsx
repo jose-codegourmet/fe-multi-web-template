@@ -24,32 +24,10 @@ import { useUsers } from "@/hooks/use-users/client";
 import { usersQueryKey } from "@/hooks/use-users/query";
 import type { UserRow, UserStatus } from "@/hooks/use-users/types";
 import { updateUserStatus } from "./actions";
+import { STATUS_OPTIONS, StatusBadge } from "./status-badge";
 import { DeleteUserDialog, UserDialog } from "./user-dialog/UserDialog";
 
 const ROLE_FILTERS = ["ALL", "ADMIN", "USER"] as const;
-
-const STATUS_OPTIONS: { value: UserStatus; label: string }[] = [
-  { value: "PENDING", label: "Pending" },
-  { value: "VERIFIED", label: "Verified" },
-  { value: "DEACTIVATED", label: "Deactivated" },
-  { value: "MOCK", label: "Mock" },
-];
-
-const STATUS_BADGE_CLASS: Record<UserStatus, string> = {
-  PENDING: "border-transparent bg-amber-500/15 text-amber-700 dark:text-amber-400",
-  VERIFIED: "border-transparent bg-emerald-500/15 text-emerald-700 dark:text-emerald-400",
-  DEACTIVATED: "border-transparent bg-destructive/10 text-destructive",
-  MOCK: "border-transparent bg-slate-500/15 text-slate-600 dark:text-slate-400",
-};
-
-function StatusBadge({ status }: { status: UserStatus }) {
-  const label = STATUS_OPTIONS.find((option) => option.value === status)?.label ?? status;
-  return (
-    <Badge variant="outline" className={`rounded-full ${STATUS_BADGE_CLASS[status]}`}>
-      {label}
-    </Badge>
-  );
-}
 
 function UserRowActions({ user }: { user: UserRow }) {
   const qc = useQueryClient();

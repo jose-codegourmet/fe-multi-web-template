@@ -15,6 +15,12 @@ src/app/(dashboard)/users/
   ├── page.tsx
   ├── actions.ts
   ├── users-table.tsx
+  ├── status-badge.tsx
+  ├── [id]/
+  │   ├── page.tsx
+  │   ├── user-detail.tsx
+  │   ├── role-select.tsx
+  │   └── status-select.tsx
   └── user-dialog/
       ├── UserDialog.tsx
       ├── edit-user-dialog-form/

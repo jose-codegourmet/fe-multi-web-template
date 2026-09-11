@@ -16,7 +16,9 @@ import type { ColumnDef } from "@tanstack/react-table";
 import Link from "next/link";
 import { useUser } from "@/hooks/use-users/client";
 import type { UserDetail } from "@/hooks/use-users/types";
+import { StatusBadge } from "../status-badge";
 import { RoleSelect } from "./role-select";
+import { StatusSelect } from "./status-select";
 
 const petColumns: ColumnDef<UserDetail["pets"][number]>[] = [
   { accessorKey: "name", header: "Name" },
@@ -76,6 +78,7 @@ export function UserDetailView({ id }: { id: string }) {
               >
                 {user.role === "ADMIN" ? "Admin" : "User"}
               </Badge>
+              <StatusBadge status={user.status} />
               <span className="text-muted-foreground">
                 Joined {new Date(user.createdAt).toLocaleDateString()}
               </span>
@@ -87,6 +90,10 @@ export function UserDetailView({ id }: { id: string }) {
           <div>
             <p className="mb-2 text-sm font-medium">Change role</p>
             <RoleSelect userId={user.id} role={user.role} />
+          </div>
+          <div>
+            <p className="mb-2 text-sm font-medium">Change status</p>
+            <StatusSelect userId={user.id} status={user.status} />
           </div>
         </CardContent>
       </Card>

@@ -17,7 +17,7 @@ Purpose, routes, features, and commands for the admin portal.
 ## Main responsibilities
 
 - Dashboard with stats and charts.
-- User management (list, search, detail, role change, invite).
+- User management (list, search, detail, role change, status change, invite).
 - Pet profile management.
 - Blog post CMS (list, create, edit, publish).
 - Testimonial moderation.
