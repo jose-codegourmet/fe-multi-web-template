@@ -1,8 +1,5 @@
 import type { Metadata } from "next";
-import {
-  type PlaceholderPageKey,
-  PLACEHOLDER_PAGES,
-} from "@/constants/placeholder-pages";
+import { PLACEHOLDER_PAGES, type PlaceholderPageKey } from "@/constants/placeholder-pages";
 import { PlaceholderHeroSection } from "@/sections/placeholder/hero/PlaceholderHeroSection";
 
 export function placeholderMetadata(page: PlaceholderPageKey): Metadata {
