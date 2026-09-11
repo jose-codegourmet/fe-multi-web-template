@@ -200,9 +200,10 @@ hooks/use-[name]/
   ├── client.ts              # React Query hook
   ├── server.ts              # Server-side data source
   ├── query.ts               # Query key factory
-  ├── types.ts               # Types
-  └── useX.ts                # Barrel re-export
+  └── types.ts               # Types
 ```
+
+Optional `useX.ts` barrels exist in `apps/admin` only. `apps/web` imports `client.ts` / `server.ts` / `query.ts` directly.
 
 - `apps/web` uses this for `use-blog-posts`, `use-pricing-plans`, `use-testimonials`.
 - `apps/admin` uses this for `use-users`, `use-pets`, `use-posts`, `use-contacts`, `use-testimonials`, `use-pricing-plans`.

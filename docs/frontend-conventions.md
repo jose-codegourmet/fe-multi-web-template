@@ -70,10 +70,10 @@ hooks/use-[name]/
   ├── server.ts             # Server-side fetch (server action or ISR fetch)
   ├── query.ts              # Query keys / options (optional)
   ├── types.ts              # Shared types (optional)
-  └── useX.ts               # Re-export barrel (optional)
+  └── useX.ts               # Re-export barrel (optional; admin only today)
 ```
 
-- `apps/web` uses this pattern for `use-blog-posts`, `use-pricing-plans`, `use-testimonials`.
+- `apps/web` uses `client.ts` / `server.ts` / `query.ts` / `types.ts` for `use-blog-posts`, `use-pricing-plans`, `use-testimonials` (no barrels).
 - `apps/admin` also uses this pattern for `use-users`, `use-pets`, `use-posts`, `use-contacts`, `use-testimonials`, `use-pricing-plans`, `use-current-user`.
 - Admin Server Components often query `prisma` directly instead of going through hooks.
 

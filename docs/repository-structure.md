@@ -60,8 +60,8 @@ apps/web/
     │   ├── showcase/
     │   └── api/              # blog, pricing, testimonials routes
     ├── sections/             # Page sections, per-page folder
-    ├── modules/              # layout (header, footer, sidebar), providers
-    ├── hooks/                # use-blog-posts, use-pricing-plans, use-testimonials, use-mobile
+    ├── modules/              # layout (header, footer), providers
+    ├── hooks/                # use-blog-posts, use-pricing-plans, use-testimonials
     ├── constants/            # routes.ts, seo.ts, navigation.ts
     ├── types/                # Marketing-domain types
     ├── store/                # Redux store + theme slice

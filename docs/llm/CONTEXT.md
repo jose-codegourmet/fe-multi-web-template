@@ -31,7 +31,7 @@ apps/web/src/               ← marketing site (port 9000)
 ├── constants/              ← routes.ts, seo.ts, navigation.ts
 ├── hooks/                  ← use-*/client.ts + server.ts
 ├── types/                  ← shared marketing-domain types
-├── modules/layout/         ← header, footer, sidebar
+├── modules/layout/         ← header, footer
 ├── modules/providers/      ← Redux + Query + theme
 └── store/                  ← Redux store + themeSlice
 

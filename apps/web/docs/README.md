@@ -75,7 +75,7 @@ Purpose, routes, shared packages, and commands for the public marketing site.
 |---|---|
 | `src/app/` | Next.js routes and API routes |
 | `src/sections/` | Page sections, one folder per page |
-| `src/modules/layout/` | Header, footer, navigation, sidebar |
+| `src/modules/layout/` | Header, footer, navigation |
 | `src/modules/providers/` | Redux, TanStack Query, next-themes providers |
 | `src/hooks/` | React Query hooks (`use-blog-posts`, `use-pricing-plans`, `use-testimonials`) |
 | `src/constants/` | `routes.ts`, `seo.ts`, `navigation.ts` |
