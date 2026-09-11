@@ -58,7 +58,7 @@ Prisma (packages/db)
 - No authentication. No middleware.
 - API routes are read-only today. No mutations or protected endpoints.
 - `NEXT_PUBLIC_SITE_URL` is used for SSR self-fetch but is not in `.env.example`.
-- Some `ROUTES` constants in `src/constants/routes.ts` reference paths that do not have `page.tsx` files yet.
+- Every `ROUTES` path has a matching `page.tsx`. Company, resource, support, legal, and account CTA routes use shared stub copy in `src/constants/placeholder-pages.ts`.
 
 ---
 

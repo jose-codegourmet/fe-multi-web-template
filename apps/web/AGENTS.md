@@ -50,6 +50,11 @@ Local agent instructions for the public marketing site. Read `/AGENTS.md` first,
 | `/pricing` | `src/app/pricing/page.tsx` | Pricing page |
 | `/contact` | `src/app/contact/page.tsx` | Contact page |
 | `/otp` | `src/app/otp/page.tsx` | OTP verification demo (`PAGE_SEO.otp`) |
+| `/careers`, `/partners`, `/press` | `src/app/{careers,partners,press}/page.tsx` | Company stub pages (`PLACEHOLDER_PAGES`) |
+| `/resources/community-guide`, `/resources/first-meet-checklist` | `src/app/resources/*/page.tsx` | Resource stub pages |
+| `/help`, `/status` | `src/app/{help,status}/page.tsx` | Support stub pages |
+| `/legal/*` | `src/app/legal/*/page.tsx` | Legal stub pages (privacy, terms, guidelines, cookies, accessibility) |
+| `/sign-in`, `/create-profile` | `src/app/{sign-in,create-profile}/page.tsx` | Auth CTA stubs — no real authentication |
 | `/showcase` | `src/app/showcase/page.tsx` | Dev catalog (`ComponentsShowcase`, `SectionsShowcase`, `ThemePreview`). Intentionally omitted from `PAGE_SEO` — not a marketing page. |
 | `not-found` | `src/app/not-found.tsx` | Branded 404 (`PAGE_SEO.notFound`) |
 | `/api/blog` | `src/app/api/blog/route.ts` | Blog posts API |

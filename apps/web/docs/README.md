@@ -49,6 +49,20 @@ Purpose, routes, shared packages, and commands for the public marketing site.
 | `/pricing` | `src/app/pricing/page.tsx` | Pricing page |
 | `/showcase` | `src/app/showcase/page.tsx` | Component showcase |
 | `/otp` | `src/app/otp/page.tsx` | OTP UI demo (no real auth) |
+| `/careers` | `src/app/careers/page.tsx` | Company stub |
+| `/partners` | `src/app/partners/page.tsx` | Company stub |
+| `/press` | `src/app/press/page.tsx` | Company stub |
+| `/resources/community-guide` | `src/app/resources/community-guide/page.tsx` | Resource stub |
+| `/resources/first-meet-checklist` | `src/app/resources/first-meet-checklist/page.tsx` | Resource stub |
+| `/help` | `src/app/help/page.tsx` | Help center stub |
+| `/status` | `src/app/status/page.tsx` | Status stub |
+| `/legal/privacy` | `src/app/legal/privacy/page.tsx` | Legal stub |
+| `/legal/terms` | `src/app/legal/terms/page.tsx` | Legal stub |
+| `/legal/community-guidelines` | `src/app/legal/community-guidelines/page.tsx` | Legal stub |
+| `/legal/cookies` | `src/app/legal/cookies/page.tsx` | Legal stub |
+| `/legal/accessibility` | `src/app/legal/accessibility/page.tsx` | Legal stub |
+| `/sign-in` | `src/app/sign-in/page.tsx` | Auth CTA stub (no auth) |
+| `/create-profile` | `src/app/create-profile/page.tsx` | Auth CTA stub (no auth) |
 | `/api/blog` | `src/app/api/blog/route.ts` | Blog posts JSON |
 | `/api/pricing` | `src/app/api/pricing/route.ts` | Pricing plans JSON |
 | `/api/testimonials` | `src/app/api/testimonials/route.ts` | Testimonials JSON |
