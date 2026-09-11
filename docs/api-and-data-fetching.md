@@ -74,6 +74,44 @@ export default async function BlogPostPage({ params }: { params: Promise<{ slug:
 
 List pages such as `apps/web/src/app/blog/page.tsx` prefetch with `new QueryClient()`, `blogPostsQueryKey.list()`, and `fetchBlogPosts` instead of calling the fetcher only for props.
 
+### Prefetch + HydrationBoundary
+
+Every page that prefetches server-side data **and** renders client React Query consumers (`use-*/client.ts`) must wrap those consumers in `HydrationBoundary` with `dehydrate(queryClient)`. Skipping the boundary hydrates an empty cache, so the client refetches the same query (loading flash and a duplicate request).
+
+`apps/web` pages that follow this rule:
+
+| Route | File | Prefetched queries |
+|---|---|---|
+| `/` | `apps/web/src/app/page.tsx` | blog posts, pricing plans, testimonials |
+| `/blog` | `apps/web/src/app/blog/page.tsx` | blog posts |
+| `/blog/grid` | `apps/web/src/app/blog/grid/page.tsx` | blog posts |
+| `/pricing` | `apps/web/src/app/pricing/page.tsx` | pricing plans |
+
+Do **not** add `HydrationBoundary` on routes that only call `fetch*` inside Server Components and never use a client query hook. Those pages have no dehydrated consumers:
+
+- `/blog/[slug]` and `RelatedPostsSection` / `FeaturedArticleSection` (RSC `fetchBlogPosts`)
+- `/showcase` (`SectionsShowcase` may render client query sections without page-level prefetch; catalog-only exception)
+
+```tsx
+import { dehydrate, HydrationBoundary, QueryClient } from "@tanstack/react-query";
+import { blogPostsQueryKey } from "@/hooks/use-blog-posts/query";
+import { fetchBlogPosts } from "@/hooks/use-blog-posts/server";
+
+export default async function BlogPage() {
+  const queryClient = new QueryClient();
+  await queryClient.prefetchQuery({
+    queryKey: blogPostsQueryKey.list(),
+    queryFn: fetchBlogPosts,
+  });
+
+  return (
+    <HydrationBoundary state={dehydrate(queryClient)}>
+      {/* client components that call useBlogPosts() */}
+    </HydrationBoundary>
+  );
+}
+```
+
 ### Client usage
 
 ```tsx

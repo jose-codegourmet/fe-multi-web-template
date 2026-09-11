@@ -1,3 +1,5 @@
+"use client";
+
 import {
   Badge,
   buttonVariants,
@@ -10,15 +12,15 @@ import {
 } from "@fe-template/ui";
 import Link from "next/link";
 import { ROUTES } from "@/constants/routes";
-import { fetchPricingPlans } from "@/hooks/use-pricing-plans/server";
+import { usePricingPlans } from "@/hooks/use-pricing-plans/client";
 import { cn } from "@/lib/utils";
 
 type PricingPreviewSectionProps = {
   className?: string;
 };
 
-async function PricingPreviewSection({ className }: PricingPreviewSectionProps) {
-  const pricingPlans = await fetchPricingPlans();
+function PricingPreviewSection({ className }: PricingPreviewSectionProps) {
+  const { data: pricingPlans = [] } = usePricingPlans();
 
   return (
     <section
