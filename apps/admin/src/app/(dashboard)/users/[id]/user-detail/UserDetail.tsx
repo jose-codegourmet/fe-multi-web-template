@@ -16,9 +16,9 @@ import type { ColumnDef } from "@tanstack/react-table";
 import Link from "next/link";
 import { useUser } from "@/hooks/use-users/client";
 import type { UserDetail } from "@/hooks/use-users/types";
-import { StatusBadge } from "../status-badge";
-import { RoleSelect } from "./role-select";
-import { StatusSelect } from "./status-select";
+import { StatusBadge } from "../../status-badge";
+import { RoleSelect } from "../role-select/RoleSelect";
+import { StatusSelect } from "../status-select";
 
 const petColumns: ColumnDef<UserDetail["pets"][number]>[] = [
   { accessorKey: "name", header: "Name" },

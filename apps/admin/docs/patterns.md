@@ -8,18 +8,18 @@ Concrete patterns found in the admin portal. Imitate these files when adding new
 
 A typical dashboard entity lives under `src/app/(dashboard)/[entity]/` as a Server Component page plus route-colocated actions and client UI.
 
-Refactored create/edit flows use a nested folder with a PascalCase component, plus colocated `*.schema.ts` and `*.defaults.ts`. Some list/table files remain flat kebab-case.
+Refactored create/edit flows use a nested folder with a PascalCase component, plus colocated `*.schema.ts` and `*.defaults.ts`. List and table clients follow the same kebab-folder + PascalCase file convention.
 
 ```text
 src/app/(dashboard)/users/
   ├── page.tsx
   ├── actions.ts
-  ├── users-table.tsx
+  ├── users-table/UsersTable.tsx
   ├── status-badge.tsx
   ├── [id]/
   │   ├── page.tsx
-  │   ├── user-detail.tsx
-  │   ├── role-select.tsx
+  │   ├── user-detail/UserDetail.tsx
+  │   ├── role-select/RoleSelect.tsx
   │   └── status-select.tsx
   └── user-dialog/
       ├── UserDialog.tsx
@@ -39,30 +39,30 @@ Posts use a nested form folder plus a dedicated editor wrapper for `/posts/new` 
 src/app/(dashboard)/posts/
   ├── page.tsx
   ├── actions.ts
-  ├── posts-table.tsx
-  ├── post-editor.tsx
+  ├── posts-table/PostsTable.tsx
+  ├── post-editor/PostEditor.tsx
   └── post-form/
       ├── PostForm.tsx
       ├── PostForm.schema.ts
       └── PostForm.defaults.ts
 ```
 
-Contacts, testimonials, and pricing plans use list components (`*-list.tsx`) rather than tables.
+Contacts, testimonials, and pricing plans use list components (`*-list/`) rather than tables.
 
 Real references:
 
 - `src/app/(dashboard)/users/page.tsx`
 - `src/app/(dashboard)/users/actions.ts`
-- `src/app/(dashboard)/users/users-table.tsx`
+- `src/app/(dashboard)/users/users-table/UsersTable.tsx`
 - `src/app/(dashboard)/users/user-dialog/UserDialog.tsx`
 - `src/app/(dashboard)/posts/page.tsx`
-- `src/app/(dashboard)/posts/posts-table.tsx`
+- `src/app/(dashboard)/posts/posts-table/PostsTable.tsx`
 - `src/app/(dashboard)/posts/post-form/PostForm.tsx`
 - `src/app/(dashboard)/posts/actions.ts`
 - `src/app/(dashboard)/pets/pet-dialog/PetDialog.tsx`
-- `src/app/(dashboard)/contacts/contacts-list.tsx`
-- `src/app/(dashboard)/testimonials/testimonials-list.tsx`
-- `src/app/(dashboard)/pricing-plans/pricing-plans-list.tsx`
+- `src/app/(dashboard)/contacts/contacts-list/ContactsList.tsx`
+- `src/app/(dashboard)/testimonials/testimonials-list/TestimonialsList.tsx`
+- `src/app/(dashboard)/pricing-plans/pricing-plans-list/PricingPlansList.tsx`
 
 ---
 
@@ -103,7 +103,7 @@ import { dehydrate, HydrationBoundary, QueryClient } from "@tanstack/react-query
 import { usersQueryKey } from "@/hooks/use-users/query";
 import { fetchUsers } from "@/hooks/use-users/server";
 import { UserDialog } from "./user-dialog/UserDialog";
-import { UsersTable } from "./users-table";
+import { UsersTable } from "./users-table/UsersTable";
 
 export default async function UsersPage() {
   const queryClient = new QueryClient();
@@ -225,12 +225,12 @@ Real references:
 
 - `src/app/(dashboard)/loading.tsx`
 - `src/app/(dashboard)/error.tsx`
-- `src/app/(dashboard)/users/users-table.tsx`
-- `src/app/(dashboard)/posts/posts-table.tsx`
-- `src/app/(dashboard)/pets/pets-table.tsx`
-- `src/app/(dashboard)/contacts/contacts-list.tsx`
-- `src/app/(dashboard)/testimonials/testimonials-list.tsx`
-- `src/app/(dashboard)/pricing-plans/pricing-plans-list.tsx`
+- `src/app/(dashboard)/users/users-table/UsersTable.tsx`
+- `src/app/(dashboard)/posts/posts-table/PostsTable.tsx`
+- `src/app/(dashboard)/pets/pets-table/PetsTable.tsx`
+- `src/app/(dashboard)/contacts/contacts-list/ContactsList.tsx`
+- `src/app/(dashboard)/testimonials/testimonials-list/TestimonialsList.tsx`
+- `src/app/(dashboard)/pricing-plans/pricing-plans-list/PricingPlansList.tsx`
 
 ---
 
@@ -258,6 +258,6 @@ Real references:
 
 - `src/app/(dashboard)/users/user-dialog/UserDialog.tsx`
 - `src/app/(dashboard)/pets/pet-dialog/PetDialog.tsx`
-- `src/app/(dashboard)/posts/posts-table.tsx` (delete alert dialog)
+- `src/app/(dashboard)/posts/posts-table/PostsTable.tsx` (delete alert dialog)
 - `src/app/(dashboard)/testimonials/testimonial-dialog/TestimonialDialog.tsx`
 - `src/app/(dashboard)/pricing-plans/pricing-plan-dialog/PricingPlanDialog.tsx`

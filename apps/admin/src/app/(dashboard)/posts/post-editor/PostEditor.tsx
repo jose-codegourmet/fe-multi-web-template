@@ -1,8 +1,8 @@
 "use client";
 
 import { usePost, usePostAuthors } from "@/hooks/use-posts/client";
-import { PostForm } from "./post-form/PostForm";
-import { getNewPostDefaultValues, getPostDefaultValues } from "./post-form/PostForm.defaults";
+import { PostForm } from "../post-form/PostForm";
+import { getNewPostDefaultValues, getPostDefaultValues } from "../post-form/PostForm.defaults";
 
 export function NewPostEditor() {
   const { data: authors = [] } = usePostAuthors();

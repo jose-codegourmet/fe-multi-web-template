@@ -93,12 +93,12 @@ apps/admin/
     │   └── (dashboard)/      # Dashboard shell and pages
     │       ├── layout.tsx
     │       ├── dashboard/page.tsx
-    │       ├── users/        # page, [id]/page, actions.ts, table/dialogs
-    │       ├── pets/
-    │       ├── posts/        # page, new/, [id]/, actions.ts, post-form/PostForm.tsx
-    │       ├── pricing-plans/
-    │       ├── testimonials/
-    │       ├── contacts/
+    │       ├── users/        # page, [id]/page, actions.ts, users-table/UsersTable.tsx, user-dialog/
+    │       ├── pets/         # page, pets-table/PetsTable.tsx, pet-dialog/
+    │       ├── posts/        # page, new/, [id]/, actions.ts, posts-table/, post-editor/, post-form/
+    │       ├── pricing-plans/# page, pricing-plans-list/, pricing-plan-dialog/
+    │       ├── testimonials/ # page, testimonials-list/, testimonial-dialog/
+    │       ├── contacts/     # page, contacts-list/ContactsList.tsx
     │       └── profile/
     ├── hooks/                # use-*/server.ts + client.ts patterns
     ├── lib/                  # supabase clients, utils, upload-image

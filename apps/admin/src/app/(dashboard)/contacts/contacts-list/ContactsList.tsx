@@ -20,7 +20,7 @@ import { toast } from "sonner";
 import { useContacts } from "@/hooks/use-contacts/client";
 import { contactsQueryKey } from "@/hooks/use-contacts/query";
 import type { ContactRow, ContactStatus } from "@/hooks/use-contacts/types";
-import { deleteContact, updateContactStatus } from "./actions";
+import { deleteContact, updateContactStatus } from "../actions";
 
 function statusBadgeClass(status: ContactStatus) {
   if (status === "RESOLVED") {

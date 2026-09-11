@@ -23,9 +23,9 @@ import { toast } from "sonner";
 import { useUsers } from "@/hooks/use-users/client";
 import { usersQueryKey } from "@/hooks/use-users/query";
 import type { UserRow, UserStatus } from "@/hooks/use-users/types";
-import { updateUserStatus } from "./actions";
-import { STATUS_OPTIONS, StatusBadge } from "./status-badge";
-import { DeleteUserDialog, UserDialog } from "./user-dialog/UserDialog";
+import { updateUserStatus } from "../actions";
+import { STATUS_OPTIONS, StatusBadge } from "../status-badge";
+import { DeleteUserDialog, UserDialog } from "../user-dialog/UserDialog";
 
 const ROLE_FILTERS = ["ALL", "ADMIN", "USER"] as const;
 
