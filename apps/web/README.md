@@ -44,7 +44,7 @@ Two pieces of wiring make that work, and both are already in place:
 - `next.config.ts` lists `transpilePackages: ["@fe-template/ui"]`
 - `src/app/globals.css` includes `@source "../../../../packages/ui/src/**/*.{ts,tsx}";` so Tailwind scans the package for class names
 
-App-specific composition (page sections, header/footer/sidebar, providers) stays in this app.
+App-specific composition (page sections, header/footer, providers) stays in this app.
 
 ---
 
@@ -55,7 +55,7 @@ App-specific composition (page sections, header/footer/sidebar, providers) stays
 | [`src/app/layout.tsx`](src/app/layout.tsx) | Root layout, providers, fonts |
 | [`src/app/`](src/app/) | Routes (home, about, blog, contact, pricing, otp, showcase, …) |
 | [`src/sections/`](src/sections/) | Page sections composed by routes |
-| [`src/modules/layout/`](src/modules/layout/) | Header, footer, sidebar |
+| [`src/modules/layout/`](src/modules/layout/) | Header, footer |
 | [`src/modules/providers/`](src/modules/providers/) | Redux + TanStack Query + theme providers |
 | [`src/constants/`](src/constants/) | `routes.ts`, `seo.ts`, `navigation.ts` |
 | [`src/types/`](src/types/) | Shared marketing-domain types |

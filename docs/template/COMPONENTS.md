@@ -166,10 +166,6 @@ apps/web/src/modules/layout/footer/
 ├── Footer.tsx
 └── Footer.stories.tsx
 
-apps/web/src/modules/layout/sidebar/
-├── Sidebar.tsx
-└── Sidebar.stories.tsx
-
 apps/admin/src/modules/layout/
 ├── AdminHeader.tsx
 ├── AdminSidebar.tsx

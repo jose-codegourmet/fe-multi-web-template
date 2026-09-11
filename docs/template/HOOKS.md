@@ -11,7 +11,6 @@ API hooks live in each app's own `src/hooks/` folder (`apps/web/src/hooks/`, `ap
 | `use-blog-posts/` | `fetchBlogPosts`, `useBlogPosts`, `blogPostsQueryKey` |
 | `use-pricing-plans/` | `fetchPricingPlans`, `usePricingPlans` |
 | `use-testimonials/` | `fetchTestimonials`, `useTestimonials` |
-| `use-mobile.ts` | Viewport utility (single file, no `client.ts` / `server.ts`) |
 
 ### `apps/admin`
 
@@ -37,9 +36,10 @@ apps/<app>/src/hooks/use-blog-posts/
 ├── client.ts    ← useBlogPosts (React Query hook)
 ├── server.ts    ← fetchBlogPosts (server fetch / Prisma)
 ├── query.ts     ← blogPostsQueryKey.list()
-├── types.ts
-└── useBlogPosts.ts  ← barrel (every entity hook folder has one)
+└── types.ts
 ```
+
+`apps/web` imports those files directly. Optional `useX.ts` barrels exist in `apps/admin` only.
 
 ---
 
@@ -134,10 +134,10 @@ export default async function BlogPage() {
 Simple utility hooks that do not call an API may live as a single file (no folder):
 
 ```text
-src/hooks/use-mobile.ts
+apps/admin/src/hooks/use-mobile.ts
 ```
 
-`use-mobile.ts` stays flat on purpose. Data hooks that fetch (including admin `use-current-user`) use the `use-<name>/` folder.
+`use-mobile.ts` stays flat on purpose and lives in admin (used by the dashboard sidebar). Data hooks that fetch (including admin `use-current-user`) use the `use-<name>/` folder.
 
 ---
 

@@ -79,7 +79,6 @@ Special locations:
 ```text
 apps/web/src/modules/layout/navigation/header/   Header.tsx + stories
 apps/web/src/modules/layout/footer/              Footer.tsx + stories
-apps/web/src/modules/layout/sidebar/             Sidebar.tsx + stories
 packages/ui/src/components/table/                TanStack Table wrappers
 packages/ui/src/components/motion/scroll-reveal/ Framer Motion scroll-reveal only
 ```
@@ -129,7 +128,7 @@ apps/<app>/src/hooks/use-[name]/
 
 Folder name: kebab-case, must start with `use-`. Hooks are per-app, not shared through `packages/ui`.
 
-Simple utility hooks (no API) may be a single file: `src/hooks/use-mobile.ts`.
+Simple utility hooks (no API) may be a single file, e.g. `apps/admin/src/hooks/use-mobile.ts`.
 
 ---
 
