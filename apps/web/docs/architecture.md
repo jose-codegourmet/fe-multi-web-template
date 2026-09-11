@@ -23,7 +23,7 @@ Prisma (packages/db)
   → sections and pages
 ```
 
-- Server Components import `use-*/server.ts` to fetch data at render time with `next: { revalidate: 60 }`.
+- Server Components import `use-*/server.ts` to fetch data at render time with `next: { revalidate: 60 }`. During `next build`, those self-fetches cannot reach `localhost` API routes, so the helpers return empty lists and ISR regenerates from a live origin afterward.
 - Client sections use `use-*/client.ts` for React Query caching.
 - No Server Actions in `apps/web`. Mutations are not needed for the marketing site today.
 
