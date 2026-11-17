@@ -8,7 +8,11 @@ Directory layout and where common concerns live. Use this when you need to find 
 
 ```text
 fe-multi-web-template/
-├── AGENTS.md                 # Agent entry point (new)
+├── AGENTS.md                 # Shared agent entry point
+├── TODO.md                   # Read first: discovery status and seven project phases
+├── PROJECT_STRUCTURE.md      # Created after confirmed client brief; absent in the reference template
+├── CLAUDE.md                 # Claude entry point referencing shared instructions
+├── ai-usage/                 # Agent-neutral usage policy, records, and dashboard
 ├── README.md                 # Human-facing monorepo overview
 ├── package.json              # Root workspace scripts and devDependencies
 ├── pnpm-workspace.yaml       # Workspace globs: apps/*, packages/*
@@ -23,7 +27,9 @@ fe-multi-web-template/
 ├── docs/                     # Documentation system
 ├── apps/                     # Applications
 ├── packages/                 # Shared packages
+├── supabase/                 # Optional local Docker stack config (Prisma owns schema)
 ├── scripts/                  # Python helpers (see Scripts below)
+├── .project/                 # Active workspace selection after project:init
 ├── images/                   # Root source photography assets
 └── prompt.md                 # Original bootstrap prompt
 ```
@@ -31,6 +37,8 @@ fe-multi-web-template/
 ---
 
 ## Apps
+
+These are bundled PawPair references. Client discovery in `docs/project/onboarding.md` selects which apps to adapt or create; mockup, customer dashboard, and custom app workspaces are not pre-created.
 
 ### `apps/web` — public marketing site
 

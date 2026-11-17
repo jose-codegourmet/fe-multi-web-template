@@ -18,6 +18,8 @@ pnpm install
 cp apps/web/.env.example apps/web/.env.local
 ```
 
+For the Docker-backed PawPair example, root `pnpm dev` handles local Supabase, env files, migrations, and seed before starting both apps. See `docs/development-workflow.md#local-supabase-with-docker`. The app-scoped command below assumes the backend and env are already prepared.
+
 3. (Optional but recommended) Add `NEXT_PUBLIC_SITE_URL=http://localhost:9000` to `.env.local` for SSR self-fetch.
 
 4. Generate the Prisma client (required for API routes):

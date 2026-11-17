@@ -6,6 +6,12 @@ For a shorter overview, see the [root README](../../README.md).
 
 ---
 
+## Start with the client brief
+
+Read root [TODO.md](../../TODO.md), then follow [client onboarding](../project/onboarding.md). Collect the client/name, product, users, any combination of marketing website, mockup, admin dashboard, customer dashboard, and custom apps, features, brand/assets, and integrations. Save actual answers to `docs/project/brief.md` and obtain explicit confirmation of that saved revision before scaffolding, example cleanup, or product implementation. Then write root `PROJECT_STRUCTURE.md` from [the structure template](../project/PROJECT_STRUCTURE.template.md) and run `pnpm project:init --dry-run` followed by `pnpm project:init`. It activates only selected app workspaces and includes the database package only when needed. Reuse saved discovery across chats; silence is not approval. Template maintenance does not satisfy this client gate.
+
+Create only selected client apps. Existing PawPair workspaces are references; additional app types have no pre-created dedicated workspace. Use the seven phases in `TODO.md`, repeating app tasks only for selected apps. All agents follow [the shared usage policy](../../ai-usage/README.md); view the dashboard with `pnpm ai-usage:serve`.
+
 ## Monorepo Layout
 
 ```text
@@ -49,7 +55,7 @@ nvm use          # switches to Node 24 via .nvmrc
 pnpm install
 ```
 
-A Supabase project is also needed for the admin portal and database — see the [root README](../../README.md#environment-variables) for the env matrix.
+The bundled PawPair admin portal and database use Supabase. A client plan with `database.kind: none` needs neither Supabase nor Docker. See the [root README](../../README.md#run-the-reference-template) for local setup.
 
 ---
 
@@ -151,7 +157,9 @@ Primary CTA colour: Coral `#FF6B6B`. Display font: Fraunces. Body font: Manrope.
 
 ## Cleanup Script
 
-After copying this template for a new project, remove unused shadcn components with:
+After explicit confirmation of a saved client brief, inventory and replace/remove irrelevant PawPair brand/copy, metadata, navigation, assets, pages, features, auth email templates, seeds, and example documentation. Preserve reusable infrastructure. Never delete real database data or rewrite applied migrations as cleanup. Keep this template's PawPair content as reference until client adaptation is authorized.
+
+The script below is only an optional component aid and cannot complete client cleanup. Review its dry run before deletion:
 
 ```bash
 python scripts/cleanup-unused.py           # dry-run (default) — lists unused folders
@@ -160,7 +168,7 @@ python scripts/cleanup-unused.py --delete  # permanently remove unused component
 
 The script looks for unused PascalCase component folders under `apps/web/src/modules` and `apps/web/src/sections`. It scans `apps/web/src/{app,modules,sections,hooks,store}` for `@/` and relative import references and reports any component folder with no incoming imports from outside itself.
 
-> Shared primitives now live in `packages/ui`, which the script does not scan. Prune unused `packages/ui/src/components/*` folders by hand and remove their export lines from `packages/ui/src/index.ts`.
+> Shared primitives now live in `packages/ui`, which the script does not scan. Inspect all consumers before removing a shared component folder or export from `packages/ui/src/index.ts`.
 
 ---
 

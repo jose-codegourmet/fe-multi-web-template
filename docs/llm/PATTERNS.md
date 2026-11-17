@@ -1,5 +1,6 @@
 # Required Patterns
 
+Read root `TODO.md` and `AGENTS.md` first. Client scaffolding, example cleanup, and product implementation require actual answers in a saved `docs/project/brief.md` with explicit user confirmation; follow `docs/project/onboarding.md`. Create only selected apps. PawPair content below is reference only. All agents follow `ai-usage/README.md` (`pnpm ai-usage:serve` for the dashboard).
 Patterns every agent must follow when modifying this repository.
 
 ---
@@ -251,13 +252,13 @@ Types: `feat`, `fix`, `docs`, `style`, `refactor`, `test`, `chore`
 
 ## Cleanup Script
 
-After copying the template, remove unused components from `apps/web`:
+After explicit confirmation of the saved client brief, review unused components in `apps/web`:
 
 ```bash
 python scripts/cleanup-unused.py           # dry-run
 python scripts/cleanup-unused.py --delete  # delete
 ```
 
-The script does not scan `packages/ui`; prune unused primitives there by hand, deleting the folder and its export line in `packages/ui/src/index.ts`.
+The script does not complete example-content cleanup or scan `packages/ui`; inspect consumers before removing a shared primitive or its export from `packages/ui/src/index.ts`.
 
 Document any removed components in the commit message.

@@ -1,5 +1,7 @@
 # `apps/admin` — Admin Portal
 
+For a new client, start with root [TODO.md](../../../TODO.md) and [the discovery workflow](../../../docs/project/onboarding.md). This workspace is a PawPair reference, not an automatically selected client app.
+
 Purpose, routes, features, and commands for the admin portal.
 
 ---
@@ -30,7 +32,7 @@ Purpose, routes, features, and commands for the admin portal.
 
 | Layer | Choice |
 |---|---|
-| Framework | Next.js 16 App Router |
+| Framework | Next.js 16.4.6 App Router |
 | UI | React 19, `@fe-template/ui`, Tailwind CSS 4 |
 | Auth | Supabase Auth via `@supabase/ssr` |
 | Data | Prisma via `@fe-template/db` (Server Components + Server Actions) |

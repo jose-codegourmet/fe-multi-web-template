@@ -4,6 +4,22 @@ How to install, run, lint, format, type-check, and test the monorepo. All comman
 
 ---
 
+## Client project gate
+
+Before client scaffolding, example cleanup, or product implementation, read root `TODO.md` and complete [discovery and explicit saved-brief confirmation](project/onboarding.md). Before initialization, run commands use the bundled PawPair references. After `pnpm project:init`, they use only the selected app workspaces. Create/adapt only confirmed selected apps. Template maintenance is authorized separately.
+
+After confirmation, write root `PROJECT_STRUCTURE.md` from [the structure template](project/PROJECT_STRUCTURE.template.md), then run `pnpm project:init --dry-run` and `pnpm project:init`. The initializer validates the brief revision and confirmation record, creates only selected app shells, updates the active pnpm workspace list, and installs dependencies. It leaves PawPair reference directories on disk. With `database.kind: none`, root `pnpm dev` and `pnpm start` skip Docker entirely. With `database.kind: supabase`, initialization assigns a distinct local project identity, ports, and network; the run commands start that service and write selected app env files, but do not apply PawPair migrations or seed to the client.
+
+## Shared AI usage
+
+Codex, Claude, and delegated agents follow [ai-usage/README.md](../ai-usage/README.md) for usage recording. Start the local dashboard with:
+
+```bash
+pnpm ai-usage:serve
+```
+
+Record only available measurements and identify unavailable values honestly. Follow the usage README for collection details and limitations.
+
 ## Prerequisites
 
 - **Node.js 24** — pinned in `.nvmrc`
@@ -38,6 +54,17 @@ cp apps/admin/.env.example apps/admin/.env.local
 
 Variable names are documented in `docs/environment-variables.md`. Never commit real values.
 
+### Local Supabase with Docker
+
+For the bundled PawPair reference, a hosted Supabase project is optional. `supabase/config.toml` assigns separate local ports because another stack may occupy the defaults. With Docker running and the Supabase CLI installed, the root commands handle the loopback-only network, local stack, ignored env files, pending Prisma migrations, and idempotent demo seed:
+
+```bash
+pnpm dev
+pnpm start # alternative: build and run local production servers
+```
+
+The local API is at `http://127.0.0.1:55321`, Postgres at port 55322, Studio at `http://127.0.0.1:55323`, and the email inbox at port 55324. The startup scripts require Python 3.11+, verify those loopback ports, and write no credentials to committed files or command output. The seed upserts missing demo records without overwriting existing ones. `supabase stop` stops the stack; local data remains for the next start. Prisma owns the schema and seed, so Supabase CLI migrations and seeds are disabled in this local config. For hosted environments, run `pnpm dev:apps` or `pnpm start:apps` with externally configured environment variables.
+
 ---
 
 ## Run
@@ -48,7 +75,7 @@ Variable names are documented in `docs/environment-variables.md`. Never commit r
 pnpm dev
 ```
 
-Starts `apps/web` on port 9000 and `apps/admin` on port 9001 via Turborepo.
+Prepares the local backend, then starts `apps/web` on port 9000 and `apps/admin` on port 9001 via Turborepo.
 
 ### One app at a time
 
@@ -97,7 +124,7 @@ pnpm format         # format --write
 ### App ESLint (Next.js rules)
 
 ```bash
-pnpm lint:apps                  # all apps via turbo
+pnpm lint:apps                  # web and admin ESLint
 pnpm --filter web lint          # web only
 pnpm --filter admin lint        # admin only
 ```

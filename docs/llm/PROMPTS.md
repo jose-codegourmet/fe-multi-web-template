@@ -1,5 +1,6 @@
 # Agent Prompts
 
+Read root `TODO.md` and `AGENTS.md` first. Client scaffolding, example cleanup, and product implementation require actual answers in a saved `docs/project/brief.md` with explicit user confirmation; follow `docs/project/onboarding.md`. Create only selected apps. PawPair content below is reference only. All agents follow `ai-usage/README.md` (`pnpm ai-usage:serve` for the dashboard).
 Copy-paste prompts for common scaffolding tasks. All prompts assume familiarity with [`CONTEXT.md`](./CONTEXT.md) and [`PATTERNS.md`](./PATTERNS.md).
 
 ---
@@ -12,8 +13,8 @@ Add a new page at /[route] in apps/web following template conventions:
 - sections under apps/web/src/sections/[page-name]/[section-name]/ with .tsx + .stories.tsx + .usecase.md each
 - only add .schema.ts + .defaults.ts if a section is a form
 - import primitives from @fe-template/ui (never from a local components folder)
-- copy content from docs/about-example-site/aboustwebsite.md, colours/fonts from docs/about-example-site/branding.md
-- images from docs/about-example-site/image-guide.md in apps/web/public/images/
+- use content and brand direction from the confirmed docs/project/brief.md; use PawPair docs only when maintaining the reference example
+- use the confirmed brief's image assets and guidance; use the PawPair image guide only for reference maintenance
 - complete Storybook story per section
 - add route to apps/web/src/constants/routes.ts and SEO to seo.ts
 - commit with Conventional Commits (husky + commitlint)
@@ -30,7 +31,7 @@ Add section [SectionName] to page [page-name]:
 - only add SectionName.schema.ts + SectionName.defaults.ts if the section is a form
 - import primitives from @fe-template/ui
 - use ScrollReveal for in-view animation if appropriate
-- content from docs/about-example-site/aboustwebsite.md
+- content from the confirmed docs/project/brief.md (PawPair docs only for reference maintenance)
 - commit: feat(sections): add [section] to [page]
 ```
 
@@ -97,11 +98,12 @@ Add API hook use-[name] in apps/[app]:
 ## Remove Unused Components
 
 ```
-Run the cleanup script to identify and remove unused components in apps/web:
+After the saved client brief is explicitly confirmed, review unused components in apps/web:
 - python scripts/cleanup-unused.py           (dry-run first)
 - python scripts/cleanup-unused.py --delete  (after reviewing dry-run output)
-- the script does not cover packages/ui: remove unused primitive folders by hand
-  and delete their export lines from packages/ui/src/index.ts
+- inspect imports and consumers before removing anything; the script is not a full example-content cleanup
+- the script does not cover packages/ui: review primitive consumers before removing folders
+  or exports from packages/ui/src/index.ts
 - commit: chore(components): remove unused [component-name] folders
 ```
 
@@ -110,10 +112,9 @@ Run the cleanup script to identify and remove unused components in apps/web:
 ## Update Brand Content
 
 ```
-Update [page/section] copy to match docs/about-example-site/aboustwebsite.md:
-- read docs/about-example-site/aboustwebsite.md for the target section
-- apply brand voice from docs/about-example-site/branding.md (warm, playful, clear — not childish)
-- use Coral #FF6B6B for primary CTAs, Fraunces for display headings, Manrope for body
+Update [page/section] copy to match the confirmed docs/project/brief.md (use PawPair docs only for reference maintenance):
+- read the confirmed brief for target content, brand voice, colours, and typography
+- only when maintaining the PawPair example, use its content and branding reference docs
 - commit: docs(content): update [section] copy
 ```
 

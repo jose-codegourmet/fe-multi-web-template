@@ -1,5 +1,6 @@
 # Agent Instructions — `packages/db`
 
+Read root `TODO.md` and `/AGENTS.md` first. The saved client brief and discovery confirmation gate apply here too; bundled examples do not select this workspace for a client. Follow `ai-usage/README.md` for usage recording.
 Local agent instructions for the shared database package. Read `/AGENTS.md` first, then this file.
 
 ---
@@ -66,6 +67,7 @@ Both apps consume `@fe-template/db` at runtime. No other workspace *package* (`p
 - Do not add app-specific logic to this package. Keep it a generic database client and schema.
 - Migrations must be applied in the correct order. Do not edit existing migration files after they have been applied to a shared environment.
 - `Profile.id` has a required FK to Supabase `auth.users` (`20260727060109_add_profiles_table`). Do not drop that FK to support plain Postgres. Do not rewrite that migration SQL (checksums on the live Supabase project). Local/CI databases must be Supabase (`supabase start` or hosted).
+- Every table in Supabase's exposed `public` schema must have RLS. The bundled app tables deny Data API roles by default; add narrowly scoped policies only when a confirmed feature needs client-side Data API access. Preserve the forward migration that protects them.
 - Use the pooled URL for `DATABASE_URL` in production/serverless; use the direct URL for `DIRECT_URL` always.
 
 ---

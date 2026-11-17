@@ -8,6 +8,8 @@ Purpose, models, consumers, and commands for the Prisma + Supabase Postgres pack
 
 `@fe-template/db` provides the shared Prisma 6 schema, migrations, seed data, and `PrismaClient` singleton for the monorepo. The only supported database is **Supabase Postgres** (hosted or `supabase start`). Plain Postgres is not a target because `Profile.id` foreign-keys to `auth.users`. It is consumed by `apps/admin` and by the API routes in `apps/web`.
 
+The bundled public tables have RLS enabled and no anonymous/authenticated Data API privileges. Server-side Prisma remains the app's data path. See `packages/db/docs/development.md` before adding tables or policies.
+
 ---
 
 ## What problems it solves

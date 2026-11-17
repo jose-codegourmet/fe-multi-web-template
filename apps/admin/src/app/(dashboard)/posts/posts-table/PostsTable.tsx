@@ -57,7 +57,7 @@ function DeletePostDialog({ post }: { post: PostRow }) {
       />
       <AlertDialogContent>
         <AlertDialogHeader>
-          <AlertDialogTitle>Delete "{post.title}"?</AlertDialogTitle>
+          <AlertDialogTitle>Delete &quot;{post.title}&quot;?</AlertDialogTitle>
           <AlertDialogDescription>
             This will permanently delete this post. This action cannot be undone.
           </AlertDialogDescription>

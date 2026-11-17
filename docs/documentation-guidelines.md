@@ -18,6 +18,8 @@ How this repository's docs are structured, when to update which layer, and how t
 
 Do not duplicate a full API or route table in every layer. Put the canonical list in the owning app or package doc and link to it from root docs.
 
+For a client project, save actual answers in `docs/project/brief.md`, obtain explicit confirmation, and write root `PROJECT_STRUCTURE.md` before running `pnpm project:init`. Keep the structure and seven-phase `TODO.md` checklist consistent with the confirmed brief. PawPair docs describe bundled reference content. All agents use [the shared usage policy](../ai-usage/README.md), including when work is delegated.
+
 ---
 
 ## When to update which docs

@@ -1,17 +1,35 @@
 # Agent Instructions — fe-multi-web-template
 
-Primary navigation for AI coding agents working in this monorepo. Read this file first, then follow the routing below. Do not load every document for every task.
+**First action: read root [`TODO.md`](TODO.md) and check its project discovery status and saved brief before doing any work.** Then follow this file's routing; do not load every document.
+
+## Client discovery gate
+
+For a new client project, follow [`docs/project/onboarding.md`](docs/project/onboarding.md). Ask for client/project name, product, intended users, any combination of marketing website, mockup, admin dashboard, customer dashboard, and custom apps, features, brand/assets, and integrations. Save the answers to `docs/project/brief.md`, show the saved brief, and obtain explicit user confirmation before scaffolding apps, removing example content, or implementing the product. Silence is not approval. Proceed only when the saved brief contains actual discovery answers, `Status: confirmed`, its `Revision`, and actual `Confirmation evidence`; a checked TODO alone is insufficient. After confirmation, create root `PROJECT_STRUCTURE.md` from `docs/project/PROJECT_STRUCTURE.template.md`, with selected apps and an explicit database decision. Run `pnpm project:init --dry-run`, then `pnpm project:init` to activate only those workspaces. Record discovery status in `TODO.md` and reuse these files across chats. Material scope changes require confirmation of the updated brief.
+
+Create only the selected apps. Existing PawPair `web` and `admin` workspaces are references, not client requirements. A template maintenance request authorizes that maintenance; it neither starts a client project nor confirms a client brief.
+
+## Agent collaboration and usage
+
+All agents, including Codex, Claude, and delegated agents, follow [`ai-usage/README.md`](ai-usage/README.md) for the shared usage log and dashboard (`pnpm ai-usage:serve`). Record available measurements honestly; never invent unavailable token counts. `CLAUDE.md` points here rather than maintaining separate rules.
+
+- Delegate independent substantial work when it improves speed or quality; keep small, tightly coupled tasks with one agent.
+- Assign clear file ownership and avoid simultaneous edits to the same files. Pass the current phase, saved brief, relevant docs, and validation requirements.
+- Subagents follow the same discovery gate and usage policy. They cannot approve the brief or infer approval from another agent.
+- Choose models appropriate to the task and available tooling; use configured model choices when selection is unavailable.
+- Record delegated usage without double counting parent and child measurements; follow `ai-usage/README.md` for attribution and unavailable values.
+- The main agent reviews and integrates delegated changes, resolves conflicts, verifies the result, and updates `TODO.md` before handoff.
 
 ---
 
 ## Repository Purpose
 
-`fe-multi-web-template` is a **pnpm workspaces + Turborepo** monorepo template that pairs a public marketing site with a private admin portal. The bundled example brand is **PawPair**, a fictional pet social discovery app. Both apps are Next.js 16 with React 19, Tailwind CSS 4, and shadcn/Base UI primitives. Shared packages supply the UI library (`@fe-template/ui`) and the Prisma client (`@fe-template/db`).
+`fe-multi-web-template` is a **pnpm workspaces + Turborepo** monorepo template that pairs a public marketing site with a private admin portal. The bundled example brand is **PawPair**, a fictional pet social discovery app. Both apps are Next.js 16.4.6 with React 19, Tailwind CSS 4, and shadcn/Base UI primitives. Shared packages supply the UI library (`@fe-template/ui`) and the Prisma client (`@fe-template/db`).
 
 - Apps: `apps/web` (port 9000), `apps/admin` (port 9001)
 - Packages: `packages/ui` (`@fe-template/ui`), `packages/db` (`@fe-template/db`), `packages/config` (placeholder)
 - Auth: Supabase Auth + `@supabase/ssr` in `apps/admin` only
 - Database: Prisma 6 on Supabase Postgres
+- Local reference backend: before client initialization, `pnpm dev` and `pnpm start` prepare PawPair's Docker-backed Supabase stack. After `pnpm project:init`, the active structure decides whether these commands need Supabase; `database.kind: none` skips Docker entirely.
 - Lint/Format: Biome at root; ESLint flat config in each app
 - Tests: Vitest + Storybook in `apps/web`; Storybook only in `apps/admin`
 
@@ -19,7 +37,7 @@ Primary navigation for AI coding agents working in this monorepo. Read this file
 
 ## Mandatory Reading Order
 
-1. Read this file (`/AGENTS.md`).
+1. Read root `TODO.md`, check discovery status and the saved brief, then read this file (`/AGENTS.md`).
 2. Read the relevant root documentation in `docs/` (use the routing table below).
 3. Determine the affected app or package.
 4. Read that app or package's local `AGENTS.md`, then its `docs/README.md`.

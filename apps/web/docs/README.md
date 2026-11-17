@@ -1,5 +1,7 @@
 # `apps/web` — Public Marketing Site
 
+For a new client, start with root [TODO.md](../../../TODO.md) and [the discovery workflow](../../../docs/project/onboarding.md). This workspace is a PawPair reference, not an automatically selected client app.
+
 Purpose, routes, shared packages, and commands for the public marketing site.
 
 ---
@@ -27,7 +29,7 @@ Purpose, routes, shared packages, and commands for the public marketing site.
 
 | Layer | Choice |
 |---|---|
-| Framework | Next.js 16 App Router |
+| Framework | Next.js 16.4.6 App Router |
 | UI | React 19, `@fe-template/ui`, Tailwind CSS 4 |
 | State | Redux Toolkit (theme), TanStack Query (server state) |
 | Data | Internal API routes + Prisma via `@fe-template/db` |

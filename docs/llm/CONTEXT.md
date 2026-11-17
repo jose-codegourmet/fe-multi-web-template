@@ -1,5 +1,6 @@
 # Agent Context — fe-multi-web-template
 
+Read root `TODO.md` and `AGENTS.md` first. Client scaffolding, example cleanup, and product implementation require actual answers in a saved `docs/project/brief.md` with explicit user confirmation; follow `docs/project/onboarding.md`. Create only selected apps. PawPair content below is reference only. All agents follow `ai-usage/README.md` (`pnpm ai-usage:serve` for the dashboard).
 Concise context for AI agents working in this repository.
 
 ---
@@ -9,7 +10,7 @@ Concise context for AI agents working in this repository.
 | Layer | Tech |
 | --- | --- |
 | Monorepo | pnpm workspaces + Turborepo |
-| Framework | Next.js 16 App Router (two apps: `web`, `admin`) |
+| Framework | Next.js 16.4.6 App Router (two apps: `web`, `admin`) |
 | UI | shadcn/ui on Base UI, shared via `@fe-template/ui`; Tailwind CSS 4 |
 | Database | Prisma 6 + Supabase Postgres only (`Profile` FK → `auth.users`), shared via `@fe-template/db` |
 | Auth | Supabase Auth (`@supabase/ssr`) — admin only |
@@ -137,14 +138,14 @@ Full placement guide: [`image-guide.md`](../about-example-site/image-guide.md)
 
 ## Cleanup Script
 
-Remove unused components from `apps/web` after copying the template:
+After explicit confirmation of the saved client brief, review unused components in `apps/web`:
 
 ```bash
 python scripts/cleanup-unused.py           # dry-run
 python scripts/cleanup-unused.py --delete  # delete unused folders
 ```
 
-The script does not scan `packages/ui` — prune unused primitives there by hand, removing both the folder and its export line in `packages/ui/src/index.ts`.
+The script does not complete example-content cleanup or scan `packages/ui`. Inspect consumers before removing a shared primitive or its export from `packages/ui/src/index.ts`.
 
 ---
 

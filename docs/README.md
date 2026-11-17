@@ -6,7 +6,7 @@ Master index for the `fe-multi-web-template` documentation system. Use this file
 
 ## Start here
 
-1. `/AGENTS.md` — primary navigation and rules for all AI agents.
+1. Root `TODO.md` — check discovery status, saved brief, and current phase; then `/AGENTS.md` for shared rules.
 2. This file (`docs/README.md`) — choose the next documents based on your task.
 3. The relevant app or package `AGENTS.md` and `docs/README.md`.
 4. Implementation examples in the relevant app or package.
@@ -29,6 +29,10 @@ Master index for the `fe-multi-web-template` documentation system. Use this file
 
 | Document | Purpose | Read when |
 |---|---|---|
+| `docs/project/onboarding.md` | Client discovery, explicit saved-brief confirmation, selected apps, safe cleanup | You start or adapt a client project |
+| `docs/project/brief-template.md` | Template for actual discovery answers | You save `docs/project/brief.md` for confirmation |
+| `docs/project/PROJECT_STRUCTURE.template.md` | Structure plan and machine-readable app/database selection | You create root `PROJECT_STRUCTURE.md` after brief confirmation |
+| `ai-usage/README.md` | Shared agent usage policy and dashboard | Every agent records usage or runs `pnpm ai-usage:serve` |
 | `docs/architecture.md` | Monorepo architecture, app/package graph, dependency flow, data flow | You need the big picture or are changing cross-app boundaries |
 | `docs/repository-structure.md` | Directory layout, workspace names, key config files | You need to know where something lives |
 | `docs/development-workflow.md` | All commands, Husky, Biome, commitlint, Makefile shortcuts | You are running, linting, formatting, or type-checking code |
@@ -58,7 +62,7 @@ These files are not duplicated by the new system. They remain authoritative for 
 | `docs/template/COMPONENTS.md` | Component folder conventions | You are adding components or sections |
 | `docs/template/HOOKS.md` | Hook folder conventions | You are adding a `use-*` hook |
 | `docs/component-guide.md` | LLM-oriented component index | You need to pick the right UI primitive |
-| `docs/about-example-site/aboustwebsite.md` | PawPair content direction | You are editing marketing content |
+| `docs/about-example-site/aboustwebsite.md` | PawPair reference content direction | You maintain the example; client content comes from the confirmed brief |
 | `docs/about-example-site/branding.md` | Brand identity and tokens | You are editing colors, typography, or voice |
 | `docs/about-example-site/image-guide.md` | Image asset rules | You are adding or replacing images |
 | `docs/superpowers/plans/` | Historical implementation plans | You need context on past decisions |

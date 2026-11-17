@@ -15,6 +15,17 @@ Testing tools, commands, and conventions in the monorepo.
 
 No `test` script exists in any `package.json`. The Vitest setup in `apps/web` is primarily for Storybook's Vitest addon, not for a standalone test suite.
 
+## AI usage tooling tests
+
+The standalone usage importer and CSV dashboard have focused standard-library tests outside the app workspaces:
+
+```bash
+python3 -m unittest discover -s ai-usage/tests -p 'test_*.py' -v
+node --test ai-usage/tests/dashboard.test.mjs
+```
+
+They cover reported usage parsing, safe concurrent CSV updates, repeat imports, source precedence, parent/child aggregation, missing values, and CSV display behavior. See `ai-usage/README.md` for measurement limits.
+
 ---
 
 ## `apps/web` testing setup

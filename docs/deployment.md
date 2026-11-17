@@ -31,10 +31,10 @@ pnpm --filter admin build-storybook
 ## Start built apps
 
 ```bash
-pnpm start
+pnpm start:apps
 ```
 
-Starts production Next.js on the configured ports:
+Starts already-built production Next.js apps on the configured ports without starting local Docker services or rewriting environment files. Root `pnpm start` is the local convenience command; it prepares Supabase and builds first.
 
 - `apps/web`: port 9000
 - `apps/admin`: port 9001
@@ -69,7 +69,7 @@ From `turbo.json`:
 
 ## Environment variables for deployment
 
-These must be present in the deployment environment:
+These are required for the bundled PawPair reference. A client initialized from `PROJECT_STRUCTURE.md` uses only the variables required by its selected apps and services; a no-database landing plus mockapp does not need Supabase variables.
 
 | Variable | Required for |
 |---|---|

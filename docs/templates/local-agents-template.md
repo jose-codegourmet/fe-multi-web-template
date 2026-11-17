@@ -6,7 +6,7 @@ Use this template for a new `apps/<app>/AGENTS.md` or `packages/<package>/AGENTS
 
 ## Scope
 
-This file applies to `<app-or-package-name>`. The root `/AGENTS.md` still applies first.
+This file applies to `<app-or-package-name>`. Read root `TODO.md` first, check discovery status and the saved confirmed brief, then follow `/AGENTS.md`. Create/adapt this workspace only if selected in that brief. All agents follow `ai-usage/README.md`.
 
 ## What this workspace does
 

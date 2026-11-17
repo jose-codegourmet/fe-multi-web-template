@@ -134,6 +134,10 @@ Seed data is in `prisma/constants/` and imported by `prisma/seed.ts`. The demo s
 
 ## Pooled vs direct URLs
 
+For the Docker-backed PawPair reference, root `pnpm dev` and `pnpm start` write the local direct Postgres URL to both `DATABASE_URL` and `DIRECT_URL` in this package's ignored `.env`, apply pending migrations, and upsert demo records. `pnpm supabase:local:env`, `db:deploy`, and `db:seed` remain available separately. The local Supabase CLI config leaves schema and seeding to Prisma.
+
+The forward migration `20261116072635_protect_public_data` enables RLS and revokes `anon`/`authenticated` table privileges on the current public app tables. The apps use server-side Prisma for these records; they do not need public Data API access. When adding another public table, protect it in a new forward migration and add only the policies required by a reviewed client-side access model. The admin middleware still needs role authorization before public deployment.
+
 - `DATABASE_URL` should use the pooled connection (`*.pooler.supabase.com:6543?pgbouncer=true`) in production/serverless.
 - `DIRECT_URL` must always use the direct connection (`db.<project-ref>.supabase.co:5432`) for migrations.
 - Local development can point both to the direct URL.

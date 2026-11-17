@@ -9,8 +9,8 @@ High-level architecture of the monorepo: workspace graph, dependency flow, data 
 ```mermaid
 flowchart TD
     subgraph apps [Apps]
-        WEB["apps/web\n(Next.js 16, port 9000)"]
-        ADMIN["apps/admin\n(Next.js 16, port 9001)"]
+        WEB["apps/web\n(Next.js 16.4.6, port 9000)"]
+        ADMIN["apps/admin\n(Next.js 16.4.6, port 9001)"]
     end
 
     subgraph packages [Packages]
@@ -32,6 +32,10 @@ flowchart TD
 - Packages do not depend on each other.
 
 ---
+
+## Client scope versus reference architecture
+
+The graph describes the bundled PawPair reference. Start client work at root `TODO.md` and [onboarding](project/onboarding.md); save and explicitly confirm a client brief before scaffolding, cleanup, or product implementation. Select any combination of marketing website, mockup, admin dashboard, customer dashboard, and custom apps. Root `PROJECT_STRUCTURE.md` records each selected workspace, port, routes, data mode, and database decision. `pnpm project:init` creates minimal shells for selected apps, excludes unselected PawPair references from the active pnpm workspace, and omits the database package when no app needs it. The agent then implements client routes and features from the brief.
 
 ## App responsibilities
 
@@ -131,17 +135,18 @@ See `docs/state-management.md` for details.
 
 | Concern | Tool | Config location |
 |---|---|---|
-| Monorepo orchestration | Turborepo 2 | `turbo.json`, `pnpm-workspace.yaml` |
+| Monorepo orchestration | Turborepo 2.11.11 | `turbo.json`, `pnpm-workspace.yaml` |
 | Package manager | pnpm 11.0.8 | root `package.json` `packageManager` (not `pnpm-workspace.yaml`) |
 | Lint / format | Biome 2.5.4 | `biome.json` (root) |
 | App lint | ESLint 9 flat config | `apps/*/eslint.config.mjs` |
 | Type checking | TypeScript | `apps/*/tsconfig.json`, `packages/*/tsconfig.json` |
 | Git hooks | Husky + lint-staged | `.husky/` |
 | Commits | commitlint | `commitlint.config.js` |
-| Framework | Next.js 16 | `apps/*/next.config.ts`, `apps/*/package.json` |
+| Framework | Next.js 16.4.6 | `apps/*/next.config.ts`, `apps/*/package.json` |
 | CSS | Tailwind CSS 4 | `apps/*/postcss.config.mjs`, `apps/*/src/app/globals.css` |
 | UI primitives | Base UI + shadcn | `packages/ui/package.json` |
 | Database ORM | Prisma 6 | `packages/db/package.json` |
+| Local database/Auth | Supabase CLI + Docker (optional) | `supabase/config.toml`, `scripts/configure-local-supabase.py` |
 
 ---
 
@@ -149,4 +154,9 @@ See `docs/state-management.md` for details.
 
 - **Images**: `apps/web` uses `next/image` for raster assets; source photography is in `images/` at the repo root; runtime assets are in `apps/web/public/images/`.
 - **Email templates**: Supabase Auth email HTML is versioned under `apps/admin/email-templates/` but copied into the Supabase dashboard manually; not loaded at runtime.
+- **Usage**: All agents follow `ai-usage/README.md`; `pnpm ai-usage:serve` opens the local usage dashboard.
+- **Local Supabase**: `supabase/config.toml` gives the PawPair reference its own loopback Docker ports. Prisma migrations and seed scripts in `packages/db` own the local application schema and demo records.
+- **Data API boundary**: A forward Prisma migration enables RLS and revokes anonymous/authenticated access on the bundled public tables. Both apps read these tables through server-side Prisma; the admin app's session-only middleware still needs role authorization before public deployment.
 - **Cleanup**: `scripts/cleanup-unused.py` removes unused component folders from `apps/web` after copying the template. It does not scan `packages/ui`.
+
+Client cleanup additionally covers branding/copy, metadata, navigation, assets, pages/features, auth emails, seeds, and example docs. Preserve needed infrastructure; never delete real data or rewrite applied migrations as cleanup.

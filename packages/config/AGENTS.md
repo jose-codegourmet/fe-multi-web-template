@@ -1,5 +1,6 @@
 # Agent Instructions — `packages/config`
 
+Read root `TODO.md` and `/AGENTS.md` first. The saved client brief and discovery confirmation gate apply here too; bundled examples do not select this workspace for a client. Follow `ai-usage/README.md` for usage recording.
 Local agent instructions for the shared config package placeholder.
 
 ---

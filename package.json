@@ -4,18 +4,23 @@
   "type": "module",
   "packageManager": "pnpm@11.0.8",
   "scripts": {
-    "dev": "turbo run dev",
+    "dev": "python3 scripts/run-local.py dev",
+    "dev:apps": "turbo run dev",
     "build": "turbo run build",
-    "start": "turbo run start",
+    "start": "python3 scripts/run-local.py start",
+    "start:apps": "turbo run start",
     "lint": "biome check .",
-    "lint:apps": "turbo run lint",
+    "lint:apps": "pnpm --filter web lint && pnpm --filter admin lint",
     "format": "biome format --write .",
     "typecheck": "turbo run typecheck",
+    "project:init": "python3 scripts/project-init.py",
+    "ai-usage:serve": "python3 scripts/ai-usage-serve.py",
     "storybook": "turbo run storybook",
     "build-storybook": "turbo run build-storybook",
     "lint:fix": "biome check --write .",
     "lint:fix:unsafe": "biome check --write --unsafe .",
     "db:generate": "turbo run db:generate",
+    "supabase:local:env": "python3 scripts/configure-local-supabase.py",
     "prepare": "husky"
   },
   "lint-staged": {
@@ -29,6 +34,6 @@
     "@commitlint/config-conventional": "^21.2.0",
     "husky": "^9.1.7",
     "lint-staged": "^17.0.8",
-    "turbo": "^2.10.6"
+    "turbo": "^2.11.11"
   }
 }

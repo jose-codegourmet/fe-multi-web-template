@@ -1,6 +1,6 @@
 # Environment Variables — fe-multi-web-template
 
-All documented environment variable names. Values are never committed or exposed here.
+All documented environment variable names for the bundled PawPair reference. Values are never committed or exposed here. After `pnpm project:init`, use the selected apps and services in `PROJECT_STRUCTURE.md` to decide which variables are needed; a `database.kind: none` client does not need database or Supabase variables merely because the reference files remain on disk.
 
 ---
 
@@ -17,6 +17,8 @@ All documented environment variable names. Values are never committed or exposed
 | `NODE_ENV` | all apps | Standard Node environment | Auto-set |
 
 `turbo.json` `globalEnv` (cache keys for these deployment-required vars plus `NODE_ENV`): `NODE_ENV`, `DATABASE_URL`, `DIRECT_URL`, `NEXT_PUBLIC_SUPABASE_URL`, `NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY`, `SUPABASE_SERVICE_ROLE_KEY`, `NEXT_PUBLIC_SITE_URL`.
+
+For the Docker-backed PawPair reference, run `pnpm dev` or `pnpm start` from the repo root. Both commands create the local network if needed, start Supabase, apply Prisma migrations, and seed the demo data. The env helper runs automatically: it reads `supabase status -o json`, confirms the API and Postgres use the configured loopback ports, and updates the ignored root, web, admin, and database env files. It writes the local service-role key only to the admin env files. `pnpm supabase:local:env` can still be run separately. Use `pnpm dev:apps` or `pnpm start:apps` when managed environment variables should be left alone.
 
 ---
 
@@ -43,6 +45,7 @@ Supabase provides two connection modes:
 - **Direct** (`db.<project-ref>.supabase.co:5432`) — use for `DIRECT_URL` always. Migrations need a direct connection because pgbouncer's transaction pooling does not support the statements Prisma Migrate issues.
 
 Local development can point both at the direct URL, which is what `.env.example` files do by default.
+The Docker-backed local stack uses the same local Postgres URL for `DATABASE_URL` and `DIRECT_URL`.
 
 ---
 

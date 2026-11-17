@@ -3,9 +3,9 @@
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
 import { ThemeProvider, useTheme } from "next-themes";
-import { useEffect, useRef } from "react";
+import { useEffect, useState } from "react";
 import { Provider } from "react-redux";
-import { type AppStore, makeStore } from "@/store";
+import { makeStore } from "@/store";
 import { useAppSelector } from "@/store/hooks";
 
 function ThemeSync() {
@@ -30,19 +30,12 @@ function makeQueryClient() {
 }
 
 export function Providers({ children }: { children: React.ReactNode }) {
-  const storeRef = useRef<AppStore | null>(null);
-  if (storeRef.current === null) {
-    storeRef.current = makeStore();
-  }
-
-  const queryClientRef = useRef<QueryClient | null>(null);
-  if (queryClientRef.current === null) {
-    queryClientRef.current = makeQueryClient();
-  }
+  const [store] = useState(makeStore);
+  const [queryClient] = useState(makeQueryClient);
 
   return (
-    <Provider store={storeRef.current}>
-      <QueryClientProvider client={queryClientRef.current}>
+    <Provider store={store}>
+      <QueryClientProvider client={queryClient}>
         <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
           <ThemeSync />
           {children}

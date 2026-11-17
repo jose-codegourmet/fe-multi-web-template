@@ -22,6 +22,8 @@ cp apps/admin/.env.example apps/admin/.env.local
 
 3. Fill in your Supabase credentials in all three files.
 
+For the Docker-backed PawPair example, root `pnpm dev` handles local Supabase, env files, migrations, and seed before starting both apps. See `docs/development-workflow.md#local-supabase-with-docker`. The app-scoped command below assumes the backend and env are already prepared. Supabase Studio runs at `http://127.0.0.1:55323`; local email appears at port 55324.
+
 4. Generate the Prisma client:
 
 ```bash
@@ -39,7 +41,7 @@ pnpm --filter admin dev
 ## First admin login
 
 1. In the Supabase dashboard, create a user under **Authentication → Users → Add user** and confirm the email.
-2. Make sure a matching `User` row exists in Prisma with the same email and `role = ADMIN`:
+2. Make sure a matching `User` row exists in Prisma with the same email and `role = ADMIN` for demo data consistency:
 
 ```bash
 pnpm --filter @fe-template/db db:studio
@@ -48,6 +50,8 @@ pnpm --filter @fe-template/db db:seed
 ```
 
 3. Visit http://localhost:9001 and sign in.
+
+The current middleware checks for a Supabase session but does not enforce `User.role = ADMIN`; keep this reference admin app local until role authorization is implemented.
 
 ---
 

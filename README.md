@@ -1,8 +1,8 @@
 # FE Multi-Web Template
 
-A production-ready **pnpm workspaces + Turborepo** monorepo template pairing a public marketing site with an admin portal — Next.js 16, React 19, Tailwind 4, shadcn/ui (Base UI), Prisma, and Supabase.
+A production-ready **pnpm workspaces + Turborepo** monorepo template pairing a public marketing site with an admin portal — Next.js 16.4.6, React 19, Tailwind 4, shadcn/ui (Base UI), Prisma, and Supabase.
 
-The bundled example brand is **PawPair**, a fictional pet social discovery app (“Better matches. Happier tails.”). Use this repo as a GitHub template, then swap brand content and prune unused components.
+The bundled example brand is **PawPair**, a fictional pet social discovery app (“Better matches. Happier tails.”). Use this repo as a GitHub template, then follow the confirmed client brief before adapting the example.
 
 **Live demo (web):** [https://fe-template-web-9t3u.vercel.app/](https://fe-template-web-9t3u.vercel.app/)
 
@@ -44,8 +44,8 @@ fe-multi-web-template/
 
 | Layer | Choice |
 | --- | --- |
-| Monorepo | pnpm workspaces + Turborepo 2 |
-| Framework | Next.js 16 (App Router) |
+| Monorepo | pnpm workspaces + Turborepo 2.11.11 |
+| Framework | Next.js 16.4.6 (App Router) |
 | UI | React 19, Tailwind CSS 4, shadcn/ui (`base-nova` style) on Base UI |
 | Database | Prisma 6 + Supabase Postgres |
 | Auth | Supabase Auth (`@supabase/ssr`) — admin only |
@@ -63,22 +63,28 @@ fe-multi-web-template/
 
 - **Node.js 24** — pinned in [`.nvmrc`](.nvmrc)
 - **pnpm** — see `packageManager` in [`package.json`](package.json)
-- A **Supabase** project (Postgres + Auth) for the database and admin login
+- **Python 3.11+** — used by the local startup and env helpers
+- A hosted **Supabase** project, or Docker plus the Supabase CLI for local Postgres and Auth
 
 ---
 
-## Quick start
+## Start a client project
+
+Read [TODO.md](TODO.md) first. Follow [client onboarding](docs/project/onboarding.md): collect client/project name, product, intended users, any combination of marketing website, mockup, admin dashboard, customer dashboard, and custom apps, plus features, brand/assets, and integrations. Save the answers in `docs/project/brief.md` and explicitly confirm the saved revision before scaffolding, example cleanup, or product implementation. Reuse that record across chats; silence is not approval. A template maintenance request does not confirm a client brief.
+
+Create only selected apps. PawPair `web` and `admin` are references; mockups, customer dashboards, and custom apps are created only when selected. [AGENTS.md](AGENTS.md) supplies shared agent instructions; [CLAUDE.md](CLAUDE.md) routes Claude to them. All agents follow [the usage policy](ai-usage/README.md); view the local dashboard with `pnpm ai-usage:serve`.
+
+After the brief is confirmed, the agent writes root `PROJECT_STRUCTURE.md` using [the structure template](docs/project/PROJECT_STRUCTURE.template.md). It records selected app workspaces and whether a database is needed. `pnpm project:init --dry-run` checks the plan; `pnpm project:init` creates those app shells, activates only their pnpm workspaces, and installs dependencies. For a landing page plus mockapp with `database.kind: none`, `pnpm dev` and `pnpm start` run without Supabase or Docker. The command does not overwrite or delete the bundled PawPair references.
+
+## Run the reference template
 
 ```bash
 nvm use
 pnpm install
-cp .env.example .env                              # fill in your Supabase values
-cp packages/db/.env.example packages/db/.env      # Prisma CLI reads this
-cp apps/web/.env.example apps/web/.env.local
-cp apps/admin/.env.example apps/admin/.env.local
-pnpm --filter @fe-template/db db:generate         # generate the Prisma client
-pnpm dev                                          # web :9000 + admin :9001 via Turbo
+pnpm dev   # local Supabase, Prisma setup, web :9000, admin :9001
 ```
+
+`pnpm start` does the same local setup, builds both apps, and runs the production servers. Docker and the Supabase CLI must be installed and Docker must be running. The commands create the loopback-only `pawpair-local` network if needed, reuse the local Supabase stack, refresh gitignored env files, apply pending Prisma migrations, and upsert the PawPair demo seed. Existing seed records are not overwritten.
 
 To run a single app:
 
@@ -90,20 +96,38 @@ pnpm --filter web storybook      # http://localhost:6006
 
 First-time database setup and admin login are covered in [`packages/db/README.md`](packages/db/README.md) and [`apps/admin/README.md`](apps/admin/README.md).
 
+### Local Supabase without a hosted project
+
+The committed `supabase/config.toml` uses ports 55321 (API), 55322 (Postgres), and 55323 (Studio) so it can coexist with another local Supabase stack. From the repository root, run one command:
+
+```bash
+pnpm dev
+# or pnpm start for a fresh local production build and server
+```
+
+Open [Supabase Studio](http://127.0.0.1:55323), the [web example](http://localhost:9000), or the [admin login](http://localhost:9001/login). `pnpm supabase:local:env` remains available to refresh the ignored env files separately. `supabase stop` stops this local stack while retaining its local data. For hosted deployments with managed environment variables, use `pnpm build` followed by `pnpm start:apps`; this skips the local Docker setup.
+
+The Prisma migrations protect the public demo tables with RLS and deny direct anonymous Data API access. The admin portal still gates by Supabase session only, so role authorization must be implemented before deploying it publicly.
+
 ---
 
 ## Root scripts
 
 | Script | Runs |
 | --- | --- |
-| `pnpm dev` | `turbo run dev` — web (9000) and admin (9001) together |
+| `pnpm dev` | Prepare local Supabase, then run web (9000) and admin (9001) |
+| `pnpm dev:apps` | Run both app dev servers without local backend setup |
 | `pnpm build` | `turbo run build` — production build of every workspace |
-| `pnpm start` | `turbo run start` — start built apps |
+| `pnpm start` | Prepare local Supabase, build, then start both apps |
+| `pnpm start:apps` | Start built apps without local backend setup |
 | `pnpm typecheck` | `turbo run typecheck` — TypeScript across all workspaces |
 | `pnpm lint` | `biome check .` across the repo |
-| `pnpm lint:apps` | `turbo run lint` — per-app ESLint (Next.js rules) |
+| `pnpm lint:apps` | ESLint in web and admin (Next.js rules) |
 | `pnpm format` | `biome format --write .` |
 | `pnpm build-storybook` | `turbo run build-storybook` — static Storybook build |
+| `pnpm ai-usage:serve` | Local AI usage dashboard; see `ai-usage/README.md` |
+| `pnpm supabase:local:env` | Populate ignored env files from the running local Supabase stack |
+| `pnpm project:init` | Initialize selected app workspaces from a confirmed `PROJECT_STRUCTURE.md` |
 | `pnpm db:generate` | `turbo run db:generate` — Prisma client generation |
 
 Database-specific scripts (migrate, studio, seed) live in [`packages/db`](packages/db/README.md) and run via `pnpm --filter @fe-template/db <script>`.
@@ -158,18 +182,17 @@ Where each file lives:
 
 ## Using as a template
 
-1. Click **Use this template** on GitHub (or clone the repo).
-2. Install dependencies and configure env files (see Quick start).
-3. Replace PawPair brand/content under [`docs/about-example-site/`](docs/about-example-site/) and `apps/web/public/images/`.
-4. Adjust the Prisma models in `packages/db/prisma/schema/` to your domain, then run `pnpm --filter @fe-template/db db:migrate`.
-5. Remove unused component folders:
+1. Use this repository as a template and read [TODO.md](TODO.md).
+2. Complete [discovery, save the brief, and explicitly confirm it](docs/project/onboarding.md).
+3. Plan selected workspaces and shared foundations; follow the seven checklist phases.
+4. Deliberately replace/remove PawPair branding, copy, metadata, navigation, assets, pages, features, auth email templates, seed fixtures, and obsolete example docs. Preserve needed infrastructure and review dependencies before removal.
+5. Create or adapt only selected apps, verify them, and update project documentation.
 
-```bash
-python scripts/cleanup-unused.py           # dry-run (default)
-python scripts/cleanup-unused.py --delete  # permanently remove unused folders
-```
+Never delete real database data or rewrite applied migrations as cleanup. Review seed scripts before running them and use new forward migrations for schema changes. PawPair remains a useful reference in this template, not client content.
 
 > The cleanup script scans `apps/web/src/{app,modules,sections,hooks,store}` for import references and reports unused folders under `modules/` and `sections/`. Shared primitives now live in `packages/ui`, so the script does not currently prune them — remove unused `packages/ui/src/components/*` folders (and their `packages/ui/src/index.ts` export lines) by hand.
+
+The script is only a component aid. It does not rebrand the product, handle admin features, seed data, or email templates. See [the full cleanup checklist](docs/project/onboarding.md#replace-example-content-safely).
 
 ---
 
@@ -177,6 +200,9 @@ python scripts/cleanup-unused.py --delete  # permanently remove unused folders
 
 | Path | Purpose |
 | --- | --- |
+| [TODO.md](TODO.md) | Ordered seven-phase project checklist and persistent discovery status |
+| [docs/project/onboarding.md](docs/project/onboarding.md) | Client discovery, saved brief confirmation, selected apps, safe cleanup |
+| [ai-usage/README.md](ai-usage/README.md) | Shared usage policy and dashboard |
 | [`apps/web/README.md`](apps/web/README.md) | Marketing site: entry points, scripts |
 | [`apps/admin/README.md`](apps/admin/README.md) | Admin portal: features, Supabase auth setup |
 | [`packages/ui/README.md`](packages/ui/README.md) | Shared primitives: imports, adding a component |

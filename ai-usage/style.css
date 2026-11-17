@@ -1,0 +1,27 @@
+:root { font-family: ui-monospace, SFMono-Regular, Consolas, monospace; color: #222; background: #fafafa; color-scheme: light; }
+* { box-sizing: border-box; }
+body { margin: 0; }
+main { max-width: 1180px; margin: 0 auto; padding: 44px 28px; }
+header { display: flex; gap: 20px; align-items: center; justify-content: space-between; }
+h1 { font-size: clamp(18px, 3vw, 26px); margin: 0; letter-spacing: -.03em; }
+button { background: #fff; color: #222; border: 1px solid #999; border-radius: 3px; padding: 10px 14px; font: inherit; font-size: 12px; white-space: nowrap; cursor: pointer; }
+button:focus-visible { outline: 3px solid #3567a5; outline-offset: 3px; }
+button:disabled { opacity: .6; cursor: wait; }
+.status, .note, footer { color: #616161; font-size: 11px; line-height: 1.7; }
+.status { margin: 24px 0; min-height: 1.7em; }
+.error { color: #a12121; }
+.totals { border-block: 1px solid #bbb; margin: 0; padding-block: 18px; display: flex; gap: 32px; flex-wrap: wrap; }
+.totals div { min-width: 190px; }
+dt { font-size: 11px; color: #616161; }
+dd { font-size: 22px; margin: 8px 0 0; }
+.note { margin: 20px 0 28px; max-width: 900px; }
+.empty { padding: 18px; background: #f0f0f0; font-size: 12px; line-height: 1.7; }
+.table-wrap { overflow-x: auto; }
+table { width: 100%; border-collapse: collapse; font-size: 12px; text-align: left; }
+caption { text-align: left; font-size: 13px; font-weight: 600; padding: 0 0 14px; }
+th { background: #f0f0f0; font-weight: 500; white-space: nowrap; }
+th, td { padding: 14px 12px; border-block: 1px solid #d3d3d3; vertical-align: top; }
+td { overflow-wrap: anywhere; min-width: 120px; }
+td:first-child { min-width: 220px; }
+footer { margin-top: 28px; }
+@media (max-width: 600px) { main { padding: 26px 16px; } header { align-items: start; } dd { font-size: 19px; } .totals { gap: 22px; } }

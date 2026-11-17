@@ -1,0 +1,25 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Current token spending</title>
+    <link rel="stylesheet" href="style.css" />
+    <script src="dashboard.js" defer></script>
+  </head>
+  <body>
+    <main>
+      <header><h1>CURRENT TOKEN SPENDING</h1><button id="refresh" type="button">Refresh CSV</button></header>
+      <p id="status" class="status" role="status" aria-live="polite">Loading usage.csv…</p>
+      <dl class="totals">
+        <div><dt>Total recorded tokens</dt><dd id="token-total">Unknown</dd></div>
+        <div><dt>Provider charges · USD</dt><dd id="provider-total">Unknown</dd></div>
+        <div><dt>API equivalent estimates · USD</dt><dd id="estimate-total">Unknown</dd></div>
+      </dl>
+      <p class="note">Totals include each task's child sessions. Blank values are unknown. Inclusive totals, unknown scopes and alternate sources are excluded. Local logs can be incomplete. Estimates are separate from provider charges.</p>
+      <p id="empty" class="empty" hidden>No usage recorded yet. Import a local session using <code>ai-usage/README.md</code>.</p>
+      <div class="table-wrap"><table><caption>Usage by task, including children</caption><thead><tr><th scope="col">Task</th><th scope="col">Recorded tokens</th><th scope="col">Provider USD</th><th scope="col">Estimate USD</th><th scope="col">Coverage</th></tr></thead><tbody id="tasks"></tbody></table></div>
+      <footer>Source of truth: <code>ai-usage/usage.csv</code></footer>
+    </main>
+  </body>
+</html>
