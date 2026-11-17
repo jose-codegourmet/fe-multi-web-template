@@ -40,7 +40,7 @@ async function main() {
 
   try {
     const rows = await prisma.$queryRaw<Array<{ found: unknown }>>`
-      SELECT to_regclass('auth.users') AS found
+      SELECT to_regclass('auth.users')::text AS found
     `;
     if (rows[0]?.found == null) {
       console.error(MESSAGE);

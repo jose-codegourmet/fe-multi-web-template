@@ -54,7 +54,7 @@ fe-multi-web-template/
 | Motion | Framer Motion (scroll-reveal only) |
 | Docs / UI kit | Storybook 10 (config in `apps/web/.storybook`) |
 | Lint / format | Biome |
-| Tests | Vitest (Storybook test runner in `apps/web` only; no `test` script or unit suite yet — see [`docs/testing.md`](docs/testing.md)) |
+| Tests | Storybook/Vitest for web components; focused Python and Node tests for template tooling — see [`docs/testing.md`](docs/testing.md) |
 | Git hooks | Husky, lint-staged, commitlint (Conventional Commits) |
 
 ---
@@ -84,7 +84,7 @@ pnpm install
 pnpm dev   # local Supabase, Prisma setup, web :9000, admin :9001
 ```
 
-`pnpm start` does the same local setup, builds both apps, and runs the production servers. Docker and the Supabase CLI must be installed and Docker must be running. The commands create the loopback-only `pawpair-local` network if needed, reuse the local Supabase stack, refresh gitignored env files, apply pending Prisma migrations, and upsert the PawPair demo seed. Existing seed records are not overwritten.
+`pnpm start` does the same local setup, builds both apps, and runs the production servers. Docker and the Supabase CLI must be installed and Docker must be running. The commands create the loopback-only `pawpair-local` network if needed, reuse the local Supabase stack, refresh gitignored env files, apply pending Prisma migrations, and upsert the PawPair demo seed. Seeding updates the status and role of the bundled demo users to their current fixture values.
 
 To run a single app:
 

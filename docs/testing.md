@@ -26,6 +26,14 @@ node --test ai-usage/tests/dashboard.test.mjs
 
 They cover reported usage parsing, safe concurrent CSV updates, repeat imports, source precedence, parent/child aggregation, missing values, and CSV display behavior. See `ai-usage/README.md` for measurement limits.
 
+The project initializer has focused Python tests outside the app workspaces:
+
+```bash
+python3 -m unittest discover -s tests -p 'test_project_init.py' -v
+```
+
+They cover the confirmed brief gate, app selection, no-database workspaces, project-specific Supabase configuration, safe refresh of generated shells, and refusal to overwrite existing apps.
+
 ---
 
 ## `apps/web` testing setup

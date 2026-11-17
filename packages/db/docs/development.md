@@ -80,7 +80,7 @@ pnpm --filter @fe-template/db db:generate
 pnpm --filter @fe-template/db db:deploy
 ```
 
-`db:migrate` and `db:deploy` run `scripts/assert-supabase-auth.ts` first. That script queries `to_regclass('auth.users')` and exits if the relation is missing.
+`db:migrate` and `db:deploy` run `scripts/assert-supabase-auth.ts` first. That script queries `to_regclass('auth.users')::text` (a Prisma-supported result type) and exits if the relation is missing.
 
 ---
 

@@ -63,7 +63,7 @@ pnpm dev
 pnpm start # alternative: build and run local production servers
 ```
 
-The local API is at `http://127.0.0.1:55321`, Postgres at port 55322, Studio at `http://127.0.0.1:55323`, and the email inbox at port 55324. The startup scripts require Python 3.11+, verify those loopback ports, and write no credentials to committed files or command output. The seed upserts missing demo records without overwriting existing ones. `supabase stop` stops the stack; local data remains for the next start. Prisma owns the schema and seed, so Supabase CLI migrations and seeds are disabled in this local config. For hosted environments, run `pnpm dev:apps` or `pnpm start:apps` with externally configured environment variables.
+The local API is at `http://127.0.0.1:55321`, Postgres at port 55322, Studio at `http://127.0.0.1:55323`, and the email inbox at port 55324. The startup scripts require Python 3.11+, verify those loopback ports, and write no credentials to committed files or command output. The seed upserts demo records and refreshes demo user status and role from the fixture. `supabase stop` stops the stack; local data remains for the next start. Prisma owns the schema and seed, so Supabase CLI migrations and seeds are disabled in this local config. For hosted environments, run `pnpm dev:apps` or `pnpm start:apps` with externally configured environment variables.
 
 ---
 

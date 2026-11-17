@@ -6,7 +6,10 @@ import { useTransition } from "react";
 import { useTestimonials } from "@/hooks/use-testimonials/client";
 import type { TestimonialRow } from "@/hooks/use-testimonials/types";
 import { toggleTestimonialPublished } from "../actions";
-import { DeleteTestimonialDialog, TestimonialDialog } from "../testimonial-dialog/TestimonialDialog";
+import {
+  DeleteTestimonialDialog,
+  TestimonialDialog,
+} from "../testimonial-dialog/TestimonialDialog";
 
 export function TestimonialsList() {
   const { data: items = [] } = useTestimonials();

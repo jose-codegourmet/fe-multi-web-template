@@ -86,4 +86,4 @@ Set `NEXT_PUBLIC_SITE_URL` to the app's URL (e.g., `http://localhost:9000`). The
 ## Environment notes
 
 - `apps/web` does not currently use Supabase auth variables. They are scaffolding.
-- `NEXT_PUBLIC_SITE_URL` is undocumented in `.env.example` but used in hooks. Add it when setting up the app.
+- `NEXT_PUBLIC_SITE_URL` is documented in `.env.example` and used by server-side fetch helpers. It falls back to `http://localhost:9000`.

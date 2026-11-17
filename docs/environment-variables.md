@@ -54,7 +54,7 @@ The Docker-backed local stack uses the same local Postgres URL for `DATABASE_URL
 ### `apps/web`
 
 - `NEXT_PUBLIC_SUPABASE_URL` and `NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY` are declared in `.env.example` but are **not used in source code** today. They are scaffolding for future Supabase integration.
-- `NEXT_PUBLIC_SITE_URL` is used in `apps/web/src/hooks/use-*/server.ts` to fetch internal API routes during SSR, but it is **not documented in `.env.example`**. Falls back to `http://localhost:9000`.
+- `NEXT_PUBLIC_SITE_URL` is documented in `apps/web/.env.example` and used by server-side fetch helpers for internal API routes. Falls back to `http://localhost:9000`.
 
 ### `apps/admin`
 
