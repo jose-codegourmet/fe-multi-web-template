@@ -109,6 +109,8 @@ Open [Supabase Studio](http://127.0.0.1:55323), the [web example](http://localho
 
 The Prisma migrations protect the public demo tables with RLS and deny direct anonymous Data API access. The admin portal still gates by Supabase session only, so role authorization must be implemented before deploying it publicly.
 
+Vercel deployments are manual: run the **Deploy to Vercel** workflow from the GitHub Actions tab and select `web` or `admin`. See [deployment setup](docs/deployment.md) for the required GitHub secret and project variables.
+
 ---
 
 ## Root scripts

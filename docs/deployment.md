@@ -84,9 +84,23 @@ See `docs/environment-variables.md` for details.
 
 ---
 
-## Platform notes
+## Manual Vercel deployment
 
-The root `README.md` references a live demo of the marketing site on Vercel. No CI/CD configuration exists in the repository (no `.github/workflows/` or similar), so deployments are currently manual or platform-triggered from the default branch.
+The existing `fe-multi-web-template-web` and `fe-multi-web-template-admin` Vercel projects are disconnected from Git. Pushes and pull requests do not deploy them. Both app roots also set `git.deploymentEnabled` to `false` in `vercel.json` so reconnecting Git does not silently restore automatic deployments.
+
+To deploy, open the repository's **Actions → Deploy to Vercel → Run workflow**, select `main`, then choose `web` or `admin`. The workflow only has a `workflow_dispatch` trigger and rejects runs from other branches. It pulls the selected project's production settings, builds on the GitHub runner, and deploys the prebuilt output to Vercel production. It does not run database migrations or seed data.
+
+Configure these GitHub repository **Actions variables** (Settings → Secrets and variables → Actions → Variables):
+
+| Name | Value |
+|---|---|
+| `VERCEL_ORG_ID` | Vercel team ID for both projects |
+| `VERCEL_WEB_PROJECT_ID` | Existing web project ID |
+| `VERCEL_ADMIN_PROJECT_ID` | Existing admin project ID |
+
+Configure one GitHub repository **Actions secret**, `VERCEL_TOKEN`, with a Vercel access token that can deploy both projects. Create and enter the token in GitHub yourself; do not commit it or paste it into chat. The workflow checks for all four settings before building. For a newly initialized client project, replace the project IDs with that client's Vercel projects and remove unused app choices.
+
+The `production` GitHub environment may be configured with required reviewers if desired. Environment protection rules can require an additional approval after pressing **Run workflow**.
 
 ---
 

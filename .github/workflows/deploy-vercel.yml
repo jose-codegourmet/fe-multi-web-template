@@ -1,0 +1,63 @@
+name: Deploy to Vercel
+
+on:
+  workflow_dispatch:
+    inputs:
+      app:
+        description: App to deploy to production
+        required: true
+        type: choice
+        options:
+          - web
+          - admin
+
+permissions:
+  contents: read
+
+concurrency:
+  group: vercel-production-${{ inputs.app }}
+  cancel-in-progress: false
+
+jobs:
+  deploy:
+    name: Deploy ${{ inputs.app }}
+    if: github.ref == 'refs/heads/main'
+    runs-on: ubuntu-latest
+    environment: Production
+    timeout-minutes: 30
+    env:
+      VERCEL_ORG_ID: ${{ vars.VERCEL_ORG_ID }}
+      VERCEL_PROJECT_ID: ${{ inputs.app == 'web' && vars.VERCEL_WEB_PROJECT_ID || vars.VERCEL_ADMIN_PROJECT_ID }}
+      VERCEL_TOKEN: ${{ secrets.VERCEL_TOKEN }}
+    steps:
+      - name: Check deployment configuration
+        shell: bash
+        run: |
+          for name in VERCEL_ORG_ID VERCEL_PROJECT_ID VERCEL_TOKEN; do
+            if [[ -z "${!name}" ]]; then
+              echo "Missing $name. See docs/deployment.md." >&2
+              exit 1
+            fi
+          done
+
+      - name: Check out main
+        uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4.2.2
+        with:
+          persist-credentials: false
+
+      - name: Set up Node.js
+        uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020 # v4.4.0
+        with:
+          node-version-file: .nvmrc
+
+      - name: Install Vercel CLI
+        run: npm install --global pnpm@11.0.8 vercel@65.16.0
+
+      - name: Pull production settings
+        run: vercel pull --yes --environment=production --token "$VERCEL_TOKEN"
+
+      - name: Build selected app
+        run: vercel build --prod --token "$VERCEL_TOKEN"
+
+      - name: Deploy built app
+        run: vercel deploy --prebuilt --prod --token "$VERCEL_TOKEN"

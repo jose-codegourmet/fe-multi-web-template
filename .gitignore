@@ -6,6 +6,7 @@ dist/
 build/
 storybook-static/
 .turbo/
+.vercel/
 .env
 .env.*
 !.env.example
